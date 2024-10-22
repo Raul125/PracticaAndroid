@@ -12,14 +12,9 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.raulrh.practicaandroid.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_calculator"
+        android:name="com.raulrh.practicaandroid.ui.calculator.CalculatorFragment"
+        android:label="@string/menu_calculator"
+        tools:layout="@layout/calculator_fragment" />
 
-    <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.raulrh.practicaandroid.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
 </navigation>

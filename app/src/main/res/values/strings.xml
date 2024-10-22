@@ -1,13 +1,30 @@
 <resources>
-    <string name="app_name">PracticaAndroid</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name">Práctica Android</string>
+    <string name="nav_header_title">Práctica Android</string>
+    <string name="nav_header_subtitle">Raúl Rueda 2ºDAM</string>
+    <string name="action_settings">Ajustes</string>
 
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_home">Inicio</string>
+    <string name="menu_calculator">Calculadora</string>
+
+    <string name="cleanText">Limpiar</string>
+
+    <string name="calculatorInitialText">0</string>
+    <string name="calculator1">1</string>
+    <string name="calculator2">2</string>
+    <string name="calculator3">3</string>
+    <string name="calculator4">4</string>
+    <string name="calculator5">5</string>
+    <string name="calculator6">6</string>
+    <string name="calculator7">7</string>
+    <string name="calculator8">8</string>
+    <string name="calculator9">9</string>
+    <string name="calculatorAddition">+</string>
+    <string name="calculatorSubtraction">-</string>
+    <string name="calculatorMultiplication">x</string>
+    <string name="calculatorDivision">÷</string>
+    <string name="calculator0">0</string>
+    <string name="calculatorResolve">=</string>
+    <string name="calculatorEraseLeft">⌫</string>
+    <string name="homeText">Bienvenido 👋</string>
 </resources>

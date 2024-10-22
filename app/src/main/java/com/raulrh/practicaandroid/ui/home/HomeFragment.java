@@ -10,28 +10,24 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.raulrh.practicaandroid.R;
+import com.raulrh.practicaandroid.databinding.CalculatorFragmentBinding;
 import com.raulrh.practicaandroid.databinding.FragmentHomeBinding;
+import com.raulrh.practicaandroid.ui.calculator.NumberButtons;
+import com.raulrh.practicaandroid.ui.calculator.UtilButtons;
 
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
-
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
-
-        final TextView textView = binding.textHome;
-        homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-        return root;
+        return binding.getRoot();
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 }
