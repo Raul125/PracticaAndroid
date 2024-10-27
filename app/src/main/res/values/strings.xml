@@ -27,4 +27,5 @@
     <string name="calculatorResolve">=</string>
     <string name="calculatorEraseLeft">⌫</string>
     <string name="homeText">Bienvenido 👋</string>
+    <string name="welcomeCalculator">CALCULADORA</string>
 </resources>

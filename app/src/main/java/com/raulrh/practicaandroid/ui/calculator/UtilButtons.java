@@ -106,10 +106,10 @@ public class UtilButtons implements View.OnClickListener {
 
     private void resolver() {
         try {
-            long leftNumber = Long.parseLong(calculatorFragment.leftNumber.isEmpty() ? "0" : calculatorFragment.leftNumber);
-            long rightNumber = Long.parseLong(calculatorFragment.rightNumber);
+            double leftNumber = Double.parseDouble(calculatorFragment.leftNumber.isEmpty() ? "0" : calculatorFragment.leftNumber);
+            double rightNumber = Double.parseDouble(calculatorFragment.rightNumber);
 
-            long result = 0;
+            double result = 0;
             switch (calculatorFragment.operator) {
                 case "+":
                     result = leftNumber + rightNumber;

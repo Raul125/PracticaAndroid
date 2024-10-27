@@ -59,8 +59,8 @@ public class CalculatorFragment extends Fragment {
 
     private String formatString(String number) {
         try {
-            long longNumber = Long.parseLong(number);
-            return NumberFormat.getInstance(Locale.GERMANY).format(longNumber);
+            double doubleNumber = Double.parseDouble(number);
+            return NumberFormat.getInstance(Locale.GERMANY).format(doubleNumber);
         } catch (NumberFormatException e) {
             return "0";
         }
