@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="PracticaAndroidTheme" parent="Theme.Material3.DayNight">
+        <item name="colorPrimary">#FF3700B3</item>
+    </style>
+    <style name="PracticaAndroidTheme.NoActionBar" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">#FF3700B3</item>
+    </style>
+</resources>
