@@ -34,38 +34,36 @@ public class CalculatorFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         utilButtons = new UtilButtons(this, binding);
         numberButtons = new NumberButtons(this, binding);
     }
 
     public void update() {
-        String text = "";
-        if (leftNumber.isEmpty()) {
-            text += "0";
-        } else {
-            text += formatString(leftNumber);
-        }
-
+        StringBuilder displayText = new StringBuilder();
+        displayText.append(leftNumber.isEmpty() ? "0" : formatNumber(leftNumber));
         if (!operator.isEmpty()) {
-            text += " " + operator + " ";
+            displayText.append(" ").append(operator).append(" ");
         }
 
         if (!rightNumber.isEmpty()) {
-            text += formatString(rightNumber);
+            displayText.append(formatNumber(rightNumber));
         }
 
-        binding.textNumbers.setText(text);
+        binding.textNumbers.setText(displayText.toString());
     }
 
-    private String formatString(String number) {
+    private String formatNumber(String number) {
         try {
             double doubleNumber = Double.parseDouble(number);
-            NumberFormat numberFormat = NumberFormat.getInstance(Locale.getDefault());
-            numberFormat.setMaximumFractionDigits(3);
-            return numberFormat.format(doubleNumber);
+            return formatDouble(doubleNumber);
         } catch (NumberFormatException e) {
             return "0";
         }
+    }
+
+    private String formatDouble(double number) {
+        NumberFormat numberFormat = NumberFormat.getInstance(Locale.getDefault());
+        numberFormat.setMaximumFractionDigits(3);
+        return numberFormat.format(number);
     }
 }

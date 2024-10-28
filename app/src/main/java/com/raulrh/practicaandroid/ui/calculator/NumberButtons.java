@@ -11,6 +11,7 @@ public class NumberButtons implements View.OnClickListener {
     private final CalculatorFragment calculatorFragment;
     private final CalculatorFragmentBinding binding;
     private final Map<View, Integer> numbers = new HashMap<>();
+    private static final int MAX_NUMBER_LENGTH = 15;
 
     public NumberButtons(CalculatorFragment calculatorFragment, CalculatorFragmentBinding binding) {
         this.calculatorFragment = calculatorFragment;
@@ -20,8 +21,8 @@ public class NumberButtons implements View.OnClickListener {
 
     private void setup() {
         numbers.put(binding.bCalculator0, 0);
-        numbers.put(binding.bCalculator2, 2);
         numbers.put(binding.bCalculator1, 1);
+        numbers.put(binding.bCalculator2, 2);
         numbers.put(binding.bCalculator3, 3);
         numbers.put(binding.bCalculator4, 4);
         numbers.put(binding.bCalculator5, 5);
@@ -39,41 +40,45 @@ public class NumberButtons implements View.OnClickListener {
     public void onClick(View view) {
         Integer number = numbers.get(view);
         if (number != null) {
-            if (calculatorFragment.operator.isEmpty()) {
-                if (number == 0 && calculatorFragment.leftNumber.isEmpty()) {
-                    return;
-                }
-
-                String newNumber = calculatorFragment.leftNumber + number;
-                if (allowMore(newNumber)) {
-                    calculatorFragment.leftNumber = newNumber;
-                }
-            } else {
-                if (number == 0 && calculatorFragment.rightNumber.isEmpty()) {
-                    return;
-                }
-
-                String newNumber = calculatorFragment.rightNumber + number;
-                if (allowMore(newNumber)) {
-                    calculatorFragment.rightNumber = newNumber;
-                }
-            }
-
+            handleNumberInput(number);
             calculatorFragment.update();
         }
     }
 
-    private boolean allowMore(String number) {
-        try {
-            if (number.length() > 15) {
-                return false;
-            }
-
-            double numberDouble = Double.parseDouble(number);
-            return numberDouble < Double.MAX_VALUE && numberDouble > -Double.MAX_VALUE;
-        } catch (Exception e) {
-            return false;
+    private void handleNumberInput(int number) {
+        if (canAddNumber(number, calculatorFragment.operator.isEmpty())) {
+            updateNumberInput(number, calculatorFragment.operator.isEmpty());
         }
     }
 
+    private boolean canAddNumber(int number, boolean isLeft) {
+        String currentNumber = isLeft ? calculatorFragment.leftNumber : calculatorFragment.rightNumber;
+        return !(number == 0 && currentNumber.isEmpty());
+    }
+
+    private void updateNumberInput(int number, boolean isLeft) {
+        String currentNumber = isLeft ? calculatorFragment.leftNumber : calculatorFragment.rightNumber;
+        String newNumber = currentNumber + number;
+
+        if (allowMore(newNumber)) {
+            if (isLeft) {
+                calculatorFragment.leftNumber = newNumber;
+            } else {
+                calculatorFragment.rightNumber = newNumber;
+            }
+        }
+    }
+
+    private boolean allowMore(String number) {
+        return number.length() <= MAX_NUMBER_LENGTH && isValidNumber(number);
+    }
+
+    private boolean isValidNumber(String number) {
+        try {
+            double numberDouble = Double.parseDouble(number);
+            return numberDouble < Double.MAX_VALUE && numberDouble > -Double.MAX_VALUE;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
 }

@@ -31,16 +31,14 @@ public class MainActivity extends AppCompatActivity {
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
 
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_calculator, R.id.nav_converter, R.id.nav_shopping_list)
                 .setOpenableLayout(drawer)
                 .build();
 
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-
         navigationView.setNavigationItemSelectedListener(menuItem -> {
             navController.navigate(menuItem.getItemId());
             drawer.closeDrawer(GravityCompat.START);
@@ -50,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }

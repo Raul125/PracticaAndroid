@@ -6,63 +6,56 @@ import android.widget.Button;
 import com.raulrh.practicaandroid.R;
 import com.raulrh.practicaandroid.databinding.CalculatorFragmentBinding;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class UtilButtons implements View.OnClickListener {
     private final CalculatorFragment calculatorFragment;
     private final CalculatorFragmentBinding binding;
+    private final Map<Integer, Runnable> buttonActions;
 
     public UtilButtons(CalculatorFragment calculatorFragment, CalculatorFragmentBinding binding) {
         this.calculatorFragment = calculatorFragment;
         this.binding = binding;
+        this.buttonActions = initializeButtonActions();
 
-        setup();
+        setupButtons();
     }
 
-    private void setup() {
-        List<Button> buttons = new ArrayList<>();
-
-        buttons.add(binding.bCalculatorClean);
-        buttons.add(binding.bCalculatorErase);
-        buttons.add(binding.bCalculatorResolve);
-        buttons.add(binding.bCalculatorDivision);
-        buttons.add(binding.bCalculatorMultiplication);
-        buttons.add(binding.bCalculatorAddition);
-        buttons.add(binding.bCalculatorSubtraction);
+    private void setupButtons() {
+        List<Button> buttons = Arrays.asList(
+                binding.bCalculatorClean,
+                binding.bCalculatorErase,
+                binding.bCalculatorResolve,
+                binding.bCalculatorDivision,
+                binding.bCalculatorMultiplication,
+                binding.bCalculatorAddition,
+                binding.bCalculatorSubtraction
+        );
 
         for (Button button : buttons) {
             button.setOnClickListener(this);
         }
     }
 
-    public void onClick(View view) {
-        int viewId = view.getId();
+    private Map<Integer, Runnable> initializeButtonActions() {
+        Map<Integer, Runnable> actions = new HashMap<>();
+        actions.put(R.id.bCalculatorErase, this::eraseToLeft);
+        actions.put(R.id.bCalculatorClean, this::clearAll);
+        actions.put(R.id.bCalculatorResolve, this::resolveOperation);
+        actions.put(R.id.bCalculatorDivision, () -> setOperator("/"));
+        actions.put(R.id.bCalculatorMultiplication, () -> setOperator("*"));
+        actions.put(R.id.bCalculatorAddition, () -> setOperator("+"));
+        actions.put(R.id.bCalculatorSubtraction, () -> setOperator("-"));
+        return actions;
+    }
 
-        switch (viewId) {
-            case R.id.bCalculatorErase:
-                eraseToLeft();
-                break;
-            case R.id.bCalculatorClean:
-                clearAll();
-                break;
-            case R.id.bCalculatorResolve:
-                resolveOperation();
-                break;
-            case R.id.bCalculatorDivision:
-                setOperator("/");
-                break;
-            case R.id.bCalculatorMultiplication:
-                setOperator("*");
-                break;
-            case R.id.bCalculatorAddition:
-                setOperator("+");
-                break;
-            case R.id.bCalculatorSubtraction:
-                setOperator("-");
-                break;
-            default:
-                break;
+    public void onClick(View view) {
+        Runnable action = buttonActions.get(view.getId());
+        if (action != null) {
+            action.run();
         }
 
         calculatorFragment.update();
@@ -106,39 +99,53 @@ public class UtilButtons implements View.OnClickListener {
 
     private void resolver() {
         try {
-            double leftNumber = Double.parseDouble(calculatorFragment.leftNumber.isEmpty() ? "0" : calculatorFragment.leftNumber);
-            double rightNumber = Double.parseDouble(calculatorFragment.rightNumber);
+            double leftNumber = parseNumber(calculatorFragment.leftNumber);
+            double rightNumber = parseNumber(calculatorFragment.rightNumber);
 
-            double result = 0;
-            switch (calculatorFragment.operator) {
-                case "+":
-                    result = leftNumber + rightNumber;
-                    break;
-                case "-":
-                    result = leftNumber - rightNumber;
-                    break;
-                case "*":
-                    result = leftNumber * rightNumber;
-                    break;
-                case "/":
-                    // No debería suceder nunca, pero quién sabe
-                    if (rightNumber == 0) {
-                        calculatorFragment.leftNumber = "Error";
-                        calculatorFragment.operator = "";
-                        calculatorFragment.rightNumber = "";
-                        return;
-                    }
-
-                    result = leftNumber / rightNumber;
-                    break;
-            }
-
-            calculatorFragment.leftNumber = String.valueOf(result);
-            calculatorFragment.operator = "";
-            calculatorFragment.rightNumber = "";
+            double result = performOperation(leftNumber, rightNumber, calculatorFragment.operator);
+            updateCalculatorFragmentResult(result);
         } catch (NumberFormatException e) {
             handleError();
         }
+    }
+
+    private double parseNumber(String number) {
+        return number.isEmpty() ? 0 : Double.parseDouble(number);
+    }
+
+    private double performOperation(double leftNumber, double rightNumber, String operator) {
+        double result = 0;
+
+        switch (operator) {
+            case "+":
+                result = leftNumber + rightNumber;
+                break;
+            case "-":
+                result = leftNumber - rightNumber;
+                break;
+            case "*":
+                result = leftNumber * rightNumber;
+                break;
+            case "/":
+                if (rightNumber == 0) {
+                    calculatorFragment.leftNumber = "Error";
+                    calculatorFragment.operator = "";
+                    calculatorFragment.rightNumber = "";
+                    return result;
+                }
+
+                result = leftNumber / rightNumber;
+                break;
+            default:
+                throw new IllegalArgumentException("Unsupported operator: " + operator);
+        }
+        return result;
+    }
+
+    private void updateCalculatorFragmentResult(double result) {
+        calculatorFragment.leftNumber = String.valueOf(result);
+        calculatorFragment.operator = "";
+        calculatorFragment.rightNumber = "";
     }
 
     private void handleError() {
