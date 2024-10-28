@@ -6,6 +6,10 @@ android {
     namespace = "com.raulrh.practicaandroid"
     compileSdk = 34
 
+    packaging {
+        resources.pickFirsts.add("javamoney.properties");
+    }
+
     defaultConfig {
         applicationId = "com.raulrh.practicaandroid"
         minSdk = 23
@@ -43,6 +47,11 @@ dependencies {
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
+
+    // Maven
+    implementation("org.javamoney:moneta:1.4")
+    implementation("javax.money:money-api:1.1")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

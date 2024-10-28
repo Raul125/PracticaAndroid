@@ -1,57 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
     android:orientation="vertical"
     tools:context=".ui.converter.ConverterFragment">
 
-    <Button
-        android:id="@+id/converterButton"
+    <!-- Texto de título con espacio superior -->
+    <TextView
+        android:id="@+id/titleText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="20dp"
+        android:text="CONVERSOR"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="@color/black" />
 
+    <!-- Primer grupo de elementos: Entrada y selector de divisa -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginBottom="20dp">
 
         <EditText
             android:id="@+id/converterInput"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
             android:inputType="numberDecimal"
-            android:text="Numero" />
+            android:minHeight="56dp"
+            android:paddingVertical="8dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textSize="24sp" />
 
-        <AutoCompleteTextView
-            android:id="@+id/firstCurrency"
-            android:layout_width="wrap_content"
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="AutoCompleteTextView" />
+            android:layout_marginStart="20dp"
+            android:layout_weight="1">
+
+            <AutoCompleteTextView
+                android:id="@+id/converterCurrency1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="none"
+                android:minHeight="56dp"
+                android:paddingVertical="8dp"
+                android:text="Divisa"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="18sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
+    <!-- Segundo grupo de elementos: Resultado y selector de divisa -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginBottom="20dp">
 
         <TextView
             android:id="@+id/converterResult"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:minHeight="56dp"
+            android:paddingVertical="8dp"
+            android:text="@string/calculator0"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textSize="24sp" />
 
-        <AutoCompleteTextView
-            android:id="@+id/autoCompleteTextView3"
-            android:layout_width="wrap_content"
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="AutoCompleteTextView" />
+            android:layout_marginStart="20dp"
+            android:layout_weight="1">
 
+            <AutoCompleteTextView
+                android:id="@+id/converterCurrency2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="none"
+                android:minHeight="56dp"
+                android:paddingVertical="8dp"
+                android:text="Divisa"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="18sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
+
+    <!-- Botón de conversión -->
+    <Button
+        android:id="@+id/converterButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="@string/convertText" />
+
 </LinearLayout>

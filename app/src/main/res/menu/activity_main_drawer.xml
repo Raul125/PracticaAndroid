@@ -18,5 +18,8 @@
             android:id="@+id/nav_converter"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/menu_converter" />
+        <item
+            android:id="@+id/nav_shopping_list"
+            android:title="Lista Compra" />
     </group>
 </menu>

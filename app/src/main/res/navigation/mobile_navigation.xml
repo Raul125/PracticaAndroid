@@ -23,4 +23,10 @@
         android:label="@string/menu_converter"
         tools:layout="@layout/converter_fragment" />
 
+    <fragment
+        android:id="@+id/nav_shopping_list"
+        android:name="com.raulrh.practicaandroid.ui.shoppinglist.ShoppingListFragment"
+        android:label="Lista Compra"
+        tools:layout="@layout/shoppinglist_fragment" />
+
 </navigation>

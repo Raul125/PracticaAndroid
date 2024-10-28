@@ -29,4 +29,5 @@
     <string name="homeText">Bienvenido 👋</string>
     <string name="welcomeCalculator">CALCULADORA</string>
     <string name="menu_converter">Conversor</string>
+    <string name="convertText">Convertir</string>
 </resources>
