@@ -10,26 +10,20 @@ import android.widget.ArrayAdapter;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.raulrh.practicaandroid.CurrencyConverterTask;
 import com.raulrh.practicaandroid.R;
 import com.raulrh.practicaandroid.databinding.ConverterFragmentBinding;
 
-import org.javamoney.moneta.convert.ecb.ECBCurrentRateProvider;
-
-import javax.money.Monetary;
-import javax.money.MonetaryAmount;
-import javax.money.convert.CurrencyConversion;
-import javax.money.convert.ExchangeRateProvider;
-import javax.money.convert.MonetaryConversions;
+import org.joda.money.CurrencyUnit;
+import org.joda.money.Money;
 
 public class ConverterFragment extends Fragment {
 
     private ConverterFragmentBinding binding;
 
-    String[] currencies = {"Euro", "Dollar", "Libra"};
+    String[] currencies = {"EUR", "USD", "GBP"};
 
-    private String currency1 = currencies[0];
-    private String currency2 = currencies[0];
+    private String currency1;
+    private String currency2;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -57,11 +51,19 @@ public class ConverterFragment extends Fragment {
             }
         });
 
+        CurrencyConverter currencyConverter = new CurrencyConverter(binding);
         binding.converterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Double number = Double.parseDouble(binding.converterInput.getText().toString());
-                new CurrencyConverterTask(binding).execute(number);
+                if (currency2 == null || currency1 == null)
+                    return;
+
+                double number = Double.parseDouble(binding.converterInput.getText().toString());
+
+                Money money = Money.of(CurrencyUnit.of(currency1), number);
+                Money amountInEur = currencyConverter.convertToEUR(money);
+                Money gbp = currencyConverter.convertCurrency(amountInEur, CurrencyUnit.of(currency2));
+                binding.converterResult.setText(gbp.getAmount().toString());
             }
         });
     }
