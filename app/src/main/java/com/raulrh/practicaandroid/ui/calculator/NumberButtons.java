@@ -44,17 +44,36 @@ public class NumberButtons implements View.OnClickListener {
                     return;
                 }
 
-                calculatorFragment.leftNumber += number;
-                // Comprobar q el numero no es mayor de lo q permite
+                String newNumber = calculatorFragment.leftNumber + number;
+                if (allowMore(newNumber)) {
+                    calculatorFragment.leftNumber = newNumber;
+                }
             } else {
                 if (number == 0 && calculatorFragment.rightNumber.isEmpty()) {
                     return;
                 }
 
-                calculatorFragment.rightNumber += number;
+                String newNumber = calculatorFragment.rightNumber + number;
+                if (allowMore(newNumber)) {
+                    calculatorFragment.rightNumber = newNumber;
+                }
             }
 
             calculatorFragment.update();
         }
     }
+
+    private boolean allowMore(String number) {
+        try {
+            if (number.length() > 15) {
+                return false;
+            }
+
+            double numberDouble = Double.parseDouble(number);
+            return numberDouble < Double.MAX_VALUE && numberDouble > -Double.MAX_VALUE;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 }

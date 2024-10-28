@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 
 import com.raulrh.practicaandroid.databinding.CalculatorFragmentBinding;
 
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -60,7 +61,9 @@ public class CalculatorFragment extends Fragment {
     private String formatString(String number) {
         try {
             double doubleNumber = Double.parseDouble(number);
-            return NumberFormat.getInstance(Locale.GERMANY).format(doubleNumber);
+            NumberFormat numberFormat = NumberFormat.getInstance(Locale.getDefault());
+            numberFormat.setMaximumFractionDigits(3);
+            return numberFormat.format(doubleNumber);
         } catch (NumberFormatException e) {
             return "0";
         }
