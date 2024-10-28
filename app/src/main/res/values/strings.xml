@@ -28,4 +28,5 @@
     <string name="calculatorEraseLeft">⌫</string>
     <string name="homeText">Bienvenido 👋</string>
     <string name="welcomeCalculator">CALCULADORA</string>
+    <string name="menu_converter">Conversor</string>
 </resources>
