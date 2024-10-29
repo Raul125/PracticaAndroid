@@ -29,4 +29,10 @@
         android:label="Lista Compra"
         tools:layout="@layout/shoppinglist_fragment" />
 
+    <fragment
+        android:id="@+id/nav_news"
+        android:name="com.raulrh.practicaandroid.ui.news.NewsFragment"
+        android:label="Noticias"
+        tools:layout="@layout/news_fragment" />
+
 </navigation>

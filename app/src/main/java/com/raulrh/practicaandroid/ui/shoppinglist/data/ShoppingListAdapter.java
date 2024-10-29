@@ -1,5 +1,6 @@
 package com.raulrh.practicaandroid.ui.shoppinglist.data;
 
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +16,8 @@ import com.raulrh.practicaandroid.R;
 import java.util.List;
 
 public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapter.ViewHolder> {
-    private List<ShoppingItem> items;
-    private ShoppingListDB dbHelper;
+    private final List<ShoppingItem> items;
+    private final ShoppingListDB dbHelper;
 
     public ShoppingListAdapter(List<ShoppingItem> items, ShoppingListDB dbHelper) {
         this.items = items;
@@ -45,13 +46,12 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
     public void updateList(List<ShoppingItem> newItems) {
         items.clear();
         items.addAll(newItems);
-        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private ImageView imageView;
-        private TextView textView;
-        private CheckBox checkBox;
+        private final ImageView imageView;
+        private final TextView textView;
+        private final CheckBox checkBox;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -61,7 +61,6 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
 
             checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (isChecked) {
-                    // Eliminar el elemento de la base de datos y la lista
                     int position = getAdapterPosition();
                     dbHelper.deleteShoppingItem(items.get(position).getId());
                     items.remove(position);
@@ -72,7 +71,12 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
 
         public void bind(ShoppingItem item) {
             textView.setText(item.getName());
-            imageView.setImageResource(item.getImageResId());
+            if (item.getImageUri() != null) {
+                imageView.setImageURI(Uri.parse(item.getImageUri()));
+            } else {
+                imageView.setImageResource(R.drawable.ic_launcher_foreground);
+            }
+
             checkBox.setChecked(false);
         }
     }

@@ -49,8 +49,8 @@ dependencies {
     implementation(libs.navigation.ui)
 
     // Maven
-    implementation("org.joda:joda-money:1.0.5")
-    implementation("com.google.code.gson:gson:2.11.0")
+    implementation(libs.joda.money)
+    implementation(libs.gson)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

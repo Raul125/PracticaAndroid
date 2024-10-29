@@ -1,16 +1,17 @@
 package com.raulrh.practicaandroid.ui.shoppinglist.data;
 
 public class ShoppingItem {
-    private int id; // Añadir un ID
+    private int id;
     private String name;
-    private int imageResId;
+    private String imageUri;
 
-    // Constructor vacío para Gson
-    public ShoppingItem() {}
+    public ShoppingItem() {
 
-    public ShoppingItem(String name, int imageResId) {
+    }
+
+    public ShoppingItem(String name, String imageUri) {
         this.name = name;
-        this.imageResId = imageResId;
+        this.imageUri = imageUri;
     }
 
     public int getId() {
@@ -29,11 +30,11 @@ public class ShoppingItem {
         this.name = name;
     }
 
-    public int getImageResId() {
-        return imageResId;
+    public String getImageUri() {
+        return imageUri;
     }
 
-    public void setImageResId(int imageResId) {
-        this.imageResId = imageResId;
+    public void setImageUri(String imageUri) {
+        this.imageUri = imageUri;
     }
 }
