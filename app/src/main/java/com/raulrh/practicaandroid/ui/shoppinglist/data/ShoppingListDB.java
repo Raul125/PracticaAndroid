@@ -6,12 +6,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.raulrh.practicaandroid.util.Util;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ShoppingListDB extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "shoppingList.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 4;
 
     public static final String TABLE_SHOPPING = "shopping";
     public static final String COLUMN_ID = "id";
@@ -41,23 +43,23 @@ public class ShoppingListDB extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_NAME, item.getName());
-        values.put(COLUMN_IMAGE_URI, item.getImageUri());
+        values.put(COLUMN_IMAGE_URI, Util.getBytes(item.getImage()));
         db.insert(TABLE_SHOPPING, null, values);
         db.close();
     }
 
     public List<ShoppingItem> getAllShoppingItems() {
         List<ShoppingItem> itemList = new ArrayList<>();
-        String selectQuery = "SELECT * FROM " + TABLE_SHOPPING;
+        final String[] SELECT = {COLUMN_ID, COLUMN_NAME, COLUMN_IMAGE_URI};
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
+        Cursor cursor = db.query(TABLE_SHOPPING, SELECT, null, null, null, null, null);
 
         if (cursor.moveToFirst()) {
             do {
                 ShoppingItem item = new ShoppingItem();
                 item.setId(cursor.getInt(0));
                 item.setName(cursor.getString(1));
-                item.setImageUri(cursor.getString(2));
+                item.setImage(Util.getBitmap(cursor.getBlob(2)));
                 itemList.add(item);
             } while (cursor.moveToNext());
         }

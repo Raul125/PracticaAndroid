@@ -2,6 +2,7 @@ package com.raulrh.practicaandroid.ui.shoppinglist;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -20,6 +21,7 @@ import com.raulrh.practicaandroid.ui.shoppinglist.data.ShoppingItem;
 import com.raulrh.practicaandroid.ui.shoppinglist.data.ShoppingListAdapter;
 import com.raulrh.practicaandroid.ui.shoppinglist.data.ShoppingListDB;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +34,7 @@ public class ShoppingListFragment extends Fragment {
     private ShoppingListDB dbHelper;
 
     private ActivityResultLauncher<Intent> imagePickerLauncher;
-    private Uri selectedImageUri;
+    private Bitmap selectedImage;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,8 +44,13 @@ public class ShoppingListFragment extends Fragment {
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
-                        selectedImageUri = result.getData().getData();
+                        Uri selectedImageUri = result.getData().getData();
                         binding.buttonImage.setImageURI(selectedImageUri);
+                        try {
+                            selectedImage = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImageUri);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 });
 
@@ -58,12 +65,12 @@ public class ShoppingListFragment extends Fragment {
 
         binding.buttonAdd.setOnClickListener(v -> {
             String productName = binding.editTextProduct.getText().toString();
-            if (!productName.isEmpty() && selectedImageUri != null) {
-                ShoppingItem newItem = new ShoppingItem(productName, selectedImageUri.toString());
+            if (!productName.isEmpty() && selectedImage != null) {
+                ShoppingItem newItem = new ShoppingItem(productName, selectedImage);
                 shoppingItems.add(newItem);
                 dbHelper.addShoppingItem(newItem);
                 binding.editTextProduct.setText("");
-                selectedImageUri = null;
+                selectedImage = null;
                 loadShoppingList();
             }
         });
@@ -74,6 +81,7 @@ public class ShoppingListFragment extends Fragment {
     private void loadShoppingList() {
         shoppingItems = dbHelper.getAllShoppingItems();
         adapter.updateList(shoppingItems);
+        adapter.notifyDataSetChanged();
     }
 
     private void openImagePicker() {

@@ -71,8 +71,8 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
 
         public void bind(ShoppingItem item) {
             textView.setText(item.getName());
-            if (item.getImageUri() != null) {
-                imageView.setImageURI(Uri.parse(item.getImageUri()));
+            if (item.getImage() != null) {
+                imageView.setImageBitmap(item.getImage());
             } else {
                 imageView.setImageResource(R.drawable.ic_launcher_foreground);
             }

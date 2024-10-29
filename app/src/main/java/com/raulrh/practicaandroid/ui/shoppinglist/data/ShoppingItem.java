@@ -1,17 +1,19 @@
 package com.raulrh.practicaandroid.ui.shoppinglist.data;
 
+import android.graphics.Bitmap;
+
 public class ShoppingItem {
     private int id;
     private String name;
-    private String imageUri;
+    private Bitmap image;
 
     public ShoppingItem() {
 
     }
 
-    public ShoppingItem(String name, String imageUri) {
+    public ShoppingItem(String name, Bitmap image) {
         this.name = name;
-        this.imageUri = imageUri;
+        this.image = image;
     }
 
     public int getId() {
@@ -30,11 +32,11 @@ public class ShoppingItem {
         this.name = name;
     }
 
-    public String getImageUri() {
-        return imageUri;
+    public Bitmap getImage() {
+        return image;
     }
 
-    public void setImageUri(String imageUri) {
-        this.imageUri = imageUri;
+    public void setImage(Bitmap image) {
+        this.image = image;
     }
 }
