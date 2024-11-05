@@ -13,7 +13,7 @@ import java.util.List;
 
 public class ShoppingListDB extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "shoppingList.db";
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 5;
 
     public static final String TABLE_SHOPPING = "shopping";
     public static final String COLUMN_ID = "id";
@@ -43,7 +43,7 @@ public class ShoppingListDB extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_NAME, item.getName());
-        values.put(COLUMN_IMAGE_URI, Util.getBytes(item.getImage()));
+        // values.put(COLUMN_IMAGE_URI, Util.getBytes(item.getImage()));
         db.insert(TABLE_SHOPPING, null, values);
         db.close();
     }
@@ -59,7 +59,7 @@ public class ShoppingListDB extends SQLiteOpenHelper {
                 ShoppingItem item = new ShoppingItem();
                 item.setId(cursor.getInt(0));
                 item.setName(cursor.getString(1));
-                item.setImage(Util.getBitmap(cursor.getBlob(2)));
+                // item.setImage(Util.getBitmap(cursor.getBlob(2)));
                 itemList.add(item);
             } while (cursor.moveToNext());
         }

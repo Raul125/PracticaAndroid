@@ -1,6 +1,5 @@
 package com.raulrh.practicaandroid.ui.shoppinglist.data;
 
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,11 +70,11 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
 
         public void bind(ShoppingItem item) {
             textView.setText(item.getName());
-            if (item.getImage() != null) {
+            /*if (item.getImage() != null) {
                 imageView.setImageBitmap(item.getImage());
             } else {
                 imageView.setImageResource(R.drawable.ic_launcher_foreground);
-            }
+            }*/
 
             checkBox.setChecked(false);
         }

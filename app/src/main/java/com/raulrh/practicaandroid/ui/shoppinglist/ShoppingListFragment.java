@@ -66,7 +66,7 @@ public class ShoppingListFragment extends Fragment {
         binding.buttonAdd.setOnClickListener(v -> {
             String productName = binding.editTextProduct.getText().toString();
             if (!productName.isEmpty() && selectedImage != null) {
-                ShoppingItem newItem = new ShoppingItem(productName, selectedImage);
+                ShoppingItem newItem = new ShoppingItem(productName/*, selectedImage*/);
                 shoppingItems.add(newItem);
                 dbHelper.addShoppingItem(newItem);
                 binding.editTextProduct.setText("");

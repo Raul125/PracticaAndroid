@@ -5,15 +5,15 @@ import android.graphics.Bitmap;
 public class ShoppingItem {
     private int id;
     private String name;
-    private Bitmap image;
+    // private Bitmap image;
 
     public ShoppingItem() {
 
     }
 
-    public ShoppingItem(String name, Bitmap image) {
+    public ShoppingItem(String name/*, Bitmap image*/) {
         this.name = name;
-        this.image = image;
+        // this.image = image;
     }
 
     public int getId() {
@@ -32,11 +32,11 @@ public class ShoppingItem {
         this.name = name;
     }
 
-    public Bitmap getImage() {
+    /*public Bitmap getImage() {
         return image;
     }
 
     public void setImage(Bitmap image) {
         this.image = image;
-    }
+    }*/
 }

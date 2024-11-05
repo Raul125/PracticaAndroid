@@ -29,7 +29,7 @@ public class NewsFragment extends Fragment {
 
     private NewsFragmentBinding binding;
     private NewsAdapter newsAdapter;
-    private final List<News> newsList = new ArrayList<>();
+    private List<News> newsList = new ArrayList<>();
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -40,6 +40,7 @@ public class NewsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        fetchNewsData();
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         newsAdapter = new NewsAdapter(newsList, news -> {
@@ -49,7 +50,6 @@ public class NewsFragment extends Fragment {
         });
 
         binding.recyclerView.setAdapter(newsAdapter);
-        fetchNewsData();
     }
 
     private void fetchNewsData() {
@@ -59,14 +59,15 @@ public class NewsFragment extends Fragment {
                 URL url = new URL("https://www.zaragoza.es/sede/servicio/noticia?rf=html&start=0&rows=5");
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestProperty("accept", "application/json");
+                connection.setRequestMethod("GET");
 
                 InputStream responseStream = connection.getInputStream();
                 InputStreamReader reader = new InputStreamReader(responseStream);
                 Response response = new Gson().fromJson(reader, Response.class);
 
                 requireActivity().runOnUiThread(() -> {
-                    newsList.clear();
-                    newsList.addAll(response.result);
+                    newsList = response.result;
+                    System.out.println(response.result.get(0).image.get(0).src);
                     newsAdapter.updateList(newsList);
                 });
             } catch (Exception e) {

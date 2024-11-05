@@ -15,4 +15,6 @@ public class News {
     public String description;
 
     public List<Category> category;
+
+    public List<Image> image;
 }

@@ -51,6 +51,7 @@ dependencies {
     // Maven
     implementation(libs.joda.money)
     implementation(libs.gson)
+    implementation(libs.glide)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
