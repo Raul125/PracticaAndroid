@@ -83,9 +83,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             if (news.image != null && !news.image.isEmpty()) {
                 String imageUrl = "https://www.zaragoza.es/cont/paginas/noticias/2024/solidaria2.jpg";
 
-                Glide.with(this)
+                /*Glide.with(null)
                         .load(imageUrl)
-                        .into(imageView);
+                        .into(imageView);*/
             }
         }
     }

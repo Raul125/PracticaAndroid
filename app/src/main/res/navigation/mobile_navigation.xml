@@ -35,4 +35,10 @@
         android:label="Noticias"
         tools:layout="@layout/news_fragment" />
 
+    <fragment
+        android:id="@+id/nav_minesweeper"
+        android:name="com.raulrh.practicaandroid.ui.minesweeper.MinesweeperFragment"
+        android:label="Buscaminas"
+        tools:layout="@layout/minesweeper_fragment" />
+
 </navigation>
