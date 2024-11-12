@@ -1,7 +1,5 @@
 package com.raulrh.practicaandroid.ui.shoppinglist.data;
 
-import android.graphics.Bitmap;
-
 public class ShoppingItem {
     private int id;
     private String name;

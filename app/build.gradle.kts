@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId = "com.raulrh.practicaandroid"
-        minSdk = 23
+        minSdk = 24
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -51,7 +51,7 @@ dependencies {
     // Maven
     implementation(libs.joda.money)
     implementation(libs.gson)
-    implementation(libs.glide)
+    implementation(libs.picasso)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

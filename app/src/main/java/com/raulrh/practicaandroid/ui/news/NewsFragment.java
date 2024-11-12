@@ -2,6 +2,8 @@ package com.raulrh.practicaandroid.ui.news;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +56,7 @@ public class NewsFragment extends Fragment {
 
     private void fetchNewsData() {
         ExecutorService executorService = Executors.newSingleThreadExecutor();
+        Handler mainHandler = new Handler(Looper.getMainLooper());
         executorService.execute(() -> {
             try {
                 URL url = new URL("https://www.zaragoza.es/sede/servicio/noticia?rf=html&start=0&rows=5");
@@ -65,9 +68,8 @@ public class NewsFragment extends Fragment {
                 InputStreamReader reader = new InputStreamReader(responseStream);
                 Response response = new Gson().fromJson(reader, Response.class);
 
-                requireActivity().runOnUiThread(() -> {
+                mainHandler.post(() -> {
                     newsList = response.result;
-                    System.out.println(response.result.get(0).image.get(0).src);
                     newsAdapter.updateList(newsList);
                 });
             } catch (Exception e) {

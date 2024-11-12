@@ -1,6 +1,5 @@
 package com.raulrh.practicaandroid.ui.news.data;
 
-import java.util.Date;
 import java.util.List;
 
 public class News {

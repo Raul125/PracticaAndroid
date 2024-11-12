@@ -1,5 +1,12 @@
 package com.raulrh.practicaandroid.ui.converter;
 
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
+import android.view.View;
+
+import com.raulrh.practicaandroid.databinding.ConverterFragmentBinding;
+
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 import org.w3c.dom.Document;
@@ -17,13 +24,6 @@ import java.util.concurrent.Executors;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
-import android.os.Handler;
-import android.os.Looper;
-import android.util.Log;
-import android.view.View;
-
-import com.raulrh.practicaandroid.databinding.ConverterFragmentBinding;
 
 public class CurrencyConverter {
 

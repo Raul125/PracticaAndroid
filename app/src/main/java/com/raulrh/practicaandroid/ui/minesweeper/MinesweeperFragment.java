@@ -3,8 +3,8 @@ package com.raulrh.practicaandroid.ui.minesweeper;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.Toast;
 
@@ -128,7 +128,7 @@ public class MinesweeperFragment extends Fragment {
         }
     }
 
-    private void disableAllCells() {;
+    private void disableAllCells() {
         for (int i = 0; i < binding.gameGrid.getChildCount(); i++) {
             binding.gameGrid.getChildAt(i).setEnabled(false);
         }

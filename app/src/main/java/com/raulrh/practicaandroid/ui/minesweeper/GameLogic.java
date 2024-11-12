@@ -3,10 +3,10 @@ package com.raulrh.practicaandroid.ui.minesweeper;
 import java.util.Random;
 
 public class GameLogic {
-    private Cell[][] cells;
-    private int rows;
-    private int cols;
-    private int mines;
+    private final Cell[][] cells;
+    private final int rows;
+    private final int cols;
+    private final int mines;
 
     public GameLogic(int rows, int cols, int mines) {
         this.rows = rows;

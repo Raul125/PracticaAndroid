@@ -1,19 +1,14 @@
 package com.raulrh.practicaandroid.ui.news;
 
 import android.os.Bundle;
-import android.text.Html;
-import android.text.TextUtils;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.text.HtmlCompat;
 
 import com.google.gson.Gson;
 import com.raulrh.practicaandroid.R;
-import com.raulrh.practicaandroid.ui.news.data.Category;
 import com.raulrh.practicaandroid.ui.news.data.News;
-
-import java.text.SimpleDateFormat;
-import java.util.Locale;
 
 public class NewsDetailActivity extends AppCompatActivity {
     @Override
@@ -21,8 +16,8 @@ public class NewsDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_detail);
 
-        TextView titleTextView = findViewById(R.id.titleTextView);
-        TextView dateTextView = findViewById(R.id.dateTextView);
+        TextView titleTextView = findViewById(R.id.titleTextNews);
+        TextView dateTextView = findViewById(R.id.dateTextNews);
         TextView descriptionTextView = findViewById(R.id.descriptionTextView);
 
         String newsJson = getIntent().getStringExtra("news");
@@ -30,9 +25,9 @@ public class NewsDetailActivity extends AppCompatActivity {
 
         titleTextView.setText(news.title);
         dateTextView.setText(news.dateCreated);
-        descriptionTextView.setText(Html.fromHtml(news.description));
+        descriptionTextView.setText(HtmlCompat.fromHtml(news.description.replaceAll("<img.+/(img)*>", ""), HtmlCompat.FROM_HTML_MODE_LEGACY));
 
-        TextView categoriesTextView = findViewById(R.id.categoriesTextView);
+        TextView categoriesTextView = findViewById(R.id.categoriesTextNews);
         if (news.category != null && !news.category.isEmpty()) {
             StringBuilder categories = new StringBuilder();
             int size = news.category.size();

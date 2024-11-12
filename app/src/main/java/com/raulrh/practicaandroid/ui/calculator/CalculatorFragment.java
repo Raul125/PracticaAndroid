@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment;
 
 import com.raulrh.practicaandroid.databinding.CalculatorFragmentBinding;
 
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
 

@@ -8,34 +8,41 @@
     android:padding="8dp">
 
     <TextView
-        android:id="@+id/titleTextView"
+        android:id="@+id/titleTextNews"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:textSize="16sp"/>
 
     <TextView
-        android:id="@+id/summaryTextView"
+        android:id="@+id/summaryTextNews"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="14sp"/>
 
     <TextView
-        android:id="@+id/dateTextView"
+        android:id="@+id/dateTextNews"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="12sp"/>
 
     <TextView
-        android:id="@+id/categoriesTextView"
+        android:id="@+id/categoriesTextNews"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="12sp"
         android:textColor="#666"/>
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/imageNews"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:srcCompat="@tools:sample/avatars" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:background="?android:attr/colorForeground" />
 </LinearLayout>
