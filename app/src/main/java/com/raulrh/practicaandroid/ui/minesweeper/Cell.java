@@ -1,37 +1,44 @@
 package com.raulrh.practicaandroid.ui.minesweeper;
 
 public class Cell {
-    private boolean isMine;
-    private boolean isRevealed;
-    private int adjacentMines;
+    public static final int EMPTY = 0;
+    public static final int FLAGGED = -1;
+    public static final int UNCHECKED = -2;
+    public static final int MINE = -3;
+
+    private int value;
+    private boolean visited;
 
     public Cell() {
-        this.isMine = false;
-        this.isRevealed = false;
-        this.adjacentMines = 0;
+        this.value = UNCHECKED;
+        this.visited = false;
     }
 
-    public boolean isMine() {
-        return isMine;
+    public int getValue() {
+        return value;
     }
 
-    public void setMine(boolean mine) {
-        isMine = mine;
+    public boolean isVisited() {
+        return visited;
     }
 
-    public boolean isRevealed() {
-        return isRevealed;
+    public void setVisited(boolean visited) {
+        this.visited = visited;
     }
 
-    public void setRevealed(boolean revealed) {
-        isRevealed = revealed;
+    public void flag() {
+        if (!visited) {
+            if (value == FLAGGED) {
+                value = UNCHECKED;
+            } else {
+                value = FLAGGED;
+            }
+        }
     }
 
-    public int getAdjacentMines() {
-        return adjacentMines;
-    }
-
-    public void setAdjacentMines(int adjacentMines) {
-        this.adjacentMines = adjacentMines;
+    public void setNumber(int number) {
+        if (value == UNCHECKED) {
+            this.value = number;
+        }
     }
 }

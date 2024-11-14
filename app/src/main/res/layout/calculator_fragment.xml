@@ -47,10 +47,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:theme="@style/PracticaAndroidTheme">
 
             <Button
                 android:id="@+id/bCalculatorClean"
+                style="@style/PracticaAndroidTheme.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
@@ -61,6 +63,7 @@
 
             <Button
                 android:id="@+id/bCalculatorErase"
+                style="@style/PracticaAndroidTheme.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
@@ -71,6 +74,7 @@
 
             <Button
                 android:id="@+id/bCalculatorDivision"
+                style="@style/PracticaAndroidTheme.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
@@ -87,6 +91,7 @@
 
             <Button
                 android:id="@+id/bCalculator1"
+                style="@style/PracticaAndroidTheme.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
@@ -97,6 +102,7 @@
 
             <Button
                 android:id="@+id/bCalculator2"
+                style="@style/PracticaAndroidTheme.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
@@ -107,6 +113,7 @@
 
             <Button
                 android:id="@+id/bCalculator3"
+                style="@style/PracticaAndroidTheme.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
@@ -117,6 +124,7 @@
 
             <Button
                 android:id="@+id/bCalculatorMultiplication"
+                style="@style/PracticaAndroidTheme.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
@@ -133,6 +141,7 @@
 
             <Button
                 android:id="@+id/bCalculator4"
+                style="@style/PracticaAndroidTheme.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
@@ -143,6 +152,7 @@
 
             <Button
                 android:id="@+id/bCalculator5"
+                style="@style/PracticaAndroidTheme.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
@@ -153,6 +163,7 @@
 
             <Button
                 android:id="@+id/bCalculator6"
+                style="@style/PracticaAndroidTheme.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
@@ -163,6 +174,7 @@
 
             <Button
                 android:id="@+id/bCalculatorAddition"
+                style="@style/PracticaAndroidTheme.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
@@ -179,6 +191,7 @@
 
             <Button
                 android:id="@+id/bCalculator7"
+                style="@style/PracticaAndroidTheme.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
@@ -189,6 +202,7 @@
 
             <Button
                 android:id="@+id/bCalculator8"
+                style="@style/PracticaAndroidTheme.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
@@ -199,6 +213,7 @@
 
             <Button
                 android:id="@+id/bCalculator9"
+                style="@style/PracticaAndroidTheme.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
@@ -209,6 +224,7 @@
 
             <Button
                 android:id="@+id/bCalculatorSubtraction"
+                style="@style/PracticaAndroidTheme.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
@@ -225,6 +241,7 @@
 
             <Button
                 android:id="@+id/bCalculator0"
+                style="@style/PracticaAndroidTheme.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
@@ -235,6 +252,7 @@
 
             <Button
                 android:id="@+id/bCalculatorResolve"
+                style="@style/PracticaAndroidTheme.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"

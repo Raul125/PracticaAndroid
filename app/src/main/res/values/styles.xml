@@ -6,4 +6,10 @@
     <style name="PracticaAndroidTheme.NoActionBar" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">#FF3700B3</item>
     </style>
+    <style name="PracticaAndroidTheme.Toolbar" parent="Widget.Material3.Toolbar">
+        <item name="android:textColor">#FFF</item>
+    </style>
+    <style name="PracticaAndroidTheme.Button" parent="Widget.Material3.Button">
+        <item name="android:textColor">#FFF</item>
+    </style>
 </resources>

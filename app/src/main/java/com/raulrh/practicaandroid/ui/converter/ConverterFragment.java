@@ -61,10 +61,14 @@ public class ConverterFragment extends Fragment {
     private void setupConversionButton() {
         CurrencyConverter currencyConverter = new CurrencyConverter(binding);
         binding.converterButton.setOnClickListener(v -> {
+            String text = binding.converterInput.getText().toString();
+            if (text.isEmpty())
+                return;
+
             if (currency1 == null || currency2 == null)
                 return;
 
-            double amount = Double.parseDouble(binding.converterInput.getText().toString());
+            double amount = Double.parseDouble(text);
             Money moneyToConvert = Money.of(CurrencyUnit.of(currency1), amount);
             Money moneyConverted = currencyConverter.convertCurrency(moneyToConvert, CurrencyUnit.of(currency2));
             binding.converterResult.setText(String.format(moneyConverted.getAmount().toString()));

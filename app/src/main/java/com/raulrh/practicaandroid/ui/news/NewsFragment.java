@@ -71,6 +71,8 @@ public class NewsFragment extends Fragment {
                 mainHandler.post(() -> {
                     newsList = response.result;
                     newsAdapter.updateList(newsList);
+                    binding.progressBar.setVisibility(View.GONE);
+                    binding.recyclerView.setVisibility(View.VISIBLE);
                 });
             } catch (Exception e) {
                 throw new RuntimeException(e);

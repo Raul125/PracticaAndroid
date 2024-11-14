@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,8 @@ import com.raulrh.practicaandroid.ui.shoppinglist.data.ShoppingItem;
 import com.raulrh.practicaandroid.ui.shoppinglist.data.ShoppingListAdapter;
 import com.raulrh.practicaandroid.ui.shoppinglist.data.ShoppingListDB;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +69,8 @@ public class ShoppingListFragment extends Fragment {
         binding.buttonAdd.setOnClickListener(v -> {
             String productName = binding.editTextProduct.getText().toString();
             if (!productName.isEmpty() && selectedImage != null) {
-                ShoppingItem newItem = new ShoppingItem(productName/*, selectedImage*/);
+                String imagePath = saveImageToStorage(selectedImage);
+                ShoppingItem newItem = new ShoppingItem(productName, imagePath);
                 shoppingItems.add(newItem);
                 dbHelper.addShoppingItem(newItem);
                 binding.editTextProduct.setText("");
@@ -78,14 +82,28 @@ public class ShoppingListFragment extends Fragment {
         return binding.getRoot();
     }
 
-    private void loadShoppingList() {
-        shoppingItems = dbHelper.getAllShoppingItems();
-        adapter.updateList(shoppingItems);
-        adapter.notifyDataSetChanged();
+    private String saveImageToStorage(Bitmap image) {
+        String imagePath = null;
+        try {
+            File file = new File(getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), "image_" + System.currentTimeMillis() + ".jpg");
+            FileOutputStream fos = new FileOutputStream(file);
+            image.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.close();
+            imagePath = file.getAbsolutePath();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return imagePath;
     }
 
     private void openImagePicker() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         imagePickerLauncher.launch(intent);
+    }
+
+    private void loadShoppingList() {
+        shoppingItems = dbHelper.getAllShoppingItems();
+        adapter.updateList(shoppingItems);
+        adapter.notifyDataSetChanged();
     }
 }

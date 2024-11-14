@@ -7,12 +7,12 @@ android {
     compileSdk = 34
 
     packaging {
-        resources.pickFirsts.add("javamoney.properties");
+        resources.pickFirsts.add("javamoney.properties")
     }
 
     defaultConfig {
         applicationId = "com.raulrh.practicaandroid"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"

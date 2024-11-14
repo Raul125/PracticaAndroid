@@ -1,5 +1,6 @@
 package com.raulrh.practicaandroid.ui.shoppinglist.data;
 
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.raulrh.practicaandroid.R;
 
+import java.io.File;
 import java.util.List;
 
 public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapter.ViewHolder> {
@@ -47,6 +49,23 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
         items.addAll(newItems);
     }
 
+    public void deleteItem(int position) {
+        ShoppingItem item = items.get(position);
+        dbHelper.deleteShoppingItem(item.getId());
+        deleteImageFromStorage(item.getImagePath());
+        items.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    private void deleteImageFromStorage(String imagePath) {
+        if (imagePath != null) {
+            File imageFile = new File(imagePath);
+            if (imageFile.exists()) {
+                imageFile.delete();
+            }
+        }
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         private final ImageView imageView;
         private final TextView textView;
@@ -61,20 +80,18 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
             checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (isChecked) {
                     int position = getAdapterPosition();
-                    dbHelper.deleteShoppingItem(items.get(position).getId());
-                    items.remove(position);
-                    notifyItemRemoved(position);
+                    deleteItem(position);
                 }
             });
         }
 
         public void bind(ShoppingItem item) {
             textView.setText(item.getName());
-            /*if (item.getImage() != null) {
-                imageView.setImageBitmap(item.getImage());
+            if (item.getImagePath() != null) {
+                imageView.setImageBitmap(BitmapFactory.decodeFile(item.getImagePath()));
             } else {
                 imageView.setImageResource(R.drawable.ic_launcher_foreground);
-            }*/
+            }
 
             checkBox.setChecked(false);
         }

@@ -69,7 +69,7 @@ public class UtilButtons implements View.OnClickListener {
 
     private void eraseToLeft() {
         if (calculatorFragment.operator.isEmpty()) {
-            if (!calculatorFragment.leftNumber.isEmpty()) {
+            if (!calculatorFragment.leftNumber.isEmpty() && parseNumber(calculatorFragment.leftNumber) % 1 == 0) {
                 calculatorFragment.leftNumber = calculatorFragment.leftNumber.substring(0, calculatorFragment.leftNumber.length() - 1);
             }
         } else {

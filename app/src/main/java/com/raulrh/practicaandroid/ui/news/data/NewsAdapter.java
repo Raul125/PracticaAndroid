@@ -1,6 +1,5 @@
 package com.raulrh.practicaandroid.ui.news.data;
 
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -8,10 +7,17 @@ import androidx.annotation.NonNull;
 import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.raulrh.practicaandroid.R;
 import com.raulrh.practicaandroid.databinding.ItemNewsBinding;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.List;
+import java.util.Locale;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
     private final List<News> newsList;
@@ -62,7 +68,14 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         public void bind(News news) {
             binding.titleTextNews.setText(news.title);
             binding.summaryTextNews.setText(HtmlCompat.fromHtml(news.summary, HtmlCompat.FROM_HTML_MODE_LEGACY));
-            binding.dateTextNews.setText(news.dateCreated);
+
+            LocalDateTime localDateTime = LocalDateTime.parse(news.dateCreated);
+            LocalDate localDate = localDateTime.toLocalDate();
+            DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG)
+                    .withLocale(Locale.getDefault());
+
+            String formattedDate = localDate.format(formatter);
+            binding.dateTextNews.setText(formattedDate);
 
             if (news.category != null && !news.category.isEmpty()) {
                 binding.categoriesTextNews.setText(news.category.get(0).title);
@@ -74,6 +87,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                         .load(imageUrl)
                         .resize(1000, 1000)
                         .centerCrop()
+                        .placeholder(R.drawable.progress_animation)
                         .into(binding.imageNews);
             }
         }
