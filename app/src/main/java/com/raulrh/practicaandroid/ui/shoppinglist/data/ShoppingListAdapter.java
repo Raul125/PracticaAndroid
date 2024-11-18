@@ -1,5 +1,6 @@
 package com.raulrh.practicaandroid.ui.shoppinglist.data;
 
+import android.app.AlertDialog;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -79,8 +80,16 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
 
             checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (isChecked) {
-                    int position = getAdapterPosition();
-                    deleteItem(position);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(itemView.getContext());
+                    builder.setMessage("¿Estás seguro de que quieres eliminar este elemento de la lista?")
+                            .setPositiveButton("Sí", (dialog, which) -> {
+                                int position = getAdapterPosition();
+                                if (position != RecyclerView.NO_POSITION) {
+                                    deleteItem(position);
+                                }
+                            })
+                            .setNegativeButton("No", (dialog, which) -> checkBox.setChecked(false))
+                            .show();
                 }
             });
         }
@@ -90,7 +99,7 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
             if (item.getImagePath() != null) {
                 imageView.setImageBitmap(BitmapFactory.decodeFile(item.getImagePath()));
             } else {
-                imageView.setImageResource(R.drawable.ic_launcher_foreground);
+                imageView.setImageResource(R.drawable.carrito);
             }
 
             checkBox.setChecked(false);

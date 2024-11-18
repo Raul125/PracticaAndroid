@@ -27,12 +27,10 @@ public class Cell {
     }
 
     public void flag() {
-        if (!visited) {
-            if (value == FLAGGED) {
-                value = UNCHECKED;
-            } else {
-                value = FLAGGED;
-            }
+        if (value == UNCHECKED) {
+            value = FLAGGED;
+        } else if (value == FLAGGED) {
+            value = UNCHECKED;
         }
     }
 

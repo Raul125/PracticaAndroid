@@ -52,33 +52,33 @@
 
             <Button
                 android:id="@+id/bCalculatorClean"
-                style="@style/PracticaAndroidTheme.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
                 android:layout_weight="5"
+                android:backgroundTint="@color/contrast"
                 android:text="@string/cleanText"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                 app:cornerRadius="@dimen/circuloCalculadora" />
 
             <Button
                 android:id="@+id/bCalculatorErase"
-                style="@style/PracticaAndroidTheme.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
                 android:layout_weight="5"
+                android:backgroundTint="@color/contrast"
                 android:text="@string/calculatorEraseLeft"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                 app:cornerRadius="@dimen/circuloCalculadora" />
 
             <Button
                 android:id="@+id/bCalculatorDivision"
-                style="@style/PracticaAndroidTheme.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
                 android:layout_weight="1"
+                android:backgroundTint="@color/contrast"
                 android:text="@string/calculatorDivision"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                 app:cornerRadius="@dimen/circuloCalculadora" />
@@ -90,108 +90,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/bCalculator1"
-                style="@style/PracticaAndroidTheme.Button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:layout_weight="1"
-                android:text="@string/calculator1"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                app:cornerRadius="@dimen/circuloCalculadora" />
-
-            <Button
-                android:id="@+id/bCalculator2"
-                style="@style/PracticaAndroidTheme.Button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:layout_weight="1"
-                android:text="@string/calculator2"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                app:cornerRadius="@dimen/circuloCalculadora" />
-
-            <Button
-                android:id="@+id/bCalculator3"
-                style="@style/PracticaAndroidTheme.Button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:layout_weight="1"
-                android:text="@string/calculator3"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                app:cornerRadius="@dimen/circuloCalculadora" />
-
-            <Button
-                android:id="@+id/bCalculatorMultiplication"
-                style="@style/PracticaAndroidTheme.Button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:layout_weight="1"
-                android:text="@string/calculatorMultiplication"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                app:cornerRadius="@dimen/circuloCalculadora" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/bCalculator4"
-                style="@style/PracticaAndroidTheme.Button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:layout_weight="1"
-                android:text="@string/calculator4"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                app:cornerRadius="@dimen/circuloCalculadora" />
-
-            <Button
-                android:id="@+id/bCalculator5"
-                style="@style/PracticaAndroidTheme.Button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:layout_weight="1"
-                android:text="@string/calculator5"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                app:cornerRadius="@dimen/circuloCalculadora" />
-
-            <Button
-                android:id="@+id/bCalculator6"
-                style="@style/PracticaAndroidTheme.Button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:layout_weight="1"
-                android:text="@string/calculator6"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                app:cornerRadius="@dimen/circuloCalculadora" />
-
-            <Button
-                android:id="@+id/bCalculatorAddition"
-                style="@style/PracticaAndroidTheme.Button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:layout_weight="1"
-                android:text="@string/calculatorAddition"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                app:cornerRadius="@dimen/circuloCalculadora" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
                 android:id="@+id/bCalculator7"
-                style="@style/PracticaAndroidTheme.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
@@ -202,7 +101,6 @@
 
             <Button
                 android:id="@+id/bCalculator8"
-                style="@style/PracticaAndroidTheme.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
@@ -213,7 +111,6 @@
 
             <Button
                 android:id="@+id/bCalculator9"
-                style="@style/PracticaAndroidTheme.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
@@ -223,15 +120,112 @@
                 app:cornerRadius="@dimen/circuloCalculadora" />
 
             <Button
-                android:id="@+id/bCalculatorSubtraction"
-                style="@style/PracticaAndroidTheme.Button"
+                android:id="@+id/bCalculatorMultiplication"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
                 android:layout_weight="1"
+                android:backgroundTint="@color/contrast"
+                android:text="@string/calculatorMultiplication"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                app:cornerRadius="@dimen/circuloCalculadora" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/bCalculator4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:text="@string/calculator4"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                app:cornerRadius="@dimen/circuloCalculadora" />
+
+            <Button
+                android:id="@+id/bCalculator5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:text="@string/calculator5"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                app:cornerRadius="@dimen/circuloCalculadora" />
+
+            <Button
+                android:id="@+id/bCalculator6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:text="@string/calculator6"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                app:cornerRadius="@dimen/circuloCalculadora" />
+
+            <Button
+                android:id="@+id/bCalculatorSubtraction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/contrast"
                 android:text="@string/calculatorSubtraction"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                 app:cornerRadius="@dimen/circuloCalculadora" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/bCalculator1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:text="@string/calculator1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                app:cornerRadius="@dimen/circuloCalculadora" />
+
+            <Button
+                android:id="@+id/bCalculator2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:text="@string/calculator2"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                app:cornerRadius="@dimen/circuloCalculadora" />
+
+            <Button
+                android:id="@+id/bCalculator3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:text="@string/calculator3"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                app:cornerRadius="@dimen/circuloCalculadora" />
+
+            <Button
+                android:id="@+id/bCalculatorAddition"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/contrast"
+                android:text="@string/calculatorAddition"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                app:cornerRadius="@dimen/circuloCalculadora" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -241,22 +235,21 @@
 
             <Button
                 android:id="@+id/bCalculator0"
-                style="@style/PracticaAndroidTheme.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
-                android:layout_weight="15"
+                android:layout_weight="50"
                 android:text="@string/calculator0"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                 app:cornerRadius="@dimen/circuloCalculadora" />
 
             <Button
                 android:id="@+id/bCalculatorResolve"
-                style="@style/PracticaAndroidTheme.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
                 android:layout_weight="1"
+                android:backgroundTint="@color/contrast"
                 android:text="@string/calculatorResolve"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                 app:cornerRadius="@dimen/circuloCalculadora" />

@@ -7,19 +7,22 @@ public class MinesweeperGame {
     private final int rows;
     private final int cols;
     private final int numOfMines;
-    private int minesLeft;
     private final Cell[][] board;
+
+    private int minesLeft;
 
     public MinesweeperGame(int rows, int cols, int numOfMines) {
         this.rows = rows;
         this.cols = cols;
         this.numOfMines = numOfMines;
-        this.minesLeft = numOfMines;
         this.board = new Cell[rows][cols];
+    }
 
+    public void setup() {
         initializeBoard();
         generateMines();
         calculateMinesAroundCells();
+        minesLeft = numOfMines;
     }
 
     public int getMinesLeft() {
@@ -99,7 +102,7 @@ public class MinesweeperGame {
         }
 
         Cell cell = board[row][col];
-        if (cell.isVisited() || cell.getValue() == Cell.FLAGGED)
+        if (cell.isVisited())
             return false;
 
         revealCell(row, col);
@@ -136,7 +139,6 @@ public class MinesweeperGame {
             return;
         }
 
-        cell.setVisited(true);
         cell.flag();
         minesLeft--;
     }
@@ -145,12 +147,21 @@ public class MinesweeperGame {
         int revealedCells = 0;
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
-                if (board[row][col].isVisited()) {
+                Cell cell = board[row][col];
+                if (cell.isVisited() && cell.getValue() != Cell.MINE) {
                     revealedCells++;
                 }
             }
         }
 
         return revealedCells == (rows * cols - numOfMines);
+    }
+
+    public void endGame() {
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                board[row][col].setVisited(true);
+            }
+        }
     }
 }

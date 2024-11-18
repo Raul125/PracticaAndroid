@@ -1,7 +1,6 @@
 package com.raulrh.practicaandroid.ui.minesweeper;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +14,7 @@ import androidx.fragment.app.Fragment;
 
 import com.raulrh.practicaandroid.R;
 import com.raulrh.practicaandroid.databinding.MinesweeperFragmentBinding;
+import com.raulrh.practicaandroid.util.Util;
 
 import java.util.Locale;
 import java.util.Timer;
@@ -27,6 +27,8 @@ public class MinesweeperFragment extends Fragment {
     private Timer timer;
     private int secondsAfterStart;
 
+    private boolean isStarted = false;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = MinesweeperFragmentBinding.inflate(inflater, container, false);
@@ -36,17 +38,44 @@ public class MinesweeperFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initializeGame();
-        setupTimer();
-        createGameBoard();
+        game = new MinesweeperGame(10, 10, 15);
+        setupGame();
+
+        binding.startButton.setOnClickListener(v -> {
+            if (!isStarted) {
+                startGame();
+                isStarted = true;
+                binding.startButton.setText("Reiniciar");
+            } else {
+                setupGame();
+                binding.startButton.setText("Empezar");
+                timer.cancel();
+                isStarted = false;
+            }
+        });
     }
 
-    private void initializeGame() {
-        game = new MinesweeperGame(10, 10, 15);
+    private void setupGame() {
+        binding.buttonsPanel.removeAllViews();
+        createGameBoard();
+        game.setup();
+    }
+
+    private void startGame() {
+        setupTimer();
         updateMinesLeft();
     }
 
+    private void endGame(String title, String message) {
+        timer.cancel();
+        showGameOverDialog(title, message);
+    }
+
     private void setupTimer() {
+        if (timer != null) {
+            timer.cancel();
+        }
+
         secondsAfterStart = 0;
         timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -67,8 +96,6 @@ public class MinesweeperFragment extends Fragment {
                 if (isValidCell(row, col)) {
                     ImageView cell = createCell(row, col);
                     tableRow.addView(cell);
-                } else {
-                    Log.e("MinesweeperFragment", "Invalid cell access: row=" + row + ", col=" + col);
                 }
             }
 
@@ -97,33 +124,34 @@ public class MinesweeperFragment extends Fragment {
     private void setupCellListeners(ImageView cell, int row, int col) {
         cell.setOnClickListener(v -> handleCellClick(row, col));
         cell.setOnLongClickListener(v -> {
-            game.flagCell(row, col);
-            updateUI();
+            if (isStarted) {
+                game.flagCell(row, col);
+                updateUI();
+            }
+
             return true;
         });
     }
 
     private void handleCellClick(int row, int col) {
+        if (!isStarted) {
+            return;
+        }
+
         if (isValidCell(row, col)) {
             if (game.clickCell(row, col)) {
-                endGame("Game over", "Unfortunately, you've lost the game!");
+                endGame("Allahu Akbar", "Has perdido el juego!");
+                Util.playSound(requireContext(), R.raw.kabom);
             } else if (game.isGameWon()) {
-                endGame("Congratulations", "You've won the game!");
+                endGame("Felicidades", "Has ganado la partida!");
             }
 
             updateUI();
-        } else {
-            Log.e("MinesweeperFragment", "Invalid cell access: row=" + row + ", col=" + col);
         }
     }
 
     private boolean isValidCell(int row, int col) {
         return row >= 0 && row < game.getRows() && col >= 0 && col < game.getCols();
-    }
-
-    private void endGame(String title, String message) {
-        timer.cancel();
-        showGameOverDialog(title, message);
     }
 
     private void updateUI() {
@@ -138,27 +166,27 @@ public class MinesweeperFragment extends Fragment {
     }
 
     private void updateMinesLeft() {
-        binding.minesLeft.setText(String.format(Locale.getDefault(), "Mines Left: %d", game.getMinesLeft()));
+        binding.minesLeft.setText(String.format(Locale.getDefault(), "Minas Restantes: %d", game.getMinesLeft()));
     }
 
     private void updateTimeDisplay() {
-        String strTime = String.format(Locale.getDefault(), "Time: %02d:%02d", secondsAfterStart / 60, secondsAfterStart % 60);
+        String strTime = String.format(Locale.getDefault(), "Tiempo: %02d:%02d", secondsAfterStart / 60, secondsAfterStart % 60);
         binding.time.setText(strTime);
     }
 
     private void showGameOverDialog(String title, String message) {
+        game.endGame();
         new AlertDialog.Builder(requireContext())
                 .setCancelable(false)
                 .setIcon(R.mipmap.ic_launcher_round)
                 .setTitle(title)
                 .setMessage(message)
-                .setPositiveButton("Ok", (dialogInterface, i) -> Log.d("Minesweeper", "Reiniciar juego"))
+                .setPositiveButton("Ok", null)
                 .show();
     }
 
     private void setIconToButton(ImageView imageView, Cell cell) {
         if (imageView == null) {
-            Log.d("setIconToButton", "Button was not found!");
             return;
         }
 
@@ -199,8 +227,10 @@ public class MinesweeperFragment extends Fragment {
                     imageView.setImageResource(R.drawable.mine_clicked);
                     break;
             }
-        } else {
+        } else if (cell.getValue() == Cell.UNCHECKED) {
             imageView.setImageResource(R.drawable.non_clicked_cell);
+        } else if (cell.getValue() == Cell.FLAGGED) {
+            imageView.setImageResource(R.drawable.flag);
         }
     }
 

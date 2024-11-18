@@ -1,15 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="PracticaAndroidTheme" parent="Theme.Material3.DayNight">
-        <item name="colorPrimary">#FF3700B3</item>
+    <style name="PracticaAndroidTheme" parent="Theme.Material3.Light">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/primary_dark</item>
+        <item name="colorOnPrimary">@color/text</item>
+        <item name="colorSecondary">@color/secondary</item>
+        <item name="colorSecondaryVariant">@color/secondary_dark</item>
+        <item name="colorOnSecondary">@color/text</item>
+        <item name="android:windowBackground">@color/background</item>
+        <item name="android:textColor">@color/text</item>
+        <item name="android:textColorHint">@color/hint</item>
+        <item name="actionBarStyle">@style/PracticaAndroidTheme.ActionBar</item>
     </style>
-    <style name="PracticaAndroidTheme.NoActionBar" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">#FF3700B3</item>
+
+    <style name="PracticaAndroidTheme.ActionBar" parent="Widget.Material3.ActionBar.Solid">
+        <item name="background">@color/primary</item>
+        <item name="titleTextColor">@color/text</item>
+        <item name="subtitleTextColor">@color/text</item>
     </style>
-    <style name="PracticaAndroidTheme.Toolbar" parent="Widget.Material3.Toolbar">
-        <item name="android:textColor">#FFF</item>
-    </style>
-    <style name="PracticaAndroidTheme.Button" parent="Widget.Material3.Button">
-        <item name="android:textColor">#FFF</item>
+
+    <style name="PracticaAndroidTheme.NoActionBar" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/primary_dark</item>
+        <item name="colorOnPrimary">@color/text</item>
+        <item name="colorSecondary">@color/secondary</item>
+        <item name="colorSecondaryVariant">@color/secondary_dark</item>
+        <item name="colorOnSecondary">@color/text</item>
+        <item name="android:windowBackground">@color/background</item>
+        <item name="android:textColor">@color/text</item>
+        <item name="android:textColorHint">@color/hint</item>
     </style>
 </resources>

@@ -58,8 +58,14 @@ public class NumberButtons implements View.OnClickListener {
 
     private void updateNumberInput(int number, boolean isLeft) {
         String currentNumber = isLeft ? calculatorFragment.leftNumber : calculatorFragment.rightNumber;
-        String newNumber = currentNumber + number;
+        if (!currentNumber.isEmpty()) {
+            double currentNumberDouble = Double.parseDouble(currentNumber);
+            if (currentNumberDouble % 1 != 0) {
+                return;
+            }
+        }
 
+        String newNumber = currentNumber + number;
         if (allowMore(newNumber)) {
             if (isLeft) {
                 calculatorFragment.leftNumber = newNumber;

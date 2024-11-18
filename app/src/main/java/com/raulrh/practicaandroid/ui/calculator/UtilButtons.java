@@ -16,6 +16,8 @@ public class UtilButtons implements View.OnClickListener {
     private final CalculatorFragmentBinding binding;
     private final Map<Integer, Runnable> buttonActions;
 
+    private boolean hasCalculated = false;
+
     public UtilButtons(CalculatorFragment calculatorFragment, CalculatorFragmentBinding binding) {
         this.calculatorFragment = calculatorFragment;
         this.binding = binding;
@@ -60,16 +62,9 @@ public class UtilButtons implements View.OnClickListener {
 
         calculatorFragment.update();
     }
-
-    private void clearAll() {
-        calculatorFragment.leftNumber = "";
-        calculatorFragment.operator = "";
-        calculatorFragment.rightNumber = "";
-    }
-
     private void eraseToLeft() {
         if (calculatorFragment.operator.isEmpty()) {
-            if (!calculatorFragment.leftNumber.isEmpty() && parseNumber(calculatorFragment.leftNumber) % 1 == 0) {
+            if (!calculatorFragment.leftNumber.isEmpty() && !hasCalculated) {
                 calculatorFragment.leftNumber = calculatorFragment.leftNumber.substring(0, calculatorFragment.leftNumber.length() - 1);
             }
         } else {
@@ -104,7 +99,8 @@ public class UtilButtons implements View.OnClickListener {
 
             double result = performOperation(leftNumber, rightNumber, calculatorFragment.operator);
             updateCalculatorFragmentResult(result);
-        } catch (NumberFormatException e) {
+            hasCalculated = true;
+        } catch (Exception e) {
             handleError();
         }
     }
@@ -128,9 +124,7 @@ public class UtilButtons implements View.OnClickListener {
                 break;
             case "/":
                 if (rightNumber == 0) {
-                    calculatorFragment.leftNumber = "Error";
-                    calculatorFragment.operator = "";
-                    calculatorFragment.rightNumber = "";
+                    handleError();
                     return result;
                 }
 
@@ -144,6 +138,13 @@ public class UtilButtons implements View.OnClickListener {
 
     private void updateCalculatorFragmentResult(double result) {
         calculatorFragment.leftNumber = String.valueOf(result);
+        calculatorFragment.operator = "";
+        calculatorFragment.rightNumber = "";
+    }
+
+    private void clearAll() {
+        hasCalculated = false;
+        calculatorFragment.leftNumber = "";
         calculatorFragment.operator = "";
         calculatorFragment.rightNumber = "";
     }
