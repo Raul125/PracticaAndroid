@@ -1,7 +1,7 @@
 package com.raulrh.practicaandroid.ui.minesweeper;
 
-import android.util.Log;
-
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class MinesweeperGame {
@@ -12,19 +12,32 @@ public class MinesweeperGame {
     private final Cell[][] board;
 
     private int minesLeft;
+    private boolean isGameOver;
 
     public MinesweeperGame(int rows, int cols, int numOfMines) {
         this.rows = rows;
         this.cols = cols;
         this.numOfMines = numOfMines;
         this.board = new Cell[rows][cols];
+        initializeBoard();
+        setup();
     }
 
     public void setup() {
-        initializeBoard();
         generateMines();
         calculateMinesAroundCells();
         minesLeft = numOfMines;
+        isGameOver = false;
+    }
+
+    public void restart() {
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                board[row][col].reset();
+            }
+        }
+
+        setup();
     }
 
     public int getMinesLeft() {
@@ -49,24 +62,24 @@ public class MinesweeperGame {
 
     private void generateMines() {
         Random random = new Random();
-        int minesPlaced = 0;
-        while (minesPlaced < numOfMines) {
-            int row = random.nextInt(rows);
-            int col = random.nextInt(cols);
-            Cell cell = board[row][col];
-            if (!cell.isMine()) {
-                cell.setMine(true);
-                minesPlaced++;
-            }
+        List<Integer> positions = new ArrayList<>();
+        for (int i = 0; i < rows * cols; i++) {
+            positions.add(i);
+        }
+
+        for (int i = 0; i < numOfMines; i++) {
+            int index = random.nextInt(positions.size());
+            int position = positions.remove(index);
+            int row = position / cols;
+            int col = position % cols;
+            board[row][col].setMine(true);
         }
     }
 
     private void calculateMinesAroundCells() {
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
-                if (board[row][col].isMine())
-                    continue;
-
+                if (board[row][col].isMine()) continue;
                 int minesAround = countMinesAround(row, col);
                 board[row][col].setValue(minesAround);
             }
@@ -84,7 +97,6 @@ public class MinesweeperGame {
                 }
             }
         }
-
         return count;
     }
 
@@ -93,38 +105,40 @@ public class MinesweeperGame {
     }
 
     public Cell getCell(int row, int col) {
-        if (!isValidCell(row, col)) {
-            return null;
-        }
+        if (!isValidCell(row, col)) return null;
         return board[row][col];
     }
 
     public boolean clickCell(int row, int col) {
-        if (!isValidCell(row, col)) {
+        if (!isValidCell(row, col) || isGameOver) {
             return false;
         }
 
         Cell cell = board[row][col];
-        if (cell.isVisited()) {
+        if (cell.isVisited() || cell.isFlagged()) {
             return false;
         }
-
 
         revealCell(row, col);
         return cell.isMine();
     }
 
     private void revealCell(int row, int col) {
-        if (!isValidCell(row, col)) {
+        if (!isValidCell(row, col) || isGameOver) {
             return;
         }
 
         Cell cell = board[row][col];
-        if (cell.isVisited()) {
+        if (cell.isVisited() || cell.isFlagged()) {
             return;
         }
 
         cell.setVisited(true);
+        if (cell.isMine()) {
+            isGameOver = true;
+            return;
+        }
+
         cell.setClicked(true);
         if (cell.getValue() == 0) {
             for (int i = -1; i <= 1; i++) {
@@ -136,7 +150,7 @@ public class MinesweeperGame {
     }
 
     public void flagCell(int row, int col) {
-        if (!isValidCell(row, col)) {
+        if (!isValidCell(row, col) || isGameOver) {
             return;
         }
 
@@ -153,17 +167,16 @@ public class MinesweeperGame {
     }
 
     public boolean isGameWon() {
-        int revealedCells = 0;
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
                 Cell cell = board[row][col];
-                if (cell.isVisited() && !cell.isMine()) {
-                    revealedCells++;
+                if (!cell.isVisited() && !cell.isMine()) {
+                    return false;
                 }
             }
         }
 
-        return revealedCells == (rows * cols - numOfMines);
+        return true;
     }
 
     public void endGame() {
@@ -172,5 +185,7 @@ public class MinesweeperGame {
                 board[row][col].setVisited(true);
             }
         }
+
+        isGameOver = true;
     }
 }

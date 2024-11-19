@@ -50,7 +50,7 @@ public class ShoppingListFragment extends Fragment {
                         Uri selectedImageUri = result.getData().getData();
                         binding.buttonImage.setImageURI(selectedImageUri);
                         try {
-                            selectedImage = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImageUri);
+                            selectedImage = MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), selectedImageUri);
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
@@ -88,14 +88,15 @@ public class ShoppingListFragment extends Fragment {
     private String saveImageToStorage(Bitmap image) {
         String imagePath = null;
         try {
-            File file = new File(getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), "image_" + System.currentTimeMillis() + ".jpg");
+            File file = new File(requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), "image_" + System.currentTimeMillis() + ".jpg");
             FileOutputStream fos = new FileOutputStream(file);
             image.compress(Bitmap.CompressFormat.JPEG, 100, fos);
             fos.close();
             imagePath = file.getAbsolutePath();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
+
         return imagePath;
     }
 

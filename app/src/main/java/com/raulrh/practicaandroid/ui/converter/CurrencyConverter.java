@@ -28,12 +28,12 @@ import javax.xml.parsers.DocumentBuilderFactory;
 public class CurrencyConverter {
 
     private static final String ECB_RATES_URL = "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml";
-    private final ConverterFragmentBinding binding;
+    private final ConverterFragment converterFragment;
     private final Map<String, Double> exchangeRates;
     private final ExecutorService executorService;
 
-    public CurrencyConverter(ConverterFragmentBinding binding) {
-        this.binding = binding;
+    public CurrencyConverter(ConverterFragment converterFragment) {
+        this.converterFragment = converterFragment;
         this.exchangeRates = initializeExchangeRates();
         this.executorService = Executors.newSingleThreadExecutor();
         fetchExchangeRates();
@@ -46,7 +46,7 @@ public class CurrencyConverter {
     }
 
     private void fetchExchangeRates() {
-        binding.loadingProgressBar.setVisibility(View.VISIBLE);
+        converterFragment.binding.loadingProgressBar.setVisibility(View.VISIBLE);
         executorService.submit((Callable<Void>) () -> {
             Map<String, Double> rates = fetchRatesFromApi();
             updateExchangeRates(rates);
@@ -83,20 +83,21 @@ public class CurrencyConverter {
         new Handler(Looper.getMainLooper()).post(() -> {
             if (!rates.isEmpty()) {
                 exchangeRates.putAll(rates);
-                binding.loadingLayout.setVisibility(View.GONE);
-                binding.converterLayout.setVisibility(View.VISIBLE);
+                converterFragment.setupCurrencyAdapters(exchangeRates.keySet().stream().toList());
+                converterFragment.binding.loadingLayout.setVisibility(View.GONE);
+                converterFragment.binding.converterLayout.setVisibility(View.VISIBLE);
             } else {
-                binding.loadingText.setText("No se han podido obtener los datos");
+                converterFragment.binding.loadingText.setText("No se han podido obtener los datos");
             }
         });
     }
 
     public Money convertCurrency(Money amount, CurrencyUnit toCurrency) {
         String currencyCode = amount.getCurrencyUnit().getCode();
-        double rateToEur = exchangeRates.containsKey(currencyCode) ? exchangeRates.get(currencyCode) : 0.0;
+        double rateToEur = exchangeRates.getOrDefault(currencyCode, 0.0);
         Money amountInEur = amount.convertedTo(CurrencyUnit.EUR, BigDecimal.valueOf(1.0 / rateToEur), RoundingMode.HALF_EVEN);
 
-        double rateToTarget = exchangeRates.containsKey(toCurrency.getCode()) ? exchangeRates.get(toCurrency.getCode()) : 0.0;
+        double rateToTarget = exchangeRates.getOrDefault(toCurrency.getCode(), 0.0);
         return amountInEur.convertedTo(toCurrency, BigDecimal.valueOf(rateToTarget), RoundingMode.HALF_EVEN);
     }
 }

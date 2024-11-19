@@ -1,0 +1,45 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".ui.settings.SettingsFragment">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="16dp"
+        android:text="Configuración de Buscaminas"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/editTextRows"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Filas"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/editTextCols"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Columnas"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/editTextMines"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Minas"
+        android:inputType="number" />
+
+    <Button
+        android:id="@+id/saveConfigButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:text="Guardar Configuración" />
+</LinearLayout>

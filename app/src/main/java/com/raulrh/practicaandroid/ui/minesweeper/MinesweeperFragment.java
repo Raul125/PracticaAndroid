@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 
 import com.raulrh.practicaandroid.R;
 import com.raulrh.practicaandroid.databinding.MinesweeperFragmentBinding;
+import com.raulrh.practicaandroid.util.SharedPrefsUtil;
 import com.raulrh.practicaandroid.util.Util;
 
 import java.util.Locale;
@@ -27,7 +28,7 @@ public class MinesweeperFragment extends Fragment {
     private Timer timer;
     private int secondsAfterStart;
 
-    private boolean isStarted = false;
+    private boolean isStarted;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -38,32 +39,43 @@ public class MinesweeperFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        game = new MinesweeperGame(10, 10, 15);
-        setupGame();
+
+        int rows = SharedPrefsUtil.getInt(requireContext(), "minesweeper_rows", 10);
+        int cols = SharedPrefsUtil.getInt(requireContext(), "minesweeper_cols", 10);
+        int mines = SharedPrefsUtil.getInt(requireContext(), "minesweeper_mines", 15);
+
+        game = new MinesweeperGame(rows, cols, mines);
 
         binding.startButton.setOnClickListener(v -> {
             if (!isStarted) {
                 startGame();
-                isStarted = true;
-                binding.startButton.setText("Reiniciar");
             } else {
-                setupGame();
-                binding.startButton.setText("Empezar");
-                timer.cancel();
-                isStarted = false;
+                restartGame();
             }
         });
+
+        setupGame();
     }
 
     private void setupGame() {
         binding.buttonsPanel.removeAllViews();
         createGameBoard();
-        game.setup();
+        updateMinesLeft();
+        resetTimer();
+    }
+
+    private void restartGame() {
+        game.restart();
+        updateUI();
+        resetTimer();
+        isStarted = false;
+        binding.startButton.setText("Empezar");
     }
 
     private void startGame() {
+        binding.startButton.setText("Reiniciar");
         setupTimer();
-        updateMinesLeft();
+        isStarted = true;
     }
 
     private void endGame(String title, String message) {
@@ -89,14 +101,21 @@ public class MinesweeperFragment extends Fragment {
         }, 0, 1000);
     }
 
+    private void resetTimer() {
+        if (timer != null) {
+            timer.cancel();
+        }
+
+        secondsAfterStart = 0;
+        updateTimeDisplay();
+    }
+
     private void createGameBoard() {
         for (int row = 0; row < game.getRows(); row++) {
             TableRow tableRow = createTableRow();
             for (int col = 0; col < game.getCols(); col++) {
-                if (isValidCell(row, col)) {
-                    ImageView cell = createCell(row, col);
-                    tableRow.addView(cell);
-                }
+                ImageView cell = createCell(row, col);
+                tableRow.addView(cell);
             }
 
             binding.buttonsPanel.addView(tableRow);
@@ -128,7 +147,6 @@ public class MinesweeperFragment extends Fragment {
                 game.flagCell(row, col);
                 updateUI();
             }
-
             return true;
         });
     }
@@ -138,20 +156,14 @@ public class MinesweeperFragment extends Fragment {
             return;
         }
 
-        if (isValidCell(row, col)) {
-            if (game.clickCell(row, col)) {
-                endGame("Allahu Akbar", "Has perdido el juego!");
-                Util.playSound(requireContext(), R.raw.kabom);
-            } else if (game.isGameWon()) {
-                endGame("Felicidades", "Has ganado la partida!");
-            }
-
-            updateUI();
+        if (game.clickCell(row, col)) {
+            endGame("Allahu Akbar", "Has perdido el juego!");
+            Util.playSound(requireContext(), R.raw.kabom);
+        } else if (game.isGameWon()) {
+            endGame("Felicidades", "Has ganado la partida!");
         }
-    }
 
-    private boolean isValidCell(int row, int col) {
-        return row >= 0 && row < game.getRows() && col >= 0 && col < game.getCols();
+        updateUI();
     }
 
     private void updateUI() {

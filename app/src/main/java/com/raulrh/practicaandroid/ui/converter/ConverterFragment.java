@@ -17,17 +17,14 @@ import com.raulrh.practicaandroid.databinding.ConverterFragmentBinding;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 public class ConverterFragment extends Fragment {
 
-    private ConverterFragmentBinding binding;
-    private final String[] currencies = {
-            "EUR", "USD", "GBP", "JPY", "BGN", "CZK", "DKK", "HUF",
-            "PLN", "RON", "SEK", "CHF", "ISK", "NOK", "TRY", "AUD",
-            "BRL", "CAD", "CNY", "HKD", "IDR", "ILS", "INR", "KRW",
-            "MXN", "MYR", "NZD", "PHP", "SGD", "THB", "ZAR"
-    };
+    public ConverterFragmentBinding binding;
 
     private String currency1;
     private String currency2;
@@ -41,13 +38,12 @@ public class ConverterFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setupCurrencyAdapters();
         setupCurrencySelectionListeners();
         setupConversionButton();
         setupHistoryButtons();
     }
 
-    private void setupCurrencyAdapters() {
+    public void setupCurrencyAdapters(List<String> currencies) {
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(requireContext(), R.layout.list_item, currencies);
         binding.converterCurrency1.setAdapter(arrayAdapter);
         binding.converterCurrency2.setAdapter(arrayAdapter);
@@ -64,7 +60,7 @@ public class ConverterFragment extends Fragment {
     }
 
     private void setupConversionButton() {
-        CurrencyConverter currencyConverter = new CurrencyConverter(binding);
+        CurrencyConverter currencyConverter = new CurrencyConverter(this);
         binding.converterButton.setOnClickListener(v -> {
             String text = binding.converterInput.getText().toString();
             if (text.isEmpty())

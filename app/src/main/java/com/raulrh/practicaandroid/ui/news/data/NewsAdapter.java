@@ -11,7 +11,6 @@ import com.raulrh.practicaandroid.R;
 import com.raulrh.practicaandroid.databinding.ItemNewsBinding;
 import com.squareup.picasso.Picasso;
 
-import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

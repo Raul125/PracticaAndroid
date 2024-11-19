@@ -41,4 +41,10 @@
         android:label="Buscaminas"
         tools:layout="@layout/minesweeper_fragment" />
 
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="com.raulrh.practicaandroid.ui.settings.SettingsFragment"
+        android:label="Ajustes"
+        tools:layout="@layout/settings_fragment" />
+
 </navigation>

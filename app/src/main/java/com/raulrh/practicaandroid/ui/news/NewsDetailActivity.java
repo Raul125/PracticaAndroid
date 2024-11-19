@@ -49,7 +49,6 @@ public class NewsDetailActivity extends AppCompatActivity {
         if (news.category != null && !news.category.isEmpty()) {
             StringBuilder categories = new StringBuilder();
             int size = news.category.size();
-
             for (int i = 0; i < size; i++) {
                 categories.append(news.category.get(i).title);
                 if (i < size - 1) {

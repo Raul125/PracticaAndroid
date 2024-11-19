@@ -5,11 +5,9 @@ public class Cell {
     private boolean isFlagged;
     private boolean isMine;
     private boolean isClicked;
-
     private int value;
 
     public Cell() {
-
     }
 
     public int getValue() {
@@ -22,10 +20,6 @@ public class Cell {
 
     public boolean isFlagged() {
         return isFlagged;
-    }
-
-    public void setFlagged(boolean flagged) {
-        isFlagged = flagged;
     }
 
     public boolean isMine() {
@@ -52,13 +46,20 @@ public class Cell {
         isClicked = clicked;
     }
 
+    public void reset() {
+        isVisited = false;
+        isFlagged = false;
+        isMine = false;
+        value = 0;
+    }
+
     public void flag(MinesweeperGame game) {
-        if (isFlagged()) {
-            game.incrementMinesLeft(-1);
-        } else {
+        if (isFlagged) {
             game.incrementMinesLeft(1);
+        } else {
+            game.incrementMinesLeft(-1);
         }
 
-        setFlagged(!isFlagged());
+        isFlagged = !isFlagged;
     }
 }
