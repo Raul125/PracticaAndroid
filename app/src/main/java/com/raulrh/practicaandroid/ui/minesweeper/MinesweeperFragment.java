@@ -190,47 +190,49 @@ public class MinesweeperFragment extends Fragment {
             return;
         }
 
-        int value = cell.getValue();
-        if (cell.isVisited()) {
-            switch (value) {
-                case Cell.EMPTY:
-                    imageView.setImageResource(R.drawable.empty_cell);
-                    break;
-                case 1:
-                    imageView.setImageResource(R.drawable.digit_1);
-                    break;
-                case 2:
-                    imageView.setImageResource(R.drawable.digit_2);
-                    break;
-                case 3:
-                    imageView.setImageResource(R.drawable.digit_3);
-                    break;
-                case 4:
-                    imageView.setImageResource(R.drawable.digit_4);
-                    break;
-                case 5:
-                    imageView.setImageResource(R.drawable.digit_5);
-                    break;
-                case 6:
-                    imageView.setImageResource(R.drawable.digit_6);
-                    break;
-                case 7:
-                    imageView.setImageResource(R.drawable.digit_7);
-                    break;
-                case 8:
-                    imageView.setImageResource(R.drawable.digit_8);
-                    break;
-                case Cell.FLAGGED:
-                    imageView.setImageResource(R.drawable.flag);
-                    break;
-                case Cell.MINE:
-                    imageView.setImageResource(R.drawable.mine_clicked);
-                    break;
-            }
-        } else if (cell.getValue() == Cell.UNCHECKED) {
-            imageView.setImageResource(R.drawable.non_clicked_cell);
-        } else if (cell.getValue() == Cell.FLAGGED) {
+        if (cell.isFlagged()) {
             imageView.setImageResource(R.drawable.flag);
+        } else if (cell.isVisited()) {
+            if (cell.isMine()) {
+                if (cell.isClicked()) {
+                    imageView.setImageResource(R.drawable.mine_clicked);
+                } else {
+                    imageView.setImageResource(R.drawable.mine_usual);
+                }
+            } else {
+                int value = cell.getValue();
+                switch (value) {
+                    case 0:
+                        imageView.setImageResource(R.drawable.empty_cell);
+                        break;
+                    case 1:
+                        imageView.setImageResource(R.drawable.digit_1);
+                        break;
+                    case 2:
+                        imageView.setImageResource(R.drawable.digit_2);
+                        break;
+                    case 3:
+                        imageView.setImageResource(R.drawable.digit_3);
+                        break;
+                    case 4:
+                        imageView.setImageResource(R.drawable.digit_4);
+                        break;
+                    case 5:
+                        imageView.setImageResource(R.drawable.digit_5);
+                        break;
+                    case 6:
+                        imageView.setImageResource(R.drawable.digit_6);
+                        break;
+                    case 7:
+                        imageView.setImageResource(R.drawable.digit_7);
+                        break;
+                    case 8:
+                        imageView.setImageResource(R.drawable.digit_8);
+                        break;
+                }
+            }
+        } else {
+            imageView.setImageResource(R.drawable.non_clicked_cell);
         }
     }
 

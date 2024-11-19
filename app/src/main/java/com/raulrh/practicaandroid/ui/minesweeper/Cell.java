@@ -1,42 +1,64 @@
 package com.raulrh.practicaandroid.ui.minesweeper;
 
 public class Cell {
-    public static final int EMPTY = 0;
-    public static final int FLAGGED = -1;
-    public static final int UNCHECKED = -2;
-    public static final int MINE = -3;
+    private boolean isVisited;
+    private boolean isFlagged;
+    private boolean isMine;
+    private boolean isClicked;
 
     private int value;
-    private boolean visited;
 
     public Cell() {
-        this.value = UNCHECKED;
-        this.visited = false;
+
     }
 
     public int getValue() {
         return value;
     }
 
+    public void setValue(int value) {
+        this.value = value;
+    }
+
+    public boolean isFlagged() {
+        return isFlagged;
+    }
+
+    public void setFlagged(boolean flagged) {
+        isFlagged = flagged;
+    }
+
+    public boolean isMine() {
+        return isMine;
+    }
+
+    public void setMine(boolean mine) {
+        isMine = mine;
+    }
+
     public boolean isVisited() {
-        return visited;
+        return isVisited;
     }
 
-    public void setVisited(boolean visited) {
-        this.visited = visited;
+    public void setVisited(boolean isVisited) {
+        this.isVisited = isVisited;
     }
 
-    public void flag() {
-        if (value == UNCHECKED) {
-            value = FLAGGED;
-        } else if (value == FLAGGED) {
-            value = UNCHECKED;
+    public boolean isClicked() {
+        return isClicked;
+    }
+
+    public void setClicked(boolean clicked) {
+        isClicked = clicked;
+    }
+
+    public void flag(MinesweeperGame game) {
+        if (isFlagged()) {
+            game.incrementMinesLeft(-1);
+        } else {
+            game.incrementMinesLeft(1);
         }
-    }
 
-    public void setNumber(int number) {
-        if (value == UNCHECKED) {
-            this.value = number;
-        }
+        setFlagged(!isFlagged());
     }
 }

@@ -1,5 +1,7 @@
 package com.raulrh.practicaandroid.ui.minesweeper;
 
+import android.util.Log;
+
 import java.util.Random;
 
 public class MinesweeperGame {
@@ -52,8 +54,8 @@ public class MinesweeperGame {
             int row = random.nextInt(rows);
             int col = random.nextInt(cols);
             Cell cell = board[row][col];
-            if (cell.getValue() != Cell.MINE) {
-                cell.setNumber(Cell.MINE);
+            if (!cell.isMine()) {
+                cell.setMine(true);
                 minesPlaced++;
             }
         }
@@ -62,11 +64,11 @@ public class MinesweeperGame {
     private void calculateMinesAroundCells() {
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
-                if (board[row][col].getValue() == Cell.MINE)
+                if (board[row][col].isMine())
                     continue;
 
                 int minesAround = countMinesAround(row, col);
-                board[row][col].setNumber(minesAround);
+                board[row][col].setValue(minesAround);
             }
         }
     }
@@ -77,11 +79,12 @@ public class MinesweeperGame {
             for (int j = -1; j <= 1; j++) {
                 int newRow = row + i;
                 int newCol = col + j;
-                if (isValidCell(newRow, newCol) && board[newRow][newCol].getValue() == Cell.MINE) {
+                if (isValidCell(newRow, newCol) && board[newRow][newCol].isMine()) {
                     count++;
                 }
             }
         }
+
         return count;
     }
 
@@ -102,11 +105,13 @@ public class MinesweeperGame {
         }
 
         Cell cell = board[row][col];
-        if (cell.isVisited())
+        if (cell.isVisited()) {
             return false;
+        }
+
 
         revealCell(row, col);
-        return cell.getValue() == Cell.MINE;
+        return cell.isMine();
     }
 
     private void revealCell(int row, int col) {
@@ -120,7 +125,8 @@ public class MinesweeperGame {
         }
 
         cell.setVisited(true);
-        if (cell.getValue() == Cell.EMPTY) {
+        cell.setClicked(true);
+        if (cell.getValue() == 0) {
             for (int i = -1; i <= 1; i++) {
                 for (int j = -1; j <= 1; j++) {
                     revealCell(row + i, col + j);
@@ -139,8 +145,11 @@ public class MinesweeperGame {
             return;
         }
 
-        cell.flag();
-        minesLeft--;
+        cell.flag(this);
+    }
+
+    public void incrementMinesLeft(int increment) {
+        minesLeft += increment;
     }
 
     public boolean isGameWon() {
@@ -148,7 +157,7 @@ public class MinesweeperGame {
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
                 Cell cell = board[row][col];
-                if (cell.isVisited() && cell.getValue() != Cell.MINE) {
+                if (cell.isVisited() && !cell.isMine()) {
                     revealedCells++;
                 }
             }
