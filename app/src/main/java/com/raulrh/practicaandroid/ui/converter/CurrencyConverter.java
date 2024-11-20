@@ -5,7 +5,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 
-import com.raulrh.practicaandroid.databinding.ConverterFragmentBinding;
+import com.raulrh.practicaandroid.R;
 
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
@@ -18,7 +18,6 @@ import java.math.RoundingMode;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -31,31 +30,27 @@ public class CurrencyConverter {
     private final ConverterFragment converterFragment;
     private final Map<String, Double> exchangeRates;
     private final ExecutorService executorService;
+    private final Handler uiHandler;
 
     public CurrencyConverter(ConverterFragment converterFragment) {
         this.converterFragment = converterFragment;
-        this.exchangeRates = initializeExchangeRates();
+        this.exchangeRates = new HashMap<>();
         this.executorService = Executors.newSingleThreadExecutor();
+        this.uiHandler = new Handler(Looper.getMainLooper());
         fetchExchangeRates();
-    }
-
-    private Map<String, Double> initializeExchangeRates() {
-        Map<String, Double> rates = new HashMap<>();
-        rates.put("EUR", 1.0);
-        return rates;
     }
 
     private void fetchExchangeRates() {
         converterFragment.binding.loadingProgressBar.setVisibility(View.VISIBLE);
-        executorService.submit((Callable<Void>) () -> {
+        executorService.submit(() -> {
             Map<String, Double> rates = fetchRatesFromApi();
             updateExchangeRates(rates);
-            return null;
         });
     }
 
     private Map<String, Double> fetchRatesFromApi() {
         Map<String, Double> rates = new HashMap<>();
+        rates.put("EUR", 1.0);
         try {
             URL url = new URL(ECB_RATES_URL);
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -70,8 +65,6 @@ public class CurrencyConverter {
                     rates.put(element.getAttribute("currency"), Double.parseDouble(element.getAttribute("rate")));
                 }
             }
-
-            rates.put("EUR", 1.0);
         } catch (Exception e) {
             Log.e("CurrencyConverter", "Error fetching exchange rates", e);
         }
@@ -80,14 +73,14 @@ public class CurrencyConverter {
     }
 
     private void updateExchangeRates(Map<String, Double> rates) {
-        new Handler(Looper.getMainLooper()).post(() -> {
+        uiHandler.post(() -> {
             if (!rates.isEmpty()) {
                 exchangeRates.putAll(rates);
                 converterFragment.setupCurrencyAdapters(exchangeRates.keySet().stream().toList());
                 converterFragment.binding.loadingLayout.setVisibility(View.GONE);
                 converterFragment.binding.converterLayout.setVisibility(View.VISIBLE);
             } else {
-                converterFragment.binding.loadingText.setText("No se han podido obtener los datos");
+                converterFragment.binding.loadingText.setText(converterFragment.getString(R.string.error_fetching));
             }
         });
     }

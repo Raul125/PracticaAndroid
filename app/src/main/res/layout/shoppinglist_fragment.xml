@@ -11,11 +11,11 @@
 
     <EditText
         android:id="@+id/editTextProduct"
+        style="@style/PracticaAndroidTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Añadir producto"
-        android:inputType="textCapWords"
-        style="@style/PracticaAndroidTheme" />
+        android:hint="@string/addProduct"
+        android:inputType="textCapWords" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,9 +36,9 @@
             android:id="@+id/buttonAdd"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_weight="1"
-            android:text="Añadir"
-            android:layout_marginStart="16dp" />
+            android:text="@string/add" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

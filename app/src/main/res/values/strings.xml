@@ -7,8 +7,15 @@
     <string name="menu_home">Inicio</string>
     <string name="menu_calculator">Calculadora</string>
 
-    <string name="cleanText">Limpiar</string>
+    <string name="error_fetching">No se han podido obtener los datos</string>
 
+    <!-- Home Fragment -->
+    <string name="homeText">Bienvenido 👋</string>
+    <string name="welcomeCalculator">CALCULADORA</string>
+    <string name="menu_converter">Conversor</string>
+    <string name="convertText">Convertir</string>
+
+    <!-- Calculadora -->
     <string name="calculatorInitialText">0</string>
     <string name="calculator1">1</string>
     <string name="calculator2">2</string>
@@ -26,8 +33,12 @@
     <string name="calculator0">0</string>
     <string name="calculatorResolve">=</string>
     <string name="calculatorEraseLeft">⌫</string>
-    <string name="homeText">Bienvenido 👋</string>
-    <string name="welcomeCalculator">CALCULADORA</string>
-    <string name="menu_converter">Conversor</string>
-    <string name="convertText">Convertir</string>
+    <string name="cleanText">Limpiar</string>
+    <string name="fetching">Solicitando datos...</string>
+    <string name="currency">Divisa</string>
+    <string name="history">Historial</string>
+    <string name="share">Compartir</string>
+    <string name="bought">Comprado</string>
+    <string name="add">Añadir</string>
+    <string name="addProduct">Añadir producto...</string>
 </resources>

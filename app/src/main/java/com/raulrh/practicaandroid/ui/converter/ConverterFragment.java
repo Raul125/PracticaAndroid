@@ -17,10 +17,8 @@ import com.raulrh.practicaandroid.databinding.ConverterFragmentBinding;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 public class ConverterFragment extends Fragment {
 
