@@ -10,6 +10,8 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -38,6 +40,8 @@ public class ShoppingListFragment extends Fragment {
     private ShoppingListDB dbHelper;
     private ActivityResultLauncher<Intent> imagePickerLauncher;
     private Bitmap selectedImage;
+    private String selectedCategory;
+    private String selectedImagePath;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,6 +55,7 @@ public class ShoppingListFragment extends Fragment {
                         binding.buttonImage.setImageURI(selectedImageUri);
                         try {
                             selectedImage = MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), selectedImageUri);
+                            selectedImagePath = saveImageToStorage(selectedImage);
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
@@ -64,21 +69,39 @@ public class ShoppingListFragment extends Fragment {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerView.setAdapter(adapter);
 
+        ArrayAdapter<CharSequence> adapterSpinner = ArrayAdapter.createFromResource(requireContext(),
+                R.array.categories, android.R.layout.simple_spinner_item);
+        adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spinnerCategory.setAdapter(adapterSpinner);
+        binding.spinnerCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedCategory = parent.getItemAtPosition(position).toString();
+                setDefaultImage(selectedCategory);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                selectedCategory = null;
+            }
+        });
+
         binding.buttonImage.setOnClickListener(v -> openImagePicker());
 
         binding.buttonAdd.setOnClickListener(v -> {
             String productName = binding.editTextProduct.getText().toString().trim();
-            if (!productName.isEmpty()) {
-                String imagePath = selectedImage != null ? saveImageToStorage(selectedImage) : null;
-                ShoppingItem newItem = new ShoppingItem(productName, imagePath);
+            if (!productName.isEmpty() && selectedCategory != null) {
+                String imagePath = selectedImagePath != null ? selectedImagePath : null;
+                ShoppingItem newItem = new ShoppingItem(productName, imagePath, selectedCategory);
                 shoppingItems.add(newItem);
                 dbHelper.addShoppingItem(newItem);
                 binding.editTextProduct.setText("");
                 selectedImage = null;
+                selectedImagePath = null;
                 binding.buttonImage.setImageResource(R.drawable.carrito);
                 loadShoppingList();
             } else {
-                Toast.makeText(getContext(), "Debes ingresar un nombre para el producto", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Debes ingresar un nombre para el producto y seleccionar una categoría", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -108,6 +131,32 @@ public class ShoppingListFragment extends Fragment {
     private void loadShoppingList() {
         shoppingItems = dbHelper.getAllShoppingItems();
         adapter.updateList(shoppingItems);
-        adapter.notifyDataSetChanged();
+    }
+
+    private void setDefaultImage(String category) {
+        int imageResId = R.drawable.carrito; // Default image
+        switch (category) {
+            case "Frutas y Verduras":
+                imageResId = R.drawable.carrito;
+                break;
+            case "Carnes y Pescados":
+                imageResId = R.drawable.carrito;
+                break;
+            case "Lácteos":
+                imageResId = R.drawable.carrito;
+                break;
+            case "Enlatados":
+                imageResId = R.drawable.carrito;
+                break;
+            case "Bebidas":
+                imageResId = R.drawable.carrito;
+                break;
+            case "Aceites y Condimentos":
+                imageResId = R.drawable.carrito;
+                break;
+        }
+
+        binding.buttonImage.setImageResource(imageResId);
+        selectedImagePath = null;
     }
 }

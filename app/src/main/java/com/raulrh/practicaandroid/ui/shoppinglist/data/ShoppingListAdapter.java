@@ -48,6 +48,7 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
     public void updateList(List<ShoppingItem> newItems) {
         items.clear();
         items.addAll(newItems);
+        notifyDataSetChanged();
     }
 
     public void deleteItem(int position) {
@@ -70,6 +71,7 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
     public class ViewHolder extends RecyclerView.ViewHolder {
         private final ImageView imageView;
         private final TextView textView;
+        private final TextView category;
         private final CheckBox checkBox;
 
         public ViewHolder(View itemView) {
@@ -77,6 +79,7 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
             imageView = itemView.findViewById(R.id.imageView);
             textView = itemView.findViewById(R.id.textView);
             checkBox = itemView.findViewById(R.id.checkBox);
+            category = itemView.findViewById(R.id.categoryText);
 
             checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (isChecked) {
@@ -99,10 +102,36 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
             if (item.getImagePath() != null) {
                 imageView.setImageBitmap(BitmapFactory.decodeFile(item.getImagePath()));
             } else {
-                imageView.setImageResource(R.drawable.carrito);
+                setDefaultImage(item.getCategory(), imageView);
             }
 
             checkBox.setChecked(false);
+            category.setText(item.getCategory());
+        }
+
+        private void setDefaultImage(String category, ImageView imageView) {
+            int imageResId = R.drawable.carrito; // Default image
+            switch (category) {
+                case "Frutas y Verduras":
+                    imageResId = R.drawable.home;
+                    break;
+                case "Carnes y Pescados":
+                    imageResId = R.drawable.home;
+                    break;
+                case "Lácteos":
+                    imageResId = R.drawable.home;
+                    break;
+                case "Enlatados":
+                    imageResId = R.drawable.home;
+                    break;
+                case "Bebidas":
+                    imageResId = R.drawable.home;
+                    break;
+                case "Aceites y Condimentos":
+                    imageResId = R.drawable.home;
+                    break;
+            }
+            imageView.setImageResource(imageResId);
         }
     }
 }

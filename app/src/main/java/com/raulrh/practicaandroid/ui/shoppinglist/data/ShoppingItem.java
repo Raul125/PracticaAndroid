@@ -4,13 +4,15 @@ public class ShoppingItem {
     private int id;
     private String name;
     private String imagePath;
+    private String category;
 
     public ShoppingItem() {
     }
 
-    public ShoppingItem(String name, String imagePath) {
+    public ShoppingItem(String name, String imagePath, String category) {
         this.name = name;
         this.imagePath = imagePath;
+        this.category = category;
     }
 
     public int getId() {
@@ -35,5 +37,13 @@ public class ShoppingItem {
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

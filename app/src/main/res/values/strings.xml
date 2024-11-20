@@ -41,4 +41,13 @@
     <string name="bought">Comprado</string>
     <string name="add">Añadir</string>
     <string name="addProduct">Añadir producto...</string>
+
+    <string-array name="categories">
+        <item>Frutas y Verduras</item>
+        <item>Carnes y Pescados</item>
+        <item>Lácteos</item>
+        <item>Enlatados</item>
+        <item>Bebidas</item>
+        <item>Aceites y Condimentos</item>
+    </string-array>
 </resources>
