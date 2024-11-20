@@ -209,7 +209,7 @@ public class MinesweeperFragment extends Fragment {
                 if (cell.isClicked()) {
                     imageView.setImageResource(R.drawable.mine_clicked);
                 } else {
-                    imageView.setImageResource(R.drawable.mine_usual);
+                    imageView.setImageResource(R.drawable.mine);
                 }
             } else {
                 int value = cell.getValue();
@@ -218,28 +218,28 @@ public class MinesweeperFragment extends Fragment {
                         imageView.setImageResource(R.drawable.empty_cell);
                         break;
                     case 1:
-                        imageView.setImageResource(R.drawable.digit_1);
+                        imageView.setImageResource(R.drawable.mine_1);
                         break;
                     case 2:
-                        imageView.setImageResource(R.drawable.digit_2);
+                        imageView.setImageResource(R.drawable.mine_2);
                         break;
                     case 3:
-                        imageView.setImageResource(R.drawable.digit_3);
+                        imageView.setImageResource(R.drawable.mine_3);
                         break;
                     case 4:
-                        imageView.setImageResource(R.drawable.digit_4);
+                        imageView.setImageResource(R.drawable.mine_4);
                         break;
                     case 5:
-                        imageView.setImageResource(R.drawable.digit_5);
+                        imageView.setImageResource(R.drawable.mine_5);
                         break;
                     case 6:
-                        imageView.setImageResource(R.drawable.digit_6);
+                        imageView.setImageResource(R.drawable.mine_6);
                         break;
                     case 7:
-                        imageView.setImageResource(R.drawable.digit_7);
+                        imageView.setImageResource(R.drawable.mine_7);
                         break;
                     case 8:
-                        imageView.setImageResource(R.drawable.digit_8);
+                        imageView.setImageResource(R.drawable.mine_8);
                         break;
                 }
             }

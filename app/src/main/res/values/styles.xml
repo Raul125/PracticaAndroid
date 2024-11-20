@@ -30,4 +30,10 @@
         <item name="android:textColor">@color/text</item>
         <item name="android:textColorHint">@color/hint</item>
     </style>
+
+    <style name="PracticaAndroidTheme.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenAnimatedIcon">@drawable/montessori</item>
+        <item name="windowSplashScreenAnimationDuration">200</item>
+        <item name="postSplashScreenTheme">@style/PracticaAndroidTheme.NoActionBar</item>
+    </style>
 </resources>
