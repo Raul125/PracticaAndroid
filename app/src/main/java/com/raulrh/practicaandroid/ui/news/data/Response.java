@@ -3,8 +3,17 @@ package com.raulrh.practicaandroid.ui.news.data;
 import java.util.List;
 
 public class Response {
-    public int totalCount;
-    public int start;
-    public int rows;
-    public List<News> result;
+    private List<News> result;
+
+    public Response() {
+
+    }
+
+    public List<News> getResult() {
+        return result;
+    }
+
+    public void setResult(List<News> result) {
+        this.result = result;
+    }
 }

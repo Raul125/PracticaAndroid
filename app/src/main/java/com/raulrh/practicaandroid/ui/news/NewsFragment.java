@@ -69,7 +69,7 @@ public class NewsFragment extends Fragment {
                 Response response = new Gson().fromJson(reader, Response.class);
 
                 mainHandler.post(() -> {
-                    newsList = response.result;
+                    newsList = response.getResult();
                     newsAdapter.updateList(newsList);
                     binding.loadingLayout.setVisibility(View.GONE);
                     binding.recyclerView.setVisibility(View.VISIBLE);

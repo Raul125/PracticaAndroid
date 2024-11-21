@@ -65,10 +65,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         }
 
         public void bind(News news) {
-            binding.titleTextNews.setText(news.title);
-            binding.summaryTextNews.setText(HtmlCompat.fromHtml(news.summary, HtmlCompat.FROM_HTML_MODE_LEGACY));
+            binding.titleTextNews.setText(news.getTitle());
+            binding.summaryTextNews.setText(HtmlCompat.fromHtml(news.getSummary(), HtmlCompat.FROM_HTML_MODE_LEGACY));
 
-            LocalDateTime localDateTime = LocalDateTime.parse(news.dateCreated);
+            LocalDateTime localDateTime = LocalDateTime.parse(news.getDateCreated());
             LocalDate localDate = localDateTime.toLocalDate();
             DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG)
                     .withLocale(Locale.getDefault());
@@ -76,12 +76,14 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             String formattedDate = localDate.format(formatter);
             binding.dateTextNews.setText(formattedDate);
 
-            if (news.category != null && !news.category.isEmpty()) {
-                binding.categoriesTextNews.setText(news.category.get(0).title);
+            List<Category> categoryList = news.getCategories();
+            if (categoryList != null && !categoryList.isEmpty()) {
+                binding.categoriesTextNews.setText(categoryList.get(0).getTitle());
             }
 
-            if (news.image != null && !news.image.isEmpty()) {
-                String imageUrl = "https://www.zaragoza.es/cont/paginas/noticias/" + news.image.get(0).src;
+            List<Image> imageList = news.getImages();
+            if (imageList != null && !imageList.isEmpty()) {
+                String imageUrl = "https://www.zaragoza.es/cont/paginas/noticias/" + imageList.get(0).getSrc();
                 Picasso.get()
                         .load(imageUrl)
                         .resize(1000, 1000)

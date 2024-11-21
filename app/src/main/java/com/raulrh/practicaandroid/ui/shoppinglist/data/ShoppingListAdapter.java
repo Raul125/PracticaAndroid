@@ -3,22 +3,20 @@ package com.raulrh.practicaandroid.ui.shoppinglist.data;
 import android.app.AlertDialog;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.raulrh.practicaandroid.R;
+import com.raulrh.practicaandroid.databinding.ItemShoppingBinding;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapter.ViewHolder> {
+public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapter.ShoppingListViewHolder> {
     private final List<ShoppingItem> items;
     private final List<ShoppingItem> filteredShoppingItems;
     private final ShoppingListDB dbHelper;
@@ -31,14 +29,13 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_shopping, parent, false);
-        return new ViewHolder(view);
+    public ShoppingListAdapter.ShoppingListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        ItemShoppingBinding binding = ItemShoppingBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        return new ShoppingListAdapter.ShoppingListViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ShoppingListViewHolder holder, int position) {
         ShoppingItem item = filteredShoppingItems.get(position);
         holder.bind(item);
     }
@@ -87,20 +84,14 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
         }
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        private final ImageView imageView;
-        private final TextView textView;
-        private final TextView category;
-        private final CheckBox checkBox;
+    public class ShoppingListViewHolder extends RecyclerView.ViewHolder {
+        private final ItemShoppingBinding binding;
 
-        public ViewHolder(View itemView) {
-            super(itemView);
-            imageView = itemView.findViewById(R.id.imageView);
-            textView = itemView.findViewById(R.id.textView);
-            checkBox = itemView.findViewById(R.id.checkBox);
-            category = itemView.findViewById(R.id.categoryText);
+        public ShoppingListViewHolder(ItemShoppingBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
 
-            checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            binding.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (isChecked) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(itemView.getContext());
                     builder.setMessage("¿Estás seguro de que quieres eliminar este elemento de la lista?")
@@ -110,22 +101,22 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
                                     deleteItem(position);
                                 }
                             })
-                            .setNegativeButton("No", (dialog, which) -> checkBox.setChecked(false))
+                            .setNegativeButton("No", (dialog, which) -> binding.checkBox.setChecked(false))
                             .show();
                 }
             });
         }
 
         public void bind(ShoppingItem item) {
-            textView.setText(item.getName());
+            binding.textView.setText(item.getName());
             if (item.getImagePath() != null) {
-                imageView.setImageBitmap(BitmapFactory.decodeFile(item.getImagePath()));
+                binding.imageView.setImageBitmap(BitmapFactory.decodeFile(item.getImagePath()));
             } else {
-                setDefaultImage(item.getCategory(), imageView);
+                setDefaultImage(item.getCategory(), binding.imageView);
             }
 
-            checkBox.setChecked(false);
-            category.setText(item.getCategory());
+            binding.checkBox.setChecked(false);
+            binding.categoryText.setText(item.getCategory());
         }
 
         private void setDefaultImage(String category, ImageView imageView) {

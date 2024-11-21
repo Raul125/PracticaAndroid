@@ -10,6 +10,7 @@ import androidx.core.text.HtmlCompat;
 
 import com.google.gson.Gson;
 import com.raulrh.practicaandroid.R;
+import com.raulrh.practicaandroid.ui.news.data.Category;
 import com.raulrh.practicaandroid.ui.news.data.Image;
 import com.raulrh.practicaandroid.ui.news.data.News;
 import com.squareup.picasso.Picasso;
@@ -18,6 +19,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.List;
 import java.util.Locale;
 
 public class NewsDetailActivity extends AppCompatActivity {
@@ -33,9 +35,9 @@ public class NewsDetailActivity extends AppCompatActivity {
         String newsJson = getIntent().getStringExtra("news");
         News news = new Gson().fromJson(newsJson, News.class);
 
-        titleTextView.setText(news.title);
+        titleTextView.setText(news.getTitle());
 
-        LocalDateTime localDateTime = LocalDateTime.parse(news.dateCreated);
+        LocalDateTime localDateTime = LocalDateTime.parse(news.getDateCreated());
         LocalDate localDate = localDateTime.toLocalDate();
         DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG)
                 .withLocale(Locale.getDefault());
@@ -43,14 +45,15 @@ public class NewsDetailActivity extends AppCompatActivity {
         String formattedDate = localDate.format(formatter);
         dateTextView.setText(formattedDate);
 
-        descriptionTextView.setText(HtmlCompat.fromHtml(news.description.replaceAll("<img.+/(img)*>", ""), HtmlCompat.FROM_HTML_MODE_LEGACY));
+        descriptionTextView.setText(HtmlCompat.fromHtml(news.getDescription().replaceAll("<img.+/(img)*>", ""), HtmlCompat.FROM_HTML_MODE_LEGACY));
 
         TextView categoriesTextView = findViewById(R.id.categoriesTextNews);
-        if (news.category != null && !news.category.isEmpty()) {
+        List<Category> categoriesList = news.getCategories();
+        if (categoriesList != null && !categoriesList.isEmpty()) {
             StringBuilder categories = new StringBuilder();
-            int size = news.category.size();
+            int size = categoriesList.size();
             for (int i = 0; i < size; i++) {
-                categories.append(news.category.get(i).title);
+                categories.append(categoriesList.get(i).getTitle());
                 if (i < size - 1) {
                     categories.append("\n");
                 }
@@ -59,11 +62,12 @@ public class NewsDetailActivity extends AppCompatActivity {
             categoriesTextView.setText(categories.toString());
         }
 
-        if (news.image != null && !news.image.isEmpty()) {
+        List<Image> imageList = news.getImages();
+        if (imageList != null && !imageList.isEmpty()) {
             LinearLayout container = findViewById(R.id.newsDetailLayout);
-            for (Image image : news.image) {
+            for (Image image : imageList) {
                 ImageView imageView = new ImageView(this);
-                String imageUrl = "https://www.zaragoza.es/cont/paginas/noticias/" + image.src;
+                String imageUrl = "https://www.zaragoza.es/cont/paginas/noticias/" + image.getSrc();
                 Picasso.get()
                         .load(imageUrl)
                         .resize(1000, 1000)
