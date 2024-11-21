@@ -58,7 +58,7 @@ public class ShoppingListFragment extends Fragment {
                             selectedImage = MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), selectedImageUri);
                             selectedImagePath = saveImageToStorage(selectedImage);
                         } catch (IOException e) {
-                            throw new RuntimeException(e);
+                            Toast.makeText(getContext(), "Error al cargar la imagen", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -70,7 +70,31 @@ public class ShoppingListFragment extends Fragment {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerView.setAdapter(adapter);
 
-        // Spinner de categorías para añadir productos
+        setupSpinners();
+
+        binding.buttonImage.setOnClickListener(v -> openImagePicker());
+
+        binding.buttonAdd.setOnClickListener(v -> {
+            String productName = binding.editTextProduct.getText().toString().trim();
+            if (!productName.isEmpty() && selectedCategory != null) {
+                String imagePath = selectedImagePath != null ? selectedImagePath : null;
+                ShoppingItem newItem = new ShoppingItem(productName, imagePath, selectedCategory);
+                shoppingItems.add(newItem);
+                dbHelper.addShoppingItem(newItem);
+                binding.editTextProduct.setText("");
+                selectedImage = null;
+                selectedImagePath = null;
+                setDefaultImage(selectedCategory);
+                loadShoppingList();
+            } else {
+                Toast.makeText(getContext(), "Debes ingresar un nombre para el producto", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        return binding.getRoot();
+    }
+
+    private void setupSpinners() {
         ArrayAdapter<CharSequence> adapterSpinner = ArrayAdapter.createFromResource(requireContext(),
                 R.array.categories, android.R.layout.simple_spinner_item);
         adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -88,7 +112,6 @@ public class ShoppingListFragment extends Fragment {
             }
         });
 
-        // Spinner de filtrado por categorías
         ArrayAdapter<CharSequence> adapterFilterSpinner = ArrayAdapter.createFromResource(requireContext(),
                 R.array.filter_categories, android.R.layout.simple_spinner_item);
         adapterFilterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -97,9 +120,6 @@ public class ShoppingListFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 filterCategory = parent.getItemAtPosition(position).toString();
-                if (filterCategory.equals("Todas")) {
-                    filterCategory = null; // Mostrar todas las categorías
-                }
                 adapter.filterByCategory(filterCategory);
             }
 
@@ -108,60 +128,16 @@ public class ShoppingListFragment extends Fragment {
                 adapter.filterByCategory(null);
             }
         });
-
-        ArrayAdapter<CharSequence> adapterFilter = ArrayAdapter.createFromResource(requireContext(),
-                R.array.filter_categories, android.R.layout.simple_spinner_item);
-        adapterFilter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.spinnerFilterCategory.setAdapter(adapterFilter);
-        binding.spinnerFilterCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String filterCategory = parent.getItemAtPosition(position).toString();
-                if (filterCategory.equals("Todas")) {
-                    filterCategory = null;
-                }
-
-                adapter.filterByCategory(filterCategory);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                adapter.filterByCategory(null);
-            }
-        });
-
-        binding.buttonImage.setOnClickListener(v -> openImagePicker());
-
-        binding.buttonAdd.setOnClickListener(v -> {
-            String productName = binding.editTextProduct.getText().toString().trim();
-            if (!productName.isEmpty() && selectedCategory != null) {
-                String imagePath = selectedImagePath != null ? selectedImagePath : null;
-                ShoppingItem newItem = new ShoppingItem(productName, imagePath, selectedCategory);
-                shoppingItems.add(newItem);
-                dbHelper.addShoppingItem(newItem);
-                binding.editTextProduct.setText("");
-                selectedImage = null;
-                selectedImagePath = null;
-                setDefaultImage(selectedCategory);
-                loadShoppingList();
-            } else {
-                Toast.makeText(getContext(), "Debes ingresar un nombre para el producto y seleccionar una categoría", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        return binding.getRoot();
     }
 
     private String saveImageToStorage(Bitmap image) {
         String imagePath = null;
-        try {
-            File file = new File(requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), "image_" + System.currentTimeMillis() + ".jpg");
-            FileOutputStream fos = new FileOutputStream(file);
+        File file = new File(requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), "image_" + System.currentTimeMillis() + ".jpg");
+        try (FileOutputStream fos = new FileOutputStream(file)) {
             image.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-            fos.close();
             imagePath = file.getAbsolutePath();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            Toast.makeText(getContext(), "Error al guardar la imagen", Toast.LENGTH_SHORT).show();
         }
 
         return imagePath;
@@ -174,8 +150,7 @@ public class ShoppingListFragment extends Fragment {
 
     private void loadShoppingList() {
         shoppingItems = dbHelper.getAllShoppingItems();
-        adapter.updateList(shoppingItems);
-        adapter.filterByCategory(filterCategory);
+        adapter.updateList(shoppingItems, filterCategory);
     }
 
     private void setDefaultImage(String category) {

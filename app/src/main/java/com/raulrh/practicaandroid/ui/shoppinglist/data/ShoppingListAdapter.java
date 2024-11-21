@@ -20,7 +20,7 @@ import java.util.List;
 
 public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapter.ViewHolder> {
     private final List<ShoppingItem> items;
-    private List<ShoppingItem> filteredShoppingItems;
+    private final List<ShoppingItem> filteredShoppingItems;
     private final ShoppingListDB dbHelper;
 
     public ShoppingListAdapter(List<ShoppingItem> items, ShoppingListDB dbHelper) {
@@ -48,15 +48,15 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
         return filteredShoppingItems.size();
     }
 
-    public void updateList(List<ShoppingItem> newItems) {
+    public void updateList(List<ShoppingItem> newItems, String filterCategory) {
         items.clear();
         items.addAll(newItems);
-        notifyDataSetChanged();
+        filterByCategory(filterCategory);
     }
 
     public void filterByCategory(String category) {
         filteredShoppingItems.clear();
-        if (category == null || category.isEmpty()) {
+        if (category == null || category.equalsIgnoreCase("todas")) {
             filteredShoppingItems.addAll(items);
         } else {
             for (ShoppingItem item : items) {

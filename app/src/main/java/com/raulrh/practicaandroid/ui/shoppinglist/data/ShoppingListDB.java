@@ -52,22 +52,19 @@ public class ShoppingListDB extends SQLiteOpenHelper {
     public List<ShoppingItem> getAllShoppingItems() {
         List<ShoppingItem> itemList = new ArrayList<>();
         final String[] SELECT = {COLUMN_ID, COLUMN_NAME, COLUMN_IMAGE_URI, COLUMN_CATEGORY};
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_SHOPPING, SELECT, null, null, null, null, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                ShoppingItem item = new ShoppingItem();
-                item.setId(cursor.getInt(0));
-                item.setName(cursor.getString(1));
-                item.setImagePath(cursor.getString(2));
-                item.setCategory(cursor.getString(3));
-                itemList.add(item);
-            } while (cursor.moveToNext());
+        try (SQLiteDatabase db = this.getReadableDatabase();
+             Cursor cursor = db.query(TABLE_SHOPPING, SELECT, null, null, null, null, null)) {
+            if (cursor.moveToFirst()) {
+                do {
+                    ShoppingItem item = new ShoppingItem();
+                    item.setId(cursor.getInt(0));
+                    item.setName(cursor.getString(1));
+                    item.setImagePath(cursor.getString(2));
+                    item.setCategory(cursor.getString(3));
+                    itemList.add(item);
+                } while (cursor.moveToNext());
+            }
         }
-
-        cursor.close();
-        db.close();
         return itemList;
     }
 
