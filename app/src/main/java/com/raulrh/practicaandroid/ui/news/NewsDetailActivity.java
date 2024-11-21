@@ -48,7 +48,7 @@ public class NewsDetailActivity extends AppCompatActivity {
         descriptionTextView.setText(HtmlCompat.fromHtml(news.getDescription().replaceAll("<img.+/(img)*>", ""), HtmlCompat.FROM_HTML_MODE_LEGACY));
 
         TextView categoriesTextView = findViewById(R.id.categoriesTextNews);
-        List<Category> categoriesList = news.getCategories();
+        List<Category> categoriesList = news.getCategory();
         if (categoriesList != null && !categoriesList.isEmpty()) {
             StringBuilder categories = new StringBuilder();
             int size = categoriesList.size();
@@ -62,7 +62,7 @@ public class NewsDetailActivity extends AppCompatActivity {
             categoriesTextView.setText(categories.toString());
         }
 
-        List<Image> imageList = news.getImages();
+        List<Image> imageList = news.getImage();
         if (imageList != null && !imageList.isEmpty()) {
             LinearLayout container = findViewById(R.id.newsDetailLayout);
             for (Image image : imageList) {

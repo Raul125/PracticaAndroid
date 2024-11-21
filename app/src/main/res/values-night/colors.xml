@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background">#121212</color> <!-- Negro muy oscuro -->
+    <color name="text">#FFFFFF</color> <!-- Blanco -->
+    <color name="primary">#1A73E8</color> <!-- Azul profundo (mismo que en el modo claro) -->
+    <color name="primary_dark">#125688</color> <!-- Azul más oscuro -->
+    <color name="primary_light">#E8F0FE</color> <!-- Azul claro -->
+    <color name="secondary">#03DAC6</color> <!-- Cian brillante -->
+    <color name="secondary_dark">#018786</color> <!-- Cian oscuro -->
+    <color name="secondary_light">#CFE8E2</color> <!-- Cian claro -->
+    <color name="button_background">#1A73E8</color> <!-- Azul profundo (mismo que en el modo claro) -->
+    <color name="item_background">#1E1E1E</color> <!-- Negro oscuro -->
+    <color name="item_border">#444444</color> <!-- Gris oscuro -->
+    <color name="hint">#888888</color> <!-- Gris medio oscuro -->
+
+    <color name="contrast">#F4B393</color>
+
+    <color name="grey">#CCCCCC</color>
+    <color name="orange">#FFB300</color>
+    <color name="red">#FF6D00</color>
+    <color name="green">#64DD17</color>
+</resources>

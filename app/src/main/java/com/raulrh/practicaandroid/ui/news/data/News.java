@@ -8,8 +8,8 @@ public class News {
     private String summary;
     private String dateCreated;
     private String description;
-    private List<Category> categories;
-    private List<Image> images;
+    private List<Category> category;
+    private List<Image> image;
 
     public News() {
 
@@ -19,55 +19,27 @@ public class News {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public String getTitle() {
         return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getSummary() {
         return summary;
     }
 
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
-
     public String getDateCreated() {
         return dateCreated;
-    }
-
-    public void setDateCreated(String dateCreated) {
-        this.dateCreated = dateCreated;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public List<Category> getCategory() {
+        return category;
     }
 
-    public List<Category> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<Category> categories) {
-        this.categories = categories;
-    }
-
-    public List<Image> getImages() {
-        return images;
-    }
-
-    public void setImages(List<Image> images) {
-        this.images = images;
+    public List<Image> getImage() {
+        return image;
     }
 }

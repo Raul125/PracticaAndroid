@@ -76,12 +76,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             String formattedDate = localDate.format(formatter);
             binding.dateTextNews.setText(formattedDate);
 
-            List<Category> categoryList = news.getCategories();
+            List<Category> categoryList = news.getCategory();
             if (categoryList != null && !categoryList.isEmpty()) {
                 binding.categoriesTextNews.setText(categoryList.get(0).getTitle());
             }
 
-            List<Image> imageList = news.getImages();
+            List<Image> imageList = news.getImage();
             if (imageList != null && !imageList.isEmpty()) {
                 String imageUrl = "https://www.zaragoza.es/cont/paginas/noticias/" + imageList.get(0).getSrc();
                 Picasso.get()

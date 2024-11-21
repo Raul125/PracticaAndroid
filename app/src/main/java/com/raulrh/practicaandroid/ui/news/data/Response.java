@@ -12,8 +12,4 @@ public class Response {
     public List<News> getResult() {
         return result;
     }
-
-    public void setResult(List<News> result) {
-        this.result = result;
-    }
 }

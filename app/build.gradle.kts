@@ -30,12 +30,13 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
     buildFeatures {
         viewBinding = true
     }
+    buildToolsVersion = "34.0.0"
 }
 
 dependencies {
@@ -47,12 +48,14 @@ dependencies {
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
+
     implementation(libs.splashscreen)
 
-    // Maven
     implementation(libs.joda.money)
     implementation(libs.gson)
     implementation(libs.picasso)
+
+    implementation(libs.playserviceslocation)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

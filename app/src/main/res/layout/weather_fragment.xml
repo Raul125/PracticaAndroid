@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="?attr/android:windowBackground"
+    tools:context=".ui.weather.WeatherFragment">
+
+    <TextView
+        android:id="@+id/temperatureTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cargando..."
+        android:textSize="48sp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp" />
+
+    <TextView
+        android:id="@+id/humidityTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Humedad: Cargando..."
+        android:textSize="24sp"
+        android:layout_below="@id/temperatureTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:id="@+id/windSpeedTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Viento: Cargando..."
+        android:textSize="24sp"
+        android:layout_below="@id/humidityTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:id="@+id/predictionTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Predicción por horas"
+        android:textSize="24sp"
+        android:layout_below="@id/windSpeedTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/hourlyRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/predictionTextView"
+        android:layout_marginTop="16dp" />
+</LinearLayout>

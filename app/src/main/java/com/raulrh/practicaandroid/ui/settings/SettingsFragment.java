@@ -16,6 +16,9 @@ public class SettingsFragment extends Fragment {
 
     private SettingsFragmentBinding binding;
 
+    private final static int MAX_ROWS = 15;
+    private final static int MIN_ROWS = 5;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = SettingsFragmentBinding.inflate(inflater, container, false);
@@ -52,8 +55,13 @@ public class SettingsFragment extends Fragment {
                 return;
             }
 
-            if (rows > 30 || cols > 30) {
-                Toast.makeText(requireContext(), "Máximo de 30 filas y columnas", Toast.LENGTH_LONG).show();
+            if (rows > MAX_ROWS || cols > MAX_ROWS) {
+                Toast.makeText(requireContext(), "Máximo de " + MAX_ROWS + " filas y columnas", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            if (rows < MIN_ROWS || cols < MIN_ROWS) {
+                Toast.makeText(requireContext(), "Mínimo de " + MIN_ROWS + " filas y columnas", Toast.LENGTH_LONG).show();
                 return;
             }
 
