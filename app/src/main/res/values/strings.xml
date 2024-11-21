@@ -43,6 +43,13 @@
     <string name="addProduct">Añadir producto...</string>
 
     <string name="filterByCategory">Filtrar por categoría</string>
+    <string name="rows">Filas</string>
+    <string name="columns">Columnas</string>
+    <string name="mines">Minas</string>
+    <string name="saveSettings">Guardar Configuración</string>
+    <string name="minesweeper">Buscaminas</string>
+    <string name="shoppingList">Lista Compra</string>
+    <string name="news">Noticias</string>
 
     <string-array name="categories">
         <item>Frutas y Verduras</item>

@@ -48,7 +48,12 @@ public class SettingsFragment extends Fragment {
             int mines = Integer.parseInt(binding.editTextMines.getText().toString());
 
             if (rows <= 0 || cols <= 0) {
-                Toast.makeText(requireContext(), "El número de filas y columnas debe ser mayor que 0", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), "El número de filas y columnas debe ser mayor que 0", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            if (rows > 30 || cols > 30) {
+                Toast.makeText(requireContext(), "Máximo de 30 filas y columnas", Toast.LENGTH_LONG).show();
                 return;
             }
 
@@ -58,7 +63,7 @@ public class SettingsFragment extends Fragment {
             }
 
             if (mines >= rows * cols) {
-                Toast.makeText(requireContext(), "El número de minas debe ser menor que el número de celdas", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), "El número de minas debe ser menor que el número de celdas", Toast.LENGTH_LONG).show();
                 return;
             }
 

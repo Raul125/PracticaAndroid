@@ -21,14 +21,14 @@
         <item
             android:id="@+id/nav_shopping_list"
             android:icon="@drawable/carritoicono"
-            android:title="Lista Compra" />
+            android:title="@string/shoppingList" />
         <item
             android:id="@+id/nav_news"
             android:icon="@drawable/news"
-            android:title="Noticias" />
+            android:title="@string/news" />
         <item
             android:id="@+id/nav_minesweeper"
             android:icon="@drawable/minesweeper"
-            android:title="Buscaminas" />
+            android:title="@string/minesweeper" />
     </group>
 </menu>

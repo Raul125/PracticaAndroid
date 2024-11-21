@@ -1,68 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="16dp">
 
+    <!-- Header con minesLeft y time -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="100">
+        android:gravity="center_vertical">
 
         <TextView
             android:id="@+id/minesLeft"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="25dp"
-            android:layout_marginBottom="10dp"
-            android:layout_weight="50"
+            android:layout_weight="1"
             android:textAlignment="textStart"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:paddingEnd="8dp" />
 
         <TextView
             android:id="@+id/time"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="25dp"
-            android:layout_marginBottom="10dp"
-            android:layout_weight="50"
+            android:layout_weight="1"
             android:textAlignment="textEnd"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:paddingStart="8dp" />
     </LinearLayout>
 
+    <!-- Botón de inicio -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:layout_marginTop="16dp">
 
         <Button
             android:id="@+id/startButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0"
             android:text="Empezar" />
     </LinearLayout>
 
+    <!-- Contenedor del tablero -->
     <LinearLayout
-        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:gravity="center">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:layout_marginTop="16dp">
 
         <HorizontalScrollView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
             android:fillViewport="true">
 
             <ScrollView
@@ -71,15 +65,11 @@
 
                 <TableLayout
                     android:id="@+id/buttonsPanel"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center">
                 </TableLayout>
-
             </ScrollView>
-
         </HorizontalScrollView>
-
     </LinearLayout>
-
 </LinearLayout>

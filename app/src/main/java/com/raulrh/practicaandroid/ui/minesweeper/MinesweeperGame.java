@@ -52,6 +52,10 @@ public class MinesweeperGame {
         return cols;
     }
 
+    public boolean isGameOver() {
+        return isGameOver;
+    }
+
     private void initializeBoard() {
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
@@ -134,12 +138,15 @@ public class MinesweeperGame {
         }
 
         cell.setVisited(true);
+        if (!isGameOver) {
+            cell.setClicked(true);
+        }
+
         if (cell.isMine()) {
             isGameOver = true;
             return;
         }
 
-        cell.setClicked(true);
         if (cell.getValue() == 0) {
             for (int i = -1; i <= 1; i++) {
                 for (int j = -1; j <= 1; j++) {

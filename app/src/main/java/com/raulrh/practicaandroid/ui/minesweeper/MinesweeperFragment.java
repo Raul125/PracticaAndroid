@@ -153,7 +153,7 @@ public class MinesweeperFragment extends Fragment {
     }
 
     private void handleCellClick(int row, int col) {
-        if (!isStarted) {
+        if (!isStarted || game.isGameOver()) {
             return;
         }
 
