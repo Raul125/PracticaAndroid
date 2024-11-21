@@ -15,14 +15,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.raulrh.practicaandroid.R;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapter.ViewHolder> {
     private final List<ShoppingItem> items;
+    private List<ShoppingItem> filteredShoppingItems;
     private final ShoppingListDB dbHelper;
 
     public ShoppingListAdapter(List<ShoppingItem> items, ShoppingListDB dbHelper) {
         this.items = items;
+        this.filteredShoppingItems = new ArrayList<>(items);
         this.dbHelper = dbHelper;
     }
 
@@ -36,13 +39,13 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ShoppingItem item = items.get(position);
+        ShoppingItem item = filteredShoppingItems.get(position);
         holder.bind(item);
     }
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return filteredShoppingItems.size();
     }
 
     public void updateList(List<ShoppingItem> newItems) {
@@ -51,11 +54,27 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
         notifyDataSetChanged();
     }
 
+    public void filterByCategory(String category) {
+        filteredShoppingItems.clear();
+        if (category == null || category.isEmpty()) {
+            filteredShoppingItems.addAll(items);
+        } else {
+            for (ShoppingItem item : items) {
+                if (item.getCategory().equals(category)) {
+                    filteredShoppingItems.add(item);
+                }
+            }
+        }
+
+        notifyDataSetChanged();
+    }
+
     public void deleteItem(int position) {
-        ShoppingItem item = items.get(position);
+        ShoppingItem item = filteredShoppingItems.get(position);
         dbHelper.deleteShoppingItem(item.getId());
         deleteImageFromStorage(item.getImagePath());
-        items.remove(position);
+        filteredShoppingItems.remove(item);
+        items.remove(item);
         notifyItemRemoved(position);
     }
 
@@ -110,27 +129,25 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
         }
 
         private void setDefaultImage(String category, ImageView imageView) {
-            int imageResId = R.drawable.carrito; // Default image
+            int imageResId = R.drawable.otros;
             switch (category) {
                 case "Frutas y Verduras":
-                    imageResId = R.drawable.home;
+                    imageResId = R.drawable.frutasverduras;
                     break;
                 case "Carnes y Pescados":
-                    imageResId = R.drawable.home;
+                    imageResId = R.drawable.carnepescado;
                     break;
                 case "Lácteos":
-                    imageResId = R.drawable.home;
+                    imageResId = R.drawable.lacteos;
                     break;
                 case "Enlatados":
-                    imageResId = R.drawable.home;
+                    imageResId = R.drawable.enlatados;
                     break;
                 case "Bebidas":
-                    imageResId = R.drawable.home;
-                    break;
-                case "Aceites y Condimentos":
-                    imageResId = R.drawable.home;
+                    imageResId = R.drawable.bebidas;
                     break;
             }
+
             imageView.setImageResource(imageResId);
         }
     }

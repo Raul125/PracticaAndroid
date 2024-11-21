@@ -35,8 +35,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/carrito" />
+            android:scaleType="centerCrop" />
 
         <Button
             android:id="@+id/buttonAdd"
@@ -47,6 +46,20 @@
             android:text="@string/add" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textViewFilterCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/filterByCategory"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <Spinner
+        android:id="@+id/spinnerFilterCategory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

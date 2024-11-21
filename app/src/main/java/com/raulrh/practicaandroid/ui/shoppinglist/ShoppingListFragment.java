@@ -42,6 +42,7 @@ public class ShoppingListFragment extends Fragment {
     private Bitmap selectedImage;
     private String selectedCategory;
     private String selectedImagePath;
+    private String filterCategory;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -69,6 +70,7 @@ public class ShoppingListFragment extends Fragment {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerView.setAdapter(adapter);
 
+        // Spinner de categorías para añadir productos
         ArrayAdapter<CharSequence> adapterSpinner = ArrayAdapter.createFromResource(requireContext(),
                 R.array.categories, android.R.layout.simple_spinner_item);
         adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -86,6 +88,48 @@ public class ShoppingListFragment extends Fragment {
             }
         });
 
+        // Spinner de filtrado por categorías
+        ArrayAdapter<CharSequence> adapterFilterSpinner = ArrayAdapter.createFromResource(requireContext(),
+                R.array.filter_categories, android.R.layout.simple_spinner_item);
+        adapterFilterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spinnerFilterCategory.setAdapter(adapterFilterSpinner);
+        binding.spinnerFilterCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                filterCategory = parent.getItemAtPosition(position).toString();
+                if (filterCategory.equals("Todas")) {
+                    filterCategory = null; // Mostrar todas las categorías
+                }
+                adapter.filterByCategory(filterCategory);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                adapter.filterByCategory(null);
+            }
+        });
+
+        ArrayAdapter<CharSequence> adapterFilter = ArrayAdapter.createFromResource(requireContext(),
+                R.array.filter_categories, android.R.layout.simple_spinner_item);
+        adapterFilter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spinnerFilterCategory.setAdapter(adapterFilter);
+        binding.spinnerFilterCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String filterCategory = parent.getItemAtPosition(position).toString();
+                if (filterCategory.equals("Todas")) {
+                    filterCategory = null;
+                }
+
+                adapter.filterByCategory(filterCategory);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                adapter.filterByCategory(null);
+            }
+        });
+
         binding.buttonImage.setOnClickListener(v -> openImagePicker());
 
         binding.buttonAdd.setOnClickListener(v -> {
@@ -98,7 +142,7 @@ public class ShoppingListFragment extends Fragment {
                 binding.editTextProduct.setText("");
                 selectedImage = null;
                 selectedImagePath = null;
-                binding.buttonImage.setImageResource(R.drawable.carrito);
+                setDefaultImage(selectedCategory);
                 loadShoppingList();
             } else {
                 Toast.makeText(getContext(), "Debes ingresar un nombre para el producto y seleccionar una categoría", Toast.LENGTH_SHORT).show();
@@ -131,28 +175,26 @@ public class ShoppingListFragment extends Fragment {
     private void loadShoppingList() {
         shoppingItems = dbHelper.getAllShoppingItems();
         adapter.updateList(shoppingItems);
+        adapter.filterByCategory(filterCategory);
     }
 
     private void setDefaultImage(String category) {
-        int imageResId = R.drawable.carrito; // Default image
+        int imageResId = R.drawable.otros;
         switch (category) {
             case "Frutas y Verduras":
-                imageResId = R.drawable.carrito;
+                imageResId = R.drawable.frutasverduras;
                 break;
             case "Carnes y Pescados":
-                imageResId = R.drawable.carrito;
+                imageResId = R.drawable.carnepescado;
                 break;
             case "Lácteos":
-                imageResId = R.drawable.carrito;
+                imageResId = R.drawable.lacteos;
                 break;
             case "Enlatados":
-                imageResId = R.drawable.carrito;
+                imageResId = R.drawable.enlatados;
                 break;
             case "Bebidas":
-                imageResId = R.drawable.carrito;
-                break;
-            case "Aceites y Condimentos":
-                imageResId = R.drawable.carrito;
+                imageResId = R.drawable.bebidas;
                 break;
         }
 

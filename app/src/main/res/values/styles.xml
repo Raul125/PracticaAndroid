@@ -32,7 +32,7 @@
     </style>
 
     <style name="PracticaAndroidTheme.Starting" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenAnimatedIcon">@drawable/montessori</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
         <item name="windowSplashScreenAnimationDuration">200</item>
         <item name="postSplashScreenTheme">@style/PracticaAndroidTheme.NoActionBar</item>
     </style>

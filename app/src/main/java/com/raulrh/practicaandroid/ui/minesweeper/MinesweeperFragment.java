@@ -147,6 +147,7 @@ public class MinesweeperFragment extends Fragment {
                 game.flagCell(row, col);
                 updateUI();
             }
+
             return true;
         });
     }
@@ -190,7 +191,7 @@ public class MinesweeperFragment extends Fragment {
         game.endGame();
         new AlertDialog.Builder(requireContext())
                 .setCancelable(false)
-                .setIcon(R.mipmap.ic_launcher_round)
+                .setIcon(R.mipmap.ic_launcher)
                 .setTitle(title)
                 .setMessage(message)
                 .setPositiveButton("Ok", null)

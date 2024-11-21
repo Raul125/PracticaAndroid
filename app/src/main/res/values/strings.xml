@@ -42,12 +42,24 @@
     <string name="add">Añadir</string>
     <string name="addProduct">Añadir producto...</string>
 
+    <string name="filterByCategory">Filtrar por categoría</string>
+
     <string-array name="categories">
         <item>Frutas y Verduras</item>
         <item>Carnes y Pescados</item>
         <item>Lácteos</item>
         <item>Enlatados</item>
         <item>Bebidas</item>
-        <item>Aceites y Condimentos</item>
+        <item>Otros</item>
+    </string-array>
+
+    <string-array name="filter_categories">
+        <item>Todas</item>
+        <item>Frutas y Verduras</item>
+        <item>Carnes y Pescados</item>
+        <item>Lácteos</item>
+        <item>Enlatados</item>
+        <item>Bebidas</item>
+        <item>Otros</item>
     </string-array>
 </resources>
