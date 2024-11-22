@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.raulrh.practicaandroid.R;
+import com.raulrh.practicaandroid.ui.weather.data.Hourly;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -52,11 +53,11 @@ public class HourlyWeatherAdapter extends RecyclerView.Adapter<HourlyWeatherAdap
             }
 
             holder.timeTextView.setText(timeStr);
-            holder.temperatureTextView.setText(String.format("%.1f °C", temperature));
-            holder.precipitationTextView.setText(String.format("%d %%", precipitation));
-            holder.windSpeedTextView.setText(String.format("%.1f km/h", windSpeed));
+            holder.temperatureTextView.setText(String.format(Locale.getDefault(), "%.1f °C", temperature));
+            holder.precipitationTextView.setText(String.format(Locale.getDefault(),"Precipitación: %d %%", precipitation));
+            holder.windSpeedTextView.setText(String.format(Locale.getDefault(),"Viento: %.1f km/h", windSpeed));
             holder.weatherCodeTextView.setText(getWeatherDescription(code));
-            holder.humidityTextView.setText(String.format("Humedad: %d %%", humidity));
+            holder.humidityTextView.setText(String.format(Locale.getDefault(),"Humedad: %d %%", humidity));
         }
     }
 
@@ -66,7 +67,7 @@ public class HourlyWeatherAdapter extends RecyclerView.Adapter<HourlyWeatherAdap
         return time.size();
     }
 
-    public void setHourlyData(WeatherFragment.Hourly hourly) {
+    public void setHourlyData(Hourly hourly) {
         this.time = hourly.getTime();
         this.temperature2m = hourly.getTemperature2m();
         this.precipitationProbability = hourly.getPrecipitationProbability();
@@ -123,7 +124,7 @@ public class HourlyWeatherAdapter extends RecyclerView.Adapter<HourlyWeatherAdap
         }
     }
 
-    static class HourlyViewHolder extends RecyclerView.ViewHolder {
+    public static class HourlyViewHolder extends RecyclerView.ViewHolder {
         TextView timeTextView;
         TextView temperatureTextView;
         TextView precipitationTextView;

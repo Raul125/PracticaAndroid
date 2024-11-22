@@ -50,6 +50,8 @@
     <string name="minesweeper">Buscaminas</string>
     <string name="shoppingList">Lista Compra</string>
     <string name="news">Noticias</string>
+    <string name="hoursPrediction">Predicción por horas</string>
+    <string name="weather">Tiempo</string>
 
     <string-array name="categories">
         <item>Frutas y Verduras</item>
