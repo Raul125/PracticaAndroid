@@ -49,7 +49,7 @@ public class HourlyWeatherAdapter extends RecyclerView.Adapter<HourlyWeatherAdap
                 Date date = inputFormat.parse(timeStr);
                 timeStr = outputFormat.format(date);
             } catch (Exception e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
 
             holder.timeTextView.setText(timeStr);
@@ -63,7 +63,9 @@ public class HourlyWeatherAdapter extends RecyclerView.Adapter<HourlyWeatherAdap
 
     @Override
     public int getItemCount() {
-        if (time == null) return 0;
+        if (time == null)
+            return 0;
+
         return time.size();
     }
 
