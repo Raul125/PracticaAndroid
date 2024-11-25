@@ -12,54 +12,48 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.gson.Gson;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.reflect.TypeToken;
 import com.raulrh.practicaandroid.databinding.WeatherFragmentBinding;
-import com.raulrh.practicaandroid.ui.news.data.Response;
 import com.raulrh.practicaandroid.ui.weather.data.CurrentWeather;
 import com.raulrh.practicaandroid.ui.weather.data.Hourly;
 import com.raulrh.practicaandroid.ui.weather.data.WeatherResponse;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class WeatherFragment extends Fragment {
-
-    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private FusedLocationProviderClient fusedLocationClient;
     private HourlyWeatherAdapter hourlyWeatherAdapter;
 
     private WeatherFragmentBinding binding;
 
+    private ExecutorService executorService;
+    private Handler mainHandler;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = WeatherFragmentBinding.inflate(inflater, container, false);
+
+        executorService = Executors.newSingleThreadExecutor();
+        mainHandler = new Handler(Looper.getMainLooper());
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
 
@@ -107,7 +101,7 @@ public class WeatherFragment extends Fragment {
     }
 
     private void fetchWeather(double latitude, double longitude) {
-        new Thread(() -> {
+        executorService.execute(() -> {
             try {
                 String urlString = String.format(
                         Locale.US,
@@ -128,7 +122,7 @@ public class WeatherFragment extends Fragment {
 
                     reader.close();
                     responseStream.close();
-                    new android.os.Handler(android.os.Looper.getMainLooper()).post(() -> {
+                    mainHandler.post(() -> {
                         if (weatherResponse != null) {
                             displayWeatherData(weatherResponse);
                         } else {
@@ -136,16 +130,16 @@ public class WeatherFragment extends Fragment {
                         }
                     });
                 } else {
-                    new android.os.Handler(android.os.Looper.getMainLooper()).post(() -> {
+                    mainHandler.post(() -> {
                         Toast.makeText(requireContext(), "Error al obtener el clima", Toast.LENGTH_SHORT).show();
                     });
                 }
             } catch (IOException e) {
-                new android.os.Handler(android.os.Looper.getMainLooper()).post(() -> {
+                mainHandler.post(() -> {
                     Toast.makeText(requireContext(), "Error de red", Toast.LENGTH_SHORT).show();
                 });
             }
-        }).start();
+        });
     }
 
     private void displayWeatherData(WeatherResponse weatherResponse) {

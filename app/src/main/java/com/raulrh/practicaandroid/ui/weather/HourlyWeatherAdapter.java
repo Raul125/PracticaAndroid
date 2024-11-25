@@ -54,10 +54,10 @@ public class HourlyWeatherAdapter extends RecyclerView.Adapter<HourlyWeatherAdap
 
             holder.timeTextView.setText(timeStr);
             holder.temperatureTextView.setText(String.format(Locale.getDefault(), "%.1f °C", temperature));
-            holder.precipitationTextView.setText(String.format(Locale.getDefault(),"Precipitación: %d %%", precipitation));
-            holder.windSpeedTextView.setText(String.format(Locale.getDefault(),"Viento: %.1f km/h", windSpeed));
+            holder.precipitationTextView.setText(String.format(Locale.getDefault(), "Precipitación: %d %%", precipitation));
+            holder.windSpeedTextView.setText(String.format(Locale.getDefault(), "Viento: %.1f km/h", windSpeed));
             holder.weatherCodeTextView.setText(getWeatherDescription(code));
-            holder.humidityTextView.setText(String.format(Locale.getDefault(),"Humedad: %d %%", humidity));
+            holder.humidityTextView.setText(String.format(Locale.getDefault(), "Humedad: %d %%", humidity));
         }
     }
 
@@ -80,50 +80,21 @@ public class HourlyWeatherAdapter extends RecyclerView.Adapter<HourlyWeatherAdap
     }
 
     private String getWeatherDescription(int code) {
-        switch (code) {
-            case 0:
-                return "Despejado";
-            case 1:
-            case 2:
-            case 3:
-                return "Parcialmente nublado";
-            case 45:
-            case 48:
-                return "Niebla";
-            case 51:
-            case 53:
-            case 55:
-                return "Llovizna";
-            case 56:
-            case 57:
-                return "Llovizna en gran volumen";
-            case 61:
-            case 63:
-            case 65:
-                return "Lluvia";
-            case 66:
-            case 67:
-                return "Lluvia en gran volumen";
-            case 71:
-            case 73:
-            case 75:
-                return "Granizo";
-            case 77:
-                return "Granizo en gran volumen";
-            case 80:
-            case 81:
-            case 82:
-                return "Chubascos";
-            case 85:
-            case 86:
-                return "Nieve";
-            case 95:
-            case 96:
-            case 99:
-                return "Tormenta";
-            default:
-                return "Desconocido";
-        }
+        return switch (code) {
+            case 0 -> "Despejado";
+            case 1, 2, 3 -> "Parcialmente nublado";
+            case 45, 48 -> "Niebla";
+            case 51, 53, 55 -> "Llovizna";
+            case 56, 57 -> "Llovizna en gran volumen";
+            case 61, 63, 65 -> "Lluvia";
+            case 66, 67 -> "Lluvia en gran volumen";
+            case 71, 73, 75 -> "Granizo";
+            case 77 -> "Granizo en gran volumen";
+            case 80, 81, 82 -> "Chubascos";
+            case 85, 86 -> "Nieve";
+            case 95, 96, 99 -> "Tormenta";
+            default -> "Desconocido";
+        };
     }
 
     public static class HourlyViewHolder extends RecyclerView.ViewHolder {

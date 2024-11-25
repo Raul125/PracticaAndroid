@@ -27,9 +27,24 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        binding.button.setOnClickListener(v -> {
-            NavController navController = Navigation.findNavController(v);
+        NavController navController = Navigation.findNavController(view);
+        binding.calculator.setOnClickListener(v -> {
             navController.navigate(R.id.nav_calculator);
+        });
+        binding.converter.setOnClickListener(v -> {
+            navController.navigate(R.id.nav_converter);
+        });
+        binding.shoppingList.setOnClickListener(v -> {
+            navController.navigate(R.id.nav_shopping_list);
+        });
+        binding.news.setOnClickListener(v -> {
+            navController.navigate(R.id.nav_news);
+        });
+        binding.minesweeper.setOnClickListener(v -> {
+            navController.navigate(R.id.nav_minesweeper);
+        });
+        binding.weather.setOnClickListener(v -> {
+            navController.navigate(R.id.nav_weather);
         });
     }
 }
