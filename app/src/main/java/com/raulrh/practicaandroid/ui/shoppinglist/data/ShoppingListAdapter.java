@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.raulrh.practicaandroid.R;
 import com.raulrh.practicaandroid.databinding.ItemShoppingBinding;
+import com.raulrh.practicaandroid.ui.shoppinglist.ShoppingListFragment;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -20,11 +21,13 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
     private final List<ShoppingItem> items;
     private final List<ShoppingItem> filteredShoppingItems;
     private final ShoppingListDB dbHelper;
+    private final ShoppingListFragment fragment;
 
-    public ShoppingListAdapter(List<ShoppingItem> items, ShoppingListDB dbHelper) {
+    public ShoppingListAdapter(List<ShoppingItem> items, ShoppingListDB dbHelper, ShoppingListFragment fragment) {
         this.items = items;
         this.filteredShoppingItems = new ArrayList<>(items);
         this.dbHelper = dbHelper;
+        this.fragment = fragment;
     }
 
     @NonNull
@@ -53,7 +56,7 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
 
     public void filterByCategory(String category) {
         filteredShoppingItems.clear();
-        if (category == null || category.equalsIgnoreCase("todas")) {
+        if (category == null) {
             filteredShoppingItems.addAll(items);
         } else {
             for (ShoppingItem item : items) {
@@ -94,14 +97,14 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
             binding.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (isChecked) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(itemView.getContext());
-                    builder.setMessage("¿Estás seguro de que quieres eliminar este elemento de la lista?")
-                            .setPositiveButton("Sí", (dialog, which) -> {
+                    builder.setMessage(fragment.getString(R.string.confirm_delete))
+                            .setPositiveButton(fragment.getString(R.string.yes), (dialog, which) -> {
                                 int position = getAdapterPosition();
                                 if (position != RecyclerView.NO_POSITION) {
                                     deleteItem(position);
                                 }
                             })
-                            .setNegativeButton("No", (dialog, which) -> binding.checkBox.setChecked(false))
+                            .setNegativeButton(fragment.getString(R.string.no), (dialog, which) -> binding.checkBox.setChecked(false))
                             .show();
                 }
             });
@@ -121,22 +124,16 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
 
         private void setDefaultImage(String category, ImageView imageView) {
             int imageResId = R.drawable.otros;
-            switch (category) {
-                case "Frutas y Verduras":
-                    imageResId = R.drawable.frutasverduras;
-                    break;
-                case "Carnes y Pescados":
-                    imageResId = R.drawable.carnepescado;
-                    break;
-                case "Lácteos":
-                    imageResId = R.drawable.lacteos;
-                    break;
-                case "Enlatados":
-                    imageResId = R.drawable.enlatados;
-                    break;
-                case "Bebidas":
-                    imageResId = R.drawable.bebidas;
-                    break;
+            if (fragment.getString(R.string.meatFish).equals(category)) {
+                imageResId = R.drawable.carnepescado;
+            } else if (fragment.getString(R.string.dairy).equals(category)) {
+                imageResId = R.drawable.lacteos;
+            } else if (fragment.getString(R.string.fruitVegetables).equals(category)) {
+                imageResId = R.drawable.frutasverduras;
+            } else if (fragment.getString(R.string.canned).equals(category)) {
+                imageResId = R.drawable.enlatados;
+            } else if (fragment.getString(R.string.drinks).equals(category)) {
+                imageResId = R.drawable.bebidas;
             }
 
             imageView.setImageResource(imageResId);

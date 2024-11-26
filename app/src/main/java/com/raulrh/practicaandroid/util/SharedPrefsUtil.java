@@ -5,6 +5,9 @@ import android.content.SharedPreferences;
 
 public class SharedPrefsUtil {
 
+    public static final String PREF_KEY_ROWS = "minesweeper_rows";
+    public static final String PREF_KEY_COLS = "minesweeper_cols";
+    public static final String PREF_KEY_MINES = "minesweeper_mines";
     private static final String PREFS_NAME = "app_prefs";
 
     public static void putInt(Context context, String key, int value) {

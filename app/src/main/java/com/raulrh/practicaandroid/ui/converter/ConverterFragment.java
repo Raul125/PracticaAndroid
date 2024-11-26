@@ -82,14 +82,14 @@ public class ConverterFragment extends Fragment {
         binding.shareButton.setOnClickListener(v -> {
             String historyText = binding.converterHistory.getText().toString();
             if (historyText.isEmpty()) {
-                Toast.makeText(requireContext(), "No hay historial para compartir", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), getString(R.string.no_history), Toast.LENGTH_SHORT).show();
                 return;
             }
 
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
             shareIntent.setType("text/plain");
             shareIntent.putExtra(Intent.EXTRA_TEXT, historyText);
-            startActivity(Intent.createChooser(shareIntent, "Compartir historial"));
+            startActivity(Intent.createChooser(shareIntent, getString(R.string.share_history)));
         });
 
         binding.cleanButton.setOnClickListener(v -> {

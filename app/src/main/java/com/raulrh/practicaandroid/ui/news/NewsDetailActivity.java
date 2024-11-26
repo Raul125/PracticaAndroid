@@ -2,7 +2,6 @@ package com.raulrh.practicaandroid.ui.news;
 
 import android.os.Bundle;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +9,7 @@ import androidx.core.text.HtmlCompat;
 
 import com.google.gson.Gson;
 import com.raulrh.practicaandroid.R;
+import com.raulrh.practicaandroid.databinding.ActivityNewsDetailBinding;
 import com.raulrh.practicaandroid.ui.news.data.Category;
 import com.raulrh.practicaandroid.ui.news.data.Image;
 import com.raulrh.practicaandroid.ui.news.data.News;
@@ -23,31 +23,39 @@ import java.util.List;
 import java.util.Locale;
 
 public class NewsDetailActivity extends AppCompatActivity {
+    private ActivityNewsDetailBinding binding;
+    private News news;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_news_detail);
 
-        TextView titleTextView = findViewById(R.id.titleTextNews);
-        TextView dateTextView = findViewById(R.id.dateTextNews);
-        TextView descriptionTextView = findViewById(R.id.descriptionTextView);
+        binding = ActivityNewsDetailBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         String newsJson = getIntent().getStringExtra("news");
-        News news = new Gson().fromJson(newsJson, News.class);
+        news = new Gson().fromJson(newsJson, News.class);
 
-        titleTextView.setText(news.getTitle());
+        binding.titleTextNews.setText(news.getTitle());
+        binding.descriptionTextView.setText(HtmlCompat.fromHtml(news.getDescription()
+                .replaceAll("<img.+/(img)*>", ""), HtmlCompat.FROM_HTML_MODE_LEGACY));
 
+        configureDate();
+        configureCategories();
+        configureImages();
+    }
+
+    private void configureDate() {
         LocalDateTime localDateTime = LocalDateTime.parse(news.getDateCreated());
         LocalDate localDate = localDateTime.toLocalDate();
         DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG)
                 .withLocale(Locale.getDefault());
-
         String formattedDate = localDate.format(formatter);
-        dateTextView.setText(formattedDate);
+        binding.dateTextNews.setText(formattedDate);
+    }
 
-        descriptionTextView.setText(HtmlCompat.fromHtml(news.getDescription().replaceAll("<img.+/(img)*>", ""), HtmlCompat.FROM_HTML_MODE_LEGACY));
-
-        TextView categoriesTextView = findViewById(R.id.categoriesTextNews);
+    private void configureCategories() {
+        TextView categoriesTextView = binding.categoriesTextNews;
         List<Category> categoriesList = news.getCategory();
         if (categoriesList != null && !categoriesList.isEmpty()) {
             StringBuilder categories = new StringBuilder();
@@ -58,13 +66,13 @@ public class NewsDetailActivity extends AppCompatActivity {
                     categories.append("\n");
                 }
             }
-
             categoriesTextView.setText(categories.toString());
         }
+    }
 
+    private void configureImages() {
         List<Image> imageList = news.getImage();
         if (imageList != null && !imageList.isEmpty()) {
-            LinearLayout container = findViewById(R.id.newsDetailLayout);
             for (Image image : imageList) {
                 ImageView imageView = new ImageView(this);
                 String imageUrl = "https://www.zaragoza.es/cont/paginas/noticias/" + image.getSrc();
@@ -74,8 +82,7 @@ public class NewsDetailActivity extends AppCompatActivity {
                         .centerCrop()
                         .placeholder(R.drawable.progress_animation)
                         .into(imageView);
-
-                container.addView(imageView);
+                binding.newsDetailLayout.addView(imageView);
             }
         }
     }

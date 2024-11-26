@@ -6,7 +6,6 @@ public class WeatherResponse {
     @SerializedName("current")
     private CurrentWeather currentWeather;
 
-    @SerializedName("hourly")
     private Hourly hourly;
 
     public CurrentWeather getCurrentWeather() {

@@ -6,14 +6,16 @@
 
     <string name="menu_home">Inicio</string>
     <string name="menu_calculator">Calculadora</string>
+    <string name="menu_converter">Conversor</string>
+    <string name="minesweeper">Buscaminas</string>
+    <string name="shoppingList">Lista Compra</string>
+    <string name="news">Noticias</string>
+    <string name="weather">Tiempo</string>
 
     <string name="error_fetching">No se han podido obtener los datos</string>
 
     <!-- Home Fragment -->
     <string name="homeText">Bienvenido 👋</string>
-    <string name="welcomeCalculator">CALCULADORA</string>
-    <string name="menu_converter">Conversor</string>
-    <string name="convertText">Convertir</string>
 
     <!-- Calculadora -->
     <string name="calculatorInitialText">0</string>
@@ -34,41 +36,101 @@
     <string name="calculatorResolve">=</string>
     <string name="calculatorEraseLeft">⌫</string>
     <string name="cleanText">Limpiar</string>
-    <string name="fetching">Solicitando datos...</string>
+
+    <!-- Conversor -->
+    <string name="fetching">Solicitando datos…</string>
     <string name="currency">Divisa</string>
     <string name="history">Historial</string>
     <string name="share">Compartir</string>
-    <string name="bought">Comprado</string>
-    <string name="add">Añadir</string>
-    <string name="addProduct">Añadir producto...</string>
+    <string name="convertText">Convertir</string>
 
-    <string name="filterByCategory">Filtrar por categoría</string>
+    <!-- Buscaminas -->
     <string name="rows">Filas</string>
     <string name="columns">Columnas</string>
     <string name="mines">Minas</string>
     <string name="saveSettings">Guardar Configuración</string>
-    <string name="minesweeper">Buscaminas</string>
-    <string name="shoppingList">Lista Compra</string>
-    <string name="news">Noticias</string>
+    <string name="start">Empezar</string>
+    <string name="restart">Reiniciar</string>
+    <string name="remaining_mines">Minas Restantes: %d</string>
+    <string name="time">Tiempo: %02d:%02d</string>
+    <string name="loseTitle">Derrota</string>
+    <string name="loseText">Has perdido el juego!</string>>
+    <string name="winTitle">Victoria</string>
+    <string name="winText">Has ganado la partida!</string>
+
+    <!-- Tiempo -->
     <string name="hoursPrediction">Predicción por horas</string>
-    <string name="weather">Tiempo</string>
+    <string name="no_location">"No se pudo obtener la ubicación"</string>
+    <string name="no_location_permission">Permiso de ubicación denegado</string>
+    <string name="network_error">Error de red</string>
+
+    <string name="temperature_format">%.1f °C</string>
+    <string name="precipitation_format">Precipitación: %d %%</string>
+    <string name="wind_speed_format">Viento: %.1f km/h</string>
+    <string name="humidity_format">Humedad: %d %%</string>
+    <string name="weather_clear">Despejado</string>
+    <string name="weather_partly_cloudy">Parcialmente nublado</string>
+    <string name="weather_fog">Niebla</string>
+    <string name="weather_drizzle">Llovizna</string>
+    <string name="weather_heavy_drizzle">Llovizna en gran volumen</string>
+    <string name="weather_rain">Lluvia</string>
+    <string name="weather_heavy_rain">Lluvia en gran volumen</string>
+    <string name="weather_snow_grains">Granizo</string>
+    <string name="weather_hail">Granizo en gran volumen</string>
+    <string name="weather_shower">Chubascos</string>
+    <string name="weather_snow">Nieve</string>
+    <string name="weather_thunderstorm">Tormenta</string>
+    <string name="weather_unknown">Desconocido</string>
+
+    <!-- Ajustes -->
+    <string name="toast_rows_cols_positive">El número de filas y columnas debe ser mayor que 0</string>
+    <string name="toast_rows_cols_max">Máximo de %1$d filas y columnas</string>
+    <string name="toast_rows_cols_min">Mínimo de %1$d filas y columnas</string>
+    <string name="toast_mines_negative">El número de minas no puede ser negativo</string>
+    <string name="toast_mines_less_cells">El número de minas debe ser menor que el número de celdas</string>
+    <string name="toast_invalid_numbers">Por favor, ingrese valores numéricos válidos</string>
+    <string name="toast_config_saved">Configuración guardada</string>
+
+    <!-- Lista Compra -->
+    <string name="bought">Comprado</string>
+    <string name="add">Añadir</string>
+    <string name="addProduct">Añadir producto…</string>
+    <string name="filterByCategory">Filtrar por categoría</string>
+    <string name="no_history">No hay historial para compartir</string>
+    <string name="share_history">Compartir historial</string>
+    <string name="error_loading_image">Error al cargar la imagen</string>
+    <string name="error_saving_image">Error al guardar la imagen</string>
+    <string name="insert_name">Debes introducir un nombre para el producto</string>
+
+    <string name="yes">Si</string>
+    <string name="no">No</string>
+    <string name="delete">Eliminar</string>
+    <string name="confirm_delete">¿Estás seguro de que quieres eliminar este elemento de la lista?</string>
+
+    <string name="fruitVegetables">Frutas y Verduras</string>
+    <string name="meatFish">Carnes y Pescados</string>
+    <string name="dairy">Lácteos</string>
+    <string name="canned">Enlatados</string>
+    <string name="drinks">Bebidas</string>
+    <string name="others">Otros</string>
 
     <string-array name="categories">
-        <item>Frutas y Verduras</item>
-        <item>Carnes y Pescados</item>
-        <item>Lácteos</item>
-        <item>Enlatados</item>
-        <item>Bebidas</item>
-        <item>Otros</item>
+        <item>@string/fruitVegetables</item>
+        <item>@string/meatFish</item>
+        <item>@string/dairy</item>
+        <item>@string/canned</item>
+        <item>@string/drinks</item>
+        <item>@string/others</item>
     </string-array>
 
+    <string name="all_categories">Todas</string>">
     <string-array name="filter_categories">
-        <item>Todas</item>
-        <item>Frutas y Verduras</item>
-        <item>Carnes y Pescados</item>
-        <item>Lácteos</item>
-        <item>Enlatados</item>
-        <item>Bebidas</item>
-        <item>Otros</item>
+        <item>@string/all_categories</item>
+        <item>@string/fruitVegetables</item>
+        <item>@string/meatFish</item>
+        <item>@string/dairy</item>
+        <item>@string/canned</item>
+        <item>@string/drinks</item>
+        <item>@string/others</item>
     </string-array>
 </resources>

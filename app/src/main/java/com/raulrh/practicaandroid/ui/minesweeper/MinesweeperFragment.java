@@ -40,10 +40,9 @@ public class MinesweeperFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        int rows = SharedPrefsUtil.getInt(requireContext(), "minesweeper_rows", 10);
-        int cols = SharedPrefsUtil.getInt(requireContext(), "minesweeper_cols", 10);
-        int mines = SharedPrefsUtil.getInt(requireContext(), "minesweeper_mines", 15);
-
+        int rows = SharedPrefsUtil.getInt(requireContext(), SharedPrefsUtil.PREF_KEY_ROWS, 10);
+        int cols = SharedPrefsUtil.getInt(requireContext(), SharedPrefsUtil.PREF_KEY_COLS, 10);
+        int mines = SharedPrefsUtil.getInt(requireContext(), SharedPrefsUtil.PREF_KEY_MINES, 15);
         game = new MinesweeperGame(rows, cols, mines);
 
         binding.startButton.setOnClickListener(v -> {
@@ -69,11 +68,11 @@ public class MinesweeperFragment extends Fragment {
         updateUI();
         resetTimer();
         isStarted = false;
-        binding.startButton.setText("Empezar");
+        binding.startButton.setText(getString(R.string.start));
     }
 
     private void startGame() {
-        binding.startButton.setText("Reiniciar");
+        binding.startButton.setText(getString(R.string.restart));
         setupTimer();
         isStarted = true;
     }
@@ -158,10 +157,10 @@ public class MinesweeperFragment extends Fragment {
         }
 
         if (game.clickCell(row, col)) {
-            endGame("Allahu Akbar", "Has perdido el juego!");
+            endGame(getString(R.string.loseTitle), getString(R.string.loseText));
             Util.playSound(requireContext(), R.raw.kabom);
         } else if (game.isGameWon()) {
-            endGame("Felicidades", "Has ganado la partida!");
+            endGame(getString(R.string.winTitle), getString(R.string.winText));
         }
 
         updateUI();
@@ -179,11 +178,11 @@ public class MinesweeperFragment extends Fragment {
     }
 
     private void updateMinesLeft() {
-        binding.minesLeft.setText(String.format(Locale.getDefault(), "Minas Restantes: %d", game.getMinesLeft()));
+        binding.minesLeft.setText(String.format(Locale.getDefault(), getString(R.string.remaining_mines), game.getMinesLeft()));
     }
 
     private void updateTimeDisplay() {
-        String strTime = String.format(Locale.getDefault(), "Tiempo: %02d:%02d", secondsAfterStart / 60, secondsAfterStart % 60);
+        String strTime = String.format(Locale.getDefault(), getString(R.string.time), secondsAfterStart / 60, secondsAfterStart % 60);
         binding.time.setText(strTime);
     }
 

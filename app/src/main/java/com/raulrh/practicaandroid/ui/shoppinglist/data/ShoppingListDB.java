@@ -10,14 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShoppingListDB extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "shoppingList.db";
-    private static final int DATABASE_VERSION = 7;
-
     public static final String TABLE_SHOPPING = "shopping";
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_IMAGE_URI = "image_uri";
     public static final String COLUMN_CATEGORY = "category";
+    private static final String DATABASE_NAME = "shoppingList.db";
+    private static final int DATABASE_VERSION = 7;
 
     public ShoppingListDB(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

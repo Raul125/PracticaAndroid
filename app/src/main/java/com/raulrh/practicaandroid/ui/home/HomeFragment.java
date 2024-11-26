@@ -26,25 +26,12 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         NavController navController = Navigation.findNavController(view);
-        binding.calculator.setOnClickListener(v -> {
-            navController.navigate(R.id.nav_calculator);
-        });
-        binding.converter.setOnClickListener(v -> {
-            navController.navigate(R.id.nav_converter);
-        });
-        binding.shoppingList.setOnClickListener(v -> {
-            navController.navigate(R.id.nav_shopping_list);
-        });
-        binding.news.setOnClickListener(v -> {
-            navController.navigate(R.id.nav_news);
-        });
-        binding.minesweeper.setOnClickListener(v -> {
-            navController.navigate(R.id.nav_minesweeper);
-        });
-        binding.weather.setOnClickListener(v -> {
-            navController.navigate(R.id.nav_weather);
-        });
+        binding.calculator.setOnClickListener(v -> navController.navigate(R.id.nav_calculator));
+        binding.converter.setOnClickListener(v -> navController.navigate(R.id.nav_converter));
+        binding.shoppingList.setOnClickListener(v -> navController.navigate(R.id.nav_shopping_list));
+        binding.news.setOnClickListener(v -> navController.navigate(R.id.nav_news));
+        binding.minesweeper.setOnClickListener(v -> navController.navigate(R.id.nav_minesweeper));
+        binding.weather.setOnClickListener(v -> navController.navigate(R.id.nav_weather));
     }
 }

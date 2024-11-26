@@ -12,6 +12,9 @@ public class CurrentWeather {
     @SerializedName("wind_speed_10m")
     private double windSpeed;
 
+    @SerializedName("weather_code")
+    private int weatherCode;
+
     public double getTemperature() {
         return temperature;
     }
@@ -22,5 +25,9 @@ public class CurrentWeather {
 
     public double getWindSpeed() {
         return windSpeed;
+    }
+
+    public int getWeatherCode() {
+        return weatherCode;
     }
 }

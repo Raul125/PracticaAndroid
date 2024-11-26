@@ -58,13 +58,13 @@ public class ShoppingListFragment extends Fragment {
                             selectedImage = MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), selectedImageUri);
                             selectedImagePath = saveImageToStorage(selectedImage);
                         } catch (IOException e) {
-                            Toast.makeText(getContext(), "Error al cargar la imagen", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), getString(R.string.error_loading_image), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
 
         dbHelper = new ShoppingListDB(getActivity());
-        adapter = new ShoppingListAdapter(shoppingItems, dbHelper);
+        adapter = new ShoppingListAdapter(shoppingItems, dbHelper, this);
         loadShoppingList();
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -87,7 +87,7 @@ public class ShoppingListFragment extends Fragment {
                 setDefaultImage(selectedCategory);
                 loadShoppingList();
             } else {
-                Toast.makeText(getContext(), "Debes ingresar un nombre para el producto", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.insert_name), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -120,6 +120,10 @@ public class ShoppingListFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 filterCategory = parent.getItemAtPosition(position).toString();
+                if (filterCategory.equals(getString(R.string.all_categories))) {
+                    filterCategory = null;
+                }
+
                 adapter.filterByCategory(filterCategory);
             }
 
@@ -137,7 +141,7 @@ public class ShoppingListFragment extends Fragment {
             image.compress(Bitmap.CompressFormat.JPEG, 100, fos);
             imagePath = file.getAbsolutePath();
         } catch (IOException e) {
-            Toast.makeText(getContext(), "Error al guardar la imagen", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getString(R.string.error_saving_image), Toast.LENGTH_SHORT).show();
         }
 
         return imagePath;
@@ -155,22 +159,16 @@ public class ShoppingListFragment extends Fragment {
 
     private void setDefaultImage(String category) {
         int imageResId = R.drawable.otros;
-        switch (category) {
-            case "Frutas y Verduras":
-                imageResId = R.drawable.frutasverduras;
-                break;
-            case "Carnes y Pescados":
-                imageResId = R.drawable.carnepescado;
-                break;
-            case "Lácteos":
-                imageResId = R.drawable.lacteos;
-                break;
-            case "Enlatados":
-                imageResId = R.drawable.enlatados;
-                break;
-            case "Bebidas":
-                imageResId = R.drawable.bebidas;
-                break;
+        if (getString(R.string.meatFish).equals(category)) {
+            imageResId = R.drawable.carnepescado;
+        } else if (getString(R.string.dairy).equals(category)) {
+            imageResId = R.drawable.lacteos;
+        } else if (getString(R.string.fruitVegetables).equals(category)) {
+            imageResId = R.drawable.frutasverduras;
+        } else if (getString(R.string.canned).equals(category)) {
+            imageResId = R.drawable.enlatados;
+        } else if (getString(R.string.drinks).equals(category)) {
+            imageResId = R.drawable.bebidas;
         }
 
         binding.buttonImage.setImageResource(imageResId);

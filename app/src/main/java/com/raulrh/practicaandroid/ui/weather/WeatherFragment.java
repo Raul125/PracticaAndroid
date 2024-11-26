@@ -6,7 +6,6 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +23,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.Task;
 import com.google.gson.Gson;
+import com.raulrh.practicaandroid.R;
 import com.raulrh.practicaandroid.databinding.WeatherFragmentBinding;
 import com.raulrh.practicaandroid.ui.weather.data.CurrentWeather;
 import com.raulrh.practicaandroid.ui.weather.data.Hourly;
@@ -39,6 +39,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class WeatherFragment extends Fragment {
+
+    private static final String API_URL = "https://api.open-meteo.com/v1/forecast?latitude=%.2f&longitude=%.2f&current=temperature_2m,weather_code,relative_humidity_2m,wind_speed_10m&hourly=temperature_2m,precipitation_probability,windspeed_10m,relativehumidity_2m,weathercode&forecast_days=1";
+
     private FusedLocationProviderClient fusedLocationClient;
     private HourlyWeatherAdapter hourlyWeatherAdapter;
 
@@ -46,6 +49,16 @@ public class WeatherFragment extends Fragment {
 
     private ExecutorService executorService;
     private Handler mainHandler;
+    private final ActivityResultLauncher<String> requestPermissionLauncher = registerForActivityResult(
+            new ActivityResultContracts.RequestPermission(),
+            result -> {
+                if (result) {
+                    getLastLocation();
+                } else {
+                    Toast.makeText(requireContext(), getString(R.string.no_location_permission), Toast.LENGTH_SHORT).show();
+                }
+            }
+    );
 
     @Nullable
     @Override
@@ -71,17 +84,6 @@ public class WeatherFragment extends Fragment {
         return binding.getRoot();
     }
 
-    private final ActivityResultLauncher<String> requestPermissionLauncher = registerForActivityResult(
-            new ActivityResultContracts.RequestPermission(),
-            result -> {
-                if (result) {
-                    getLastLocation();
-                } else {
-                    Toast.makeText(requireContext(), "Permiso de ubicación denegado", Toast.LENGTH_SHORT).show();
-                }
-            }
-    );
-
     private void getLastLocation() {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -95,7 +97,7 @@ public class WeatherFragment extends Fragment {
                 double longitude = location.getLongitude();
                 fetchWeather(latitude, longitude);
             } else {
-                Toast.makeText(requireContext(), "No se pudo obtener la ubicación", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), getString(R.string.no_location), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -103,12 +105,7 @@ public class WeatherFragment extends Fragment {
     private void fetchWeather(double latitude, double longitude) {
         executorService.execute(() -> {
             try {
-                String urlString = String.format(
-                        Locale.US,
-                        "https://api.open-meteo.com/v1/forecast?latitude=%.2f&longitude=%.2f&current=temperature_2m,relative_humidity_2m,wind_speed_10m&hourly=temperature_2m,precipitation_probability,windspeed_10m,relativehumidity_2m,weathercode&forecast_days=1",
-                        latitude, longitude);
-
-                Log.d("URL", urlString);
+                String urlString = String.format(Locale.US, API_URL, latitude, longitude);
                 URL url = new URL(urlString);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");
@@ -123,34 +120,21 @@ public class WeatherFragment extends Fragment {
                     reader.close();
                     responseStream.close();
                     mainHandler.post(() -> {
-                        if (weatherResponse != null) {
-                            displayWeatherData(weatherResponse);
-                        } else {
-                            Toast.makeText(requireContext(), "Error al obtener el clima", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                } else {
-                    mainHandler.post(() -> {
-                        Toast.makeText(requireContext(), "Error al obtener el clima", Toast.LENGTH_SHORT).show();
+                        displayWeatherData(weatherResponse);
                     });
                 }
             } catch (IOException e) {
-                mainHandler.post(() -> {
-                    Toast.makeText(requireContext(), "Error de red", Toast.LENGTH_SHORT).show();
-                });
+                mainHandler.post(() -> Toast.makeText(requireContext(), getString(R.string.network_error), Toast.LENGTH_SHORT).show());
             }
         });
     }
 
     private void displayWeatherData(WeatherResponse weatherResponse) {
         CurrentWeather currentWeather = weatherResponse.getCurrentWeather();
-        if (currentWeather != null) {
-            binding.temperatureTextView.setText(String.format(Locale.getDefault(), "%.1f °C", currentWeather.getTemperature()));
-            binding.humidityTextView.setText(String.format(Locale.getDefault(), "Humedad: %d %%", currentWeather.getRelativeHumidity()));
-            binding.windSpeedTextView.setText(String.format(Locale.getDefault(), "Viento: %.1f km/h", currentWeather.getWindSpeed()));
-        } else {
-            Toast.makeText(requireContext(), "No se pudo obtener los datos del clima", Toast.LENGTH_SHORT).show();
-        }
+        binding.temperatureTextView.setText(String.format(Locale.getDefault(), getString(R.string.temperature_format), currentWeather.getTemperature()));
+        binding.humidityTextView.setText(String.format(Locale.getDefault(), getString(R.string.humidity_format), currentWeather.getRelativeHumidity()));
+        binding.windSpeedTextView.setText(String.format(Locale.getDefault(), getString(R.string.wind_speed_format), currentWeather.getWindSpeed()));
+        binding.weatherImage.setImageResource(getWeatherIcon(currentWeather.getWeatherCode()));
 
         Hourly hourly = weatherResponse.getHourly();
         if (hourly != null) {
@@ -159,5 +143,19 @@ public class WeatherFragment extends Fragment {
 
         binding.loadingLayout.setVisibility(View.GONE);
         binding.dataLayout.setVisibility(View.VISIBLE);
+    }
+
+    private int getWeatherIcon(int code) {
+        return switch (code) {
+            case 1, 2, 3 -> R.drawable.cloudy_day;
+            case 45, 48 -> R.drawable.fog;
+            case 56, 57, 51, 53, 55 -> R.drawable.haze;
+            case 61, 63, 65, 80, 81, 82 -> R.drawable.rainy_1;
+            case 66, 67 -> R.drawable.rainy_2;
+            case 71, 73, 75, 77 -> R.drawable.rain_and_sleet_mix;
+            case 85, 86 -> R.drawable.snowy_3;
+            case 95, 96, 99 -> R.drawable.thunderstorms;
+            default -> R.drawable.clear_day;
+        };
     }
 }

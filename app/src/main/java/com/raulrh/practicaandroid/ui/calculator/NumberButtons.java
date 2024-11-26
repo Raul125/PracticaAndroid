@@ -8,10 +8,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class NumberButtons implements View.OnClickListener {
+    private static final int MAX_NUMBER_LENGTH = 15;
     private final CalculatorFragment calculatorFragment;
     private final CalculatorFragmentBinding binding;
     private final Map<View, Integer> numbers = new HashMap<>();
-    private static final int MAX_NUMBER_LENGTH = 15;
 
     public NumberButtons(CalculatorFragment calculatorFragment, CalculatorFragmentBinding binding) {
         this.calculatorFragment = calculatorFragment;
@@ -30,7 +30,6 @@ public class NumberButtons implements View.OnClickListener {
         numbers.put(binding.bCalculator7, 7);
         numbers.put(binding.bCalculator8, 8);
         numbers.put(binding.bCalculator9, 9);
-
         for (View view : numbers.keySet()) {
             view.setOnClickListener(this);
         }

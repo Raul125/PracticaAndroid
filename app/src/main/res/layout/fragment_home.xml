@@ -11,27 +11,27 @@
         android:id="@+id/homeText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:paddingBottom="16dp"
         android:text="@string/homeText"
         android:textAlignment="center"
         android:textSize="24sp"
-        android:paddingBottom="16dp"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <GridLayout
         android:id="@+id/gridLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:columnCount="3"
-        android:rowCount="2"
         android:alignmentMode="alignMargins"
+        android:columnCount="3"
         android:columnOrderPreserved="false"
+        android:rowCount="2"
         android:useDefaultMargins="true"
-        app:layout_constraintTop_toBottomOf="@id/homeText"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/homeText">
 
         <!-- Calculadora -->
         <androidx.cardview.widget.CardView

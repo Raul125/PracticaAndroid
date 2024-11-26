@@ -15,14 +15,12 @@ import java.util.Locale;
 
 public class CalculatorFragment extends Fragment {
 
-    private CalculatorFragmentBinding binding;
-
-    private UtilButtons utilButtons;
-    private NumberButtons numberButtons;
-
     public String leftNumber = "";
     public String rightNumber = "";
     public String operator = "";
+    private CalculatorFragmentBinding binding;
+    private UtilButtons utilButtons;
+    private NumberButtons numberButtons;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

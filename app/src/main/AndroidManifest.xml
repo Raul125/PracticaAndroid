@@ -26,5 +26,4 @@
             android:name=".ui.news.NewsDetailActivity"
             android:exported="false"></activity>
     </application>
-
 </manifest>
