@@ -1,6 +1,5 @@
 package com.raulrh.practicaandroid.ui.minesweeper;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -11,7 +10,6 @@ import android.widget.TableRow;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.raulrh.practicaandroid.R;
@@ -25,11 +23,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
-import nl.dionsegijn.konfetti.core.Party;
+import nl.dionsegijn.konfetti.core.Angle;
 import nl.dionsegijn.konfetti.core.PartyFactory;
 import nl.dionsegijn.konfetti.core.Position;
+import nl.dionsegijn.konfetti.core.Spread;
 import nl.dionsegijn.konfetti.core.emitter.Emitter;
 import nl.dionsegijn.konfetti.core.emitter.EmitterConfig;
+import nl.dionsegijn.konfetti.core.models.Shape;
 
 public class MinesweeperFragment extends Fragment {
 
@@ -169,23 +169,19 @@ public class MinesweeperFragment extends Fragment {
         if (game.clickCell(row, col)) {
             endGame(getString(R.string.loseTitle), getString(R.string.loseText));
             Util.playSound(requireContext(), R.raw.kabom);
-            final Drawable drawable = ContextCompat.getDrawable(requireContext(), R.drawable.mine_clicked);
-            // Shape.DrawableShape drawableShape = ImageUtil.loadDrawable(drawable, true, true);
-
-            EmitterConfig emitterConfig = new Emitter(100, TimeUnit.MILLISECONDS).max(100);
-            Party party =
-                    new PartyFactory(emitterConfig)
-                            .setSpeedBetween(0f, 30f)
-                            .setDamping(0.9f) // Amortiguación
-                            .spread(360) // Ángulo de dispersión
-                            .colors(Arrays.asList(0xfce18a, 0xff726d, 0xf4306d, 0xb48def)) // Colores del confeti
-                            .position(new Position.Relative(0.5, 0.3)) // Posición relativa
-                            .build();
-
-            binding.konfettiView.start(party);
         } else if (game.isGameWon()) {
             endGame(getString(R.string.winTitle), getString(R.string.winText));
             Util.playSound(requireContext(), R.raw.victory);
+            EmitterConfig emitterConfig = new Emitter(5, TimeUnit.SECONDS).perSecond(100);
+            binding.konfettiView.start(
+                    new PartyFactory(emitterConfig)
+                            .angle(Angle.BOTTOM)
+                            .spread(Spread.ROUND)
+                            .shapes(Arrays.asList(Shape.Square.INSTANCE, Shape.Circle.INSTANCE))
+                            .colors(Arrays.asList(0xfce18a, 0xff726d, 0xf4306d, 0xb48def))
+                            .setSpeedBetween(0f, 15f)
+                            .position(new Position.Relative(0.0, 0.0).between(new Position.Relative(1.0, 0.0)))
+                            .build());
         }
 
         updateUI();
