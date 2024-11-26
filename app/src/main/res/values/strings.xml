@@ -95,6 +95,7 @@
     <string name="bought">Comprado</string>
     <string name="add">Añadir</string>
     <string name="addProduct">Añadir producto…</string>
+    <string name="category">Categoría: </string>
     <string name="filterByCategory">Filtrar por categoría</string>
     <string name="no_history">No hay historial para compartir</string>
     <string name="share_history">Compartir historial</string>

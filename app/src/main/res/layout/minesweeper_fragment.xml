@@ -6,7 +6,6 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Header con minesLeft y time -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,7 +31,6 @@
             android:textSize="16sp" />
     </LinearLayout>
 
-    <!-- Botón de inicio -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -43,10 +41,9 @@
             android:id="@+id/startButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Empezar" />
+            android:text="@string/start" />
     </LinearLayout>
 
-    <!-- Contenedor del tablero -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
