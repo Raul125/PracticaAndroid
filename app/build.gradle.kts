@@ -57,6 +57,8 @@ dependencies {
 
     implementation(libs.playserviceslocation)
 
+    implementation(libs.konfetti)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

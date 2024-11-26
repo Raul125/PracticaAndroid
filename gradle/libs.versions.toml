@@ -15,8 +15,10 @@ lifecycleViewmodelKtx = "2.8.7"
 navigationFragment = "2.8.4"
 navigationUi = "2.8.4"
 playserviceslocation = "21.3.0"
+konfetti = "2.0.4"
 
 [libraries]
+konfetti = { module = "nl.dionsegijn:konfetti-xml", version.ref = "konfetti" }
 playserviceslocation = { module = "com.google.android.gms:play-services-location", version.ref = "playserviceslocation" }
 splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "splashscreen" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
