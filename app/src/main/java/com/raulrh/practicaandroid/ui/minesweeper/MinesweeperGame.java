@@ -1,92 +1,99 @@
 package com.raulrh.practicaandroid.ui.minesweeper;
 
+import android.widget.ImageView;
+import android.widget.TableRow;
+
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
 public class MinesweeperGame {
-
     private final int rows;
     private final int cols;
     private final int numOfMines;
-    private final Cell[][] board;
+    private final List<Cell> board;
+    private boolean gameInProgress;
+    private final MinesweeperFragment fragment;
 
-    private int minesLeft;
-    private boolean isGameOver;
-
-    public MinesweeperGame(int rows, int cols, int numOfMines) {
+    public MinesweeperGame(int rows, int cols, int numOfMines, MinesweeperFragment fragment) {
         this.rows = rows;
         this.cols = cols;
         this.numOfMines = numOfMines;
-        this.board = new Cell[rows][cols];
+        this.board = new ArrayList<>();
+        this.gameInProgress = false;
+        this.fragment = fragment;
+
         initializeBoard();
-        setup();
-    }
-
-    public void setup() {
         generateMines();
-        calculateMinesAroundCells();
-        minesLeft = numOfMines;
-        isGameOver = false;
-    }
-
-    public void restart() {
-        for (int row = 0; row < rows; row++) {
-            for (int col = 0; col < cols; col++) {
-                board[row][col].reset();
-            }
-        }
-
-        setup();
-    }
-
-    public int getMinesLeft() {
-        return minesLeft;
-    }
-
-    public int getRows() {
-        return rows;
-    }
-
-    public int getCols() {
-        return cols;
-    }
-
-    public boolean isGameOver() {
-        return isGameOver;
     }
 
     private void initializeBoard() {
+        fragment.binding.buttonsPanel.removeAllViews();
         for (int row = 0; row < rows; row++) {
+            TableRow tableRow = new TableRow(fragment.requireContext());
             for (int col = 0; col < cols; col++) {
-                board[row][col] = new Cell();
+                ImageView imageView = new ImageView(fragment.requireContext());
+                Cell cell = new Cell(imageView, row, col);
+                imageView.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
+                imageView.setOnClickListener(v -> revealCell(cell));
+                imageView.setOnLongClickListener(v -> {
+                    if (isGameInProgress()) {
+                        cell.flag();
+                        fragment.updateMinesLeft();
+                    }
+
+                    return true;
+                });
+
+                tableRow.addView(imageView);
+                board.add(cell);
             }
+
+            fragment.binding.buttonsPanel.addView(tableRow);
         }
+    }
+
+    public void startGame() {
+        gameInProgress = true;
+    }
+
+    public void endGame() {
+        for (Cell cell : board) {
+            cell.setVisited(true);
+            cell.updateIcon();
+        }
+
+        gameInProgress = false;
     }
 
     private void generateMines() {
         Random random = new Random();
-        List<Integer> positions = new ArrayList<>();
-        for (int i = 0; i < rows * cols; i++) {
-            positions.add(i);
+        HashSet<Integer> minePositions = new HashSet<>();
+        while (minePositions.size() < numOfMines) {
+            minePositions.add(random.nextInt(rows * cols));
         }
 
-        for (int i = 0; i < numOfMines; i++) {
-            int index = random.nextInt(positions.size());
-            int position = positions.remove(index);
+        for (int position : minePositions) {
             int row = position / cols;
             int col = position % cols;
-            board[row][col].setMine(true);
+            board.stream()
+                    .filter(cell -> cell.getRowPosition() == row && cell.getColumnPosition() == col)
+                    .findFirst()
+                    .ifPresent(x -> {
+                        x.setMine(true);
+                        x.updateIcon();
+                    });
         }
-    }
 
-    private void calculateMinesAroundCells() {
-        for (int row = 0; row < rows; row++) {
-            for (int col = 0; col < cols; col++) {
-                if (board[row][col].isMine()) continue;
-                int minesAround = countMinesAround(row, col);
-                board[row][col].setValue(minesAround);
+        for (Cell cell : board) {
+            if (cell.isMine()) {
+                continue;
             }
+
+            int minesAround = countMinesAround(cell.getRowPosition(), cell.getColumnPosition());
+            cell.setValue(minesAround);
+            cell.updateIcon();
         }
     }
 
@@ -96,103 +103,62 @@ public class MinesweeperGame {
             for (int j = -1; j <= 1; j++) {
                 int newRow = row + i;
                 int newCol = col + j;
-                if (isValidCell(newRow, newCol) && board[newRow][newCol].isMine()) {
+                boolean isMine = board.stream().anyMatch(cell -> cell.getRowPosition() == newRow
+                        && cell.getColumnPosition() == newCol && cell.isMine());
+                if (isMine) {
                     count++;
                 }
             }
         }
+
         return count;
     }
 
-    private boolean isValidCell(int row, int col) {
-        return row >= 0 && row < rows && col >= 0 && col < cols;
-    }
-
-    public Cell getCell(int row, int col) {
-        if (!isValidCell(row, col)) return null;
-        return board[row][col];
-    }
-
-    public boolean clickCell(int row, int col) {
-        if (!isValidCell(row, col) || isGameOver) {
-            return false;
-        }
-
-        Cell cell = board[row][col];
-        if (cell.isVisited() || cell.isFlagged()) {
-            return false;
-        }
-
-        revealCell(row, col);
-        return cell.isMine();
-    }
-
-    private void revealCell(int row, int col) {
-        if (!isValidCell(row, col) || isGameOver) {
-            return;
-        }
-
-        Cell cell = board[row][col];
-        if (cell.isVisited() || cell.isFlagged()) {
+    public void revealCell(Cell cell) {
+        if (!gameInProgress || cell.isVisited() || cell.isFlagged()) {
             return;
         }
 
         cell.setVisited(true);
-        if (!isGameOver) {
-            cell.setClicked(true);
-        }
-
+        cell.setClicked(true);
         if (cell.isMine()) {
-            isGameOver = true;
-            return;
-        }
-
-        if (cell.getValue() == 0) {
+            endGame();
+        } else if (cell.getValue() == 0) {
             for (int i = -1; i <= 1; i++) {
                 for (int j = -1; j <= 1; j++) {
-                    revealCell(row + i, col + j);
+                    int row = cell.getRowPosition() + i;
+                    int col = cell.getColumnPosition() + j;
+                    board.stream()
+                            .filter(newCell -> newCell.getRowPosition() == row && newCell.getColumnPosition() == col)
+                            .findFirst()
+                            .ifPresent(this::revealCell);
                 }
             }
         }
-    }
 
-    public void flagCell(int row, int col) {
-        if (!isValidCell(row, col) || isGameOver) {
-            return;
-        }
-
-        Cell cell = board[row][col];
-        if (cell.isVisited()) {
-            return;
-        }
-
-        cell.flag(this);
-    }
-
-    public void incrementMinesLeft(int increment) {
-        minesLeft += increment;
+        cell.updateIcon();
+        fragment.onCellClicked();
     }
 
     public boolean isGameWon() {
-        for (int row = 0; row < rows; row++) {
-            for (int col = 0; col < cols; col++) {
-                Cell cell = board[row][col];
-                if (!cell.isVisited() && !cell.isMine()) {
-                    return false;
-                }
+        for (Cell cell : board) {
+            if (!cell.isMine() && !cell.isVisited()) {
+                return false;
             }
         }
 
         return true;
     }
 
-    public void endGame() {
-        for (int row = 0; row < rows; row++) {
-            for (int col = 0; col < cols; col++) {
-                board[row][col].setVisited(true);
-            }
-        }
+    public boolean isGameInProgress() {
+        return gameInProgress;
+    }
 
-        isGameOver = true;
+    public int getNumOfMines() {
+        return numOfMines;
+    }
+
+    public List<Cell> getBoard() {
+        return board;
     }
 }
