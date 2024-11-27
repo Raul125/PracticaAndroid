@@ -38,7 +38,7 @@ public class MinesweeperGame {
                 imageView.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
                 imageView.setOnClickListener(v -> revealCell(cell));
                 imageView.setOnLongClickListener(v -> {
-                    if (isGameInProgress()) {
+                    if (isGameInProgress() && !cell.isVisited()) {
                         cell.flag();
                         fragment.updateMinesLeft();
                     }
