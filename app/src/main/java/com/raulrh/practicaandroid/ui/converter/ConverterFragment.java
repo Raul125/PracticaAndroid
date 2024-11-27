@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.raulrh.practicaandroid.R;
 import com.raulrh.practicaandroid.databinding.ConverterFragmentBinding;
+import com.raulrh.practicaandroid.util.Util;
 
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
@@ -70,7 +71,8 @@ public class ConverterFragment extends Fragment {
             double amount = Double.parseDouble(text);
             Money moneyToConvert = Money.of(CurrencyUnit.of(currency1), amount);
             Money moneyConverted = currencyConverter.convertCurrency(moneyToConvert, CurrencyUnit.of(currency2));
-            binding.converterResult.setText(String.format(moneyConverted.getAmount().toString()));
+
+            binding.converterResult.setText(moneyConverted.getAmount().toString() + Util.getCurrencySymbol(currency2));
 
             String historyEntry = String.format(Locale.getDefault(), "%.2f %s = %.2f %s\n", amount, currency1, moneyConverted.getAmount(), currency2);
             historyEntry += binding.converterHistory.getText();
@@ -92,8 +94,6 @@ public class ConverterFragment extends Fragment {
             startActivity(Intent.createChooser(shareIntent, getString(R.string.share_history)));
         });
 
-        binding.cleanButton.setOnClickListener(v -> {
-            binding.converterHistory.setText("");
-        });
+        binding.cleanButton.setOnClickListener(v -> binding.converterHistory.setText(""));
     }
 }
