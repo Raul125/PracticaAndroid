@@ -72,9 +72,10 @@ public class ConverterFragment extends Fragment {
             Money moneyToConvert = Money.of(CurrencyUnit.of(currency1), amount);
             Money moneyConverted = currencyConverter.convertCurrency(moneyToConvert, CurrencyUnit.of(currency2));
 
-            binding.converterResult.setText(moneyConverted.getAmount().toString() + Util.getCurrencySymbol(currency2));
+            String finalMoney = moneyConverted.getAmount().toString() + Util.getCurrencySymbol(currency2);
+            binding.converterResult.setText(finalMoney);
 
-            String historyEntry = String.format(Locale.getDefault(), "%.2f %s = %.2f %s\n", amount, currency1, moneyConverted.getAmount(), currency2);
+            String historyEntry = String.format(Locale.getDefault(), "%.2f %s = %s %s\n", amount, currency1, finalMoney, currency2);
             historyEntry += binding.converterHistory.getText();
             binding.converterHistory.setText(historyEntry);
         });

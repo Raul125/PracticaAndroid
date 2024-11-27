@@ -16,22 +16,19 @@ public class Util {
         mediaPlayer.start();
     }
 
-    private static SortedMap<Currency, Locale> currencyLocaleMap;
+    private static final SortedMap<Currency, Locale> currencyLocaleMap;
     static {
-        currencyLocaleMap = new TreeMap<Currency, Locale>(new Comparator<Currency>() {
-            public int compare(Currency c1, Currency c2) {
-                return c1.getCurrencyCode().compareTo(c2.getCurrencyCode());
-            }
-        });
+        currencyLocaleMap = new TreeMap<>(Comparator.comparing(Currency::getCurrencyCode));
         for (Locale locale : Locale.getAvailableLocales()) {
             try {
                 Currency currency = Currency.getInstance(locale);
                 currencyLocaleMap.put(currency, locale);
             } catch (Exception e) {
-
+                // Ignore
             }
         }
     }
+
     public static String getCurrencySymbol(String currencyCode) {
         Currency currency = Currency.getInstance(currencyCode);
         System.out.println(currencyCode + ":-" + currency.getSymbol(currencyLocaleMap.get(currency)));
