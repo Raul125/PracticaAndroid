@@ -35,6 +35,7 @@ public class MinesweeperFragment extends Fragment {
     public MinesweeperFragmentBinding binding;
 
     private boolean isGameStarted = false;
+    private boolean isFinished = false;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -52,6 +53,7 @@ public class MinesweeperFragment extends Fragment {
                 setupGame();
                 binding.startButton.setText(getString(R.string.start));
                 isGameStarted = false;
+                isFinished = false;
             }
         });
 
@@ -66,13 +68,19 @@ public class MinesweeperFragment extends Fragment {
     }
 
     public void onCellClicked() {
+        if (isFinished) {
+            return;
+        }
+
         if (!game.isGameInProgress()) {
+            isFinished = true;
             showDialog(getString(R.string.loseTitle), getString(R.string.loseText));
             Util.playSound(requireContext(), R.raw.kabom);
             if (timer != null) {
                 timer.cancel();
             }
         } else if (game.isGameWon()) {
+            isFinished = true;
             game.endGame();
             showDialog(getString(R.string.winTitle), getString(R.string.winText));
             Util.playSound(requireContext(), R.raw.victory);

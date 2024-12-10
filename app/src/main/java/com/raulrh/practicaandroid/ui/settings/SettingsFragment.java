@@ -17,6 +17,7 @@ public class SettingsFragment extends Fragment {
 
     private final static int MAX_ROWS = 15;
     private final static int MIN_ROWS = 5;
+    private final static int MIN_MINES = 2;
     private SettingsFragmentBinding binding;
 
     @Override
@@ -64,8 +65,8 @@ public class SettingsFragment extends Fragment {
                 return;
             }
 
-            if (mines < 0) {
-                Toast.makeText(requireContext(), getString(R.string.toast_mines_negative), Toast.LENGTH_SHORT).show();
+            if (mines < MIN_MINES) {
+                Toast.makeText(requireContext(), getString(R.string.toast_mines_negative) + " " + MIN_MINES, Toast.LENGTH_SHORT).show();
                 return;
             }
 

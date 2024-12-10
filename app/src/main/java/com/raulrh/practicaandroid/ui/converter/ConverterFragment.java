@@ -68,7 +68,13 @@ public class ConverterFragment extends Fragment {
             if (currency1 == null || currency2 == null)
                 return;
 
-            double amount = Double.parseDouble(text);
+            double amount = 0;
+            try {
+                amount = Double.parseDouble(text);
+            } catch (Exception e) {
+                return;
+            }
+
             Money moneyToConvert = Money.of(CurrencyUnit.of(currency1), amount);
             Money moneyConverted = currencyConverter.convertCurrency(moneyToConvert, CurrencyUnit.of(currency2));
 

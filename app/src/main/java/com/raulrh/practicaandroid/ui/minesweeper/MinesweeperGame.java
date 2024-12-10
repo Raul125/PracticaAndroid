@@ -59,12 +59,11 @@ public class MinesweeperGame {
     }
 
     public void endGame() {
+        gameInProgress = false;
         for (Cell cell : board) {
             cell.setVisited(true);
             cell.updateIcon();
         }
-
-        gameInProgress = false;
     }
 
     private void generateMines() {
